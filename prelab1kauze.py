@@ -1,29 +1,49 @@
+# DESCRIPCION: Programa que posee un Algoritmo para calcular las
+
+# raíces del polinomio "AX^2 + BX + C"
+
+
+# Autor: 
+
+#	Jesus Kauze		12-10273
+
+
+# VARIABLES:
+
+#	A: int // Valor de A en "AX^2 + BX + C"
+
+#	B: int // Valor de B en "AX^2 + BX + C"
+
+#	C: int // Valor de C en "AX^2 + BX + C"
+
+# Valores iniciales:
+
 import math
-#Nombramos las variables A, B, C pidiendole al usuario que introduzca su valor
+#Entrada A, B, C pidiendole al usuario que introduzca su valor
 
-A = int(input("introduzca el valor de A "))
+A = int(input("introduzca el valor de A: "))
 
-B = int(input("introduzca el valor de B "))
+B = int(input("introduzca el valor de B: "))
 
-C = int(input("introduzca el valor de C "))
+C = int(input("introduzca el valor de C: "))
+ 
+#Verificamos la PreCondicion
 
-assert(A !=0)
+assert((A != 0) and (4 * A * C <= B * B)
 
-while 4*A*C > B*B:
-	print("")
-	print("Error: numero imaginario \nintroduce valores nuevamente")
-	print("")
-	A = int(input("introduzca el valor de A "))
+#Algoritmo
 
-	B = int(input("introduzca el valor de B "))
+raiz = math.sqrt(B*B - 4*A*C)
 
-	C = int(input("introduzca el valor de C "))
+X1 = (-B + raiz) / (2*A)
+X2 = (-B - raiz) / (2*A)
 
-	assert(A !=0)
+#Verificamos la PostCondicion
 
-raiz= math.sqrt(B*B - 4*A*C)
-X1= ((-1)*B + raiz)/2*A
-X2= ((-1)*B - raiz)/2*A
+assert((A * X1 * X1 + B * X1 + C == 0) and (A * X2 * X2 + B * X2 + C == 0))
+
+#Salida
+
 print("")
 print("La primera raiz del polinomio es: ")
 print(X1)
