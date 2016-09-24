@@ -29,7 +29,7 @@ C = int(input("introduzca el valor de C: "))
  
 #Verificamos la PreCondicion
 
-assert((A != 0) and (4 * A * C <= B * B)
+assert(A != 0 and 4*A*C<=B*B)
 
 #Algoritmo
 
