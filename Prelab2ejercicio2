@@ -38,13 +38,13 @@ print("Cargos en la empresa: Supervisor - Trabajador -  Gerente")
 print("")
 
 cargo = input("Ingrese el cargo del empleado: ")
-
 cargo=cargo.lower()
+
 print("")
 
 #PRECONDICION
 
-assert(cargo == gerente or cargo == supervisor or cargo == trabajador)
+assert(cargo == "gerente" or cargo == "supervisor" or cargo == "trabajador")
 
 if cargo=="gerente":
 	print("El cargo de gerente tiene un pago semanal de 950$")
@@ -70,19 +70,20 @@ elif cargo=="supervisor":
 	print("Adicionalmente poseen un bono nocturno de un 30% del total de horas nocturnas trabajadas")
 	print("")
 	
-	#Entrada
+	#Entrada Lunes - viernes
 	
 	horas_matutino=int(input("Introduzca el total de horas matutinas de lunes a viernes: "))
 	horas_vespertino=int(input("Introduzca el total de horas vespertino de lunes a viernes: "))
 	horas_nocturnas=int(input("Introduzca el total de horas nocturnas de lunes a viernes: "))
 	
-	#Algoritmo 
+	#Algoritmo lunes - viernes
 	
 	semanal_matutino = horas_matutino*45
 	semanal_vespertino = horas_vespertino*50
 	semanal_nocturnas = horas_nocturnas*60 
 	
 	total_lunes_viernes = semanal_matutino + semanal_vespertino + semanal_nocturnas
+
 	print("")
 	print("El bono feriado se aplica al total de horas trabajadas el fin de semana. el cual se paga un 50% del concepto trabajado")
 	print("")
@@ -98,25 +99,24 @@ elif cargo=="supervisor":
 	feriado_matutino = horas_feriado_matutino * 45
 	feriado_vespertino = horas_feriado_vespertino * 50
 	feriado_nocturnas = horas_feriado_nocturnas * 60
-	total_feriado = (feriado_matutino + feriado_vespertino + feriado_nocturnas)
-	bono_total = total_feriado * 0.50 
-	total_bono_feriado = bono_total + total_feriado
+	subtotal_feriado = (feriado_matutino + feriado_vespertino + feriado_nocturnas)
+	bono_total = subtotal_feriado * 0.50 
+	total_con_bono_feriado = bono_total + subtotal_feriado
 	
-	#Bono nocturno
+	#Bono nocturno Lunes a viernes + feriado (horas trabajadas en la noche durante TODA LA SEMANA)
 	
 	bono_nocturno = (semanal_nocturnas + feriado_nocturnas) * 0.30
-	total_bono_nocturno = bono_nocturno + semanal_nocturnas + feriado_nocturnas
 	
 	#TOTAL 
 	
-	total= total_lunes_viernes + total_bono_nocturno + total_bono_feriado
+	total= total_lunes_viernes + bono_nocturno + total_con_bono_feriado
 	
 	#Salida
 	
 	print("")
 	print("Subtotal Lunes - viernes: " + str(total_lunes_viernes) +"$")
 	print("Bono Nocturno: " + str(bono_nocturno) + "$")
-	print("Subtotal Sabado - Domingo: " + str(total_feriado) + "$")
+	print("Subtotal Sabado - Domingo: " + str(subtotal_feriado) + "$")
 	print("Bono Feriado: " + str(bono_total) + "$")
 	print("TOTAL: " + str(total) + "$")
 	
@@ -161,25 +161,24 @@ elif cargo == "trabajador":
 	feriado_matutino = horas_feriado_matutino * 25
 	feriado_vespertino = horas_feriado_vespertino * 30
 	feriado_nocturnas = horas_feriado_nocturnas * 40
-	total_feriado = (feriado_matutino + feriado_vespertino + feriado_nocturnas)
-	bono_total = total_feriado * 0.50 
-	total_bono_feriado = bono_total + total_feriado
+	subtotal_feriado = (feriado_matutino + feriado_vespertino + feriado_nocturnas)
+	bono_total = subtotal_feriado * 0.50 
+	total_con_bono_feriado = bono_total + subtotal_feriado
 	
-	#Bono nocturno
+	#Bono nocturno Lunes a viernes + feriado (horas trabajadas en la noche durante TODA LA SEMANA)
 	
 	bono_nocturno = (semanal_nocturnas + feriado_nocturnas) * 0.30
-	total_bono_nocturno = bono_nocturno + semanal_nocturnas + feriado_nocturnas
 	
 	#TOTAL 
 	
-	total= total_lunes_viernes + total_bono_nocturno + total_bono_feriado
+	total= total_lunes_viernes + bono_nocturno + total_con_bono_feriado
 	
 	#Salida
 	
 	print("")
 	print("Subtotal Lunes - viernes: " + str(total_lunes_viernes) +"$")
 	print("Bono Nocturno: " + str(bono_nocturno) + "$")
-	print("Subtotal Sabado - Domingo: " + str(total_feriado) + "$")
+	print("Subtotal Sabado - Domingo: " + str(subtotal_feriado) + "$")
 	print("Bono Feriado: " + str(bono_total) + "$")
 	print("TOTAL: " + str(total) + "$")
 		
