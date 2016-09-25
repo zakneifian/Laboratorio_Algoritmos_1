@@ -41,13 +41,18 @@ cargo = input("Ingrese el cargo del empleado: ")
 
 cargo=cargo.lower()
 print("")
+
+#PRECONDICION
+
+assert(cargo == gerente or cargo == supervisor or cargo == trabajador)
+
 if cargo=="gerente":
 	print("El cargo de gerente tiene un pago semanal de 950$")
 	print("adicionalmente se paga 10$ x hora extra laborada")
 	print("")
 	extra=int(input("introduzca las horas extras trabajadas: "))
 	bono_extra=extra*10
-	total=extra+bono_extra
+	total=950+bono_extra
 	print("")
 	print("Subtotal Semanal: 950$")
 	print("Bono hora extra: " + str(bono_extra) +"$")
