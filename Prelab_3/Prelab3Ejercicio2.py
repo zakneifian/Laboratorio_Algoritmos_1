@@ -1,4 +1,4 @@
-# Programa realizado por Alejandro Martinez (13-10839@usb.ve) y Jesus Kauze (12-10273@usb.ve)
+# Programa realizado por Jesus Kauze (12-10273@usb.ve) y Alejandro Martinez (13-10839@usb.ve) 
 
 #Importamos la biblioteca sys
 import sys
