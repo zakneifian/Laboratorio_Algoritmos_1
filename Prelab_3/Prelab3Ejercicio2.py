@@ -11,9 +11,12 @@ while cociente > 0:
 	cociente = cociente//10
 	k += 1
 
-#Print
+#Print de comprobacion, esto no estara en la version final
 print(N, suma, cociente, k)
-print (suma, sum((N//(10**(k-1)))%10 for i in range(0, 11) if (N//(10**(k-1)) != 0))) #revisar
+print (suma, sum((N/(10**(k)))%10 for i in range(0, 11) if (N/(10**(k)) != 0))) #revisar
 
 #Post, revisar
-assert(suma == sum((N//(10**(k-1)))%10 for (range(0, 11) and (N//(10**(k-1)) != 0))))
+assert(suma == sum((N/(10**(k)))%10 for i in range(0, 11) if (N/(10**(k)) != 0)))
+
+#Salida
+print("El valor de la suma es:", suma)
