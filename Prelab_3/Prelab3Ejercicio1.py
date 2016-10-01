@@ -12,9 +12,6 @@ while k<=N:
 	suma += fact
 	k += 1
 
-#Print que no estara en la version final para hacer track a los valores
-print(N, suma, fact, k)
-
 #Funcion que definio el profesor que aparece creada por otro en: http://stackoverflow.com/questions/595374/whats-the-python-function-like-sum-but-for-multiplication-product
 def prod( iterable ): 
 	p= 1 
@@ -25,5 +22,5 @@ def prod( iterable ):
 #Post
 assert(suma == sum(prod(range(1,i+1)) for i in range(0,N+1)))
 
-#Saluda
-print("El factorial es:", fact)
+#Salida
+print("La suma de los factoriales es:", suma)
