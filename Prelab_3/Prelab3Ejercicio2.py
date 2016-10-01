@@ -1,11 +1,13 @@
+import sys
 #Vars
-N = int(input('\n\n\nEste algoritmo calculara la suma de los digitos de un numero entero positivo de 10 digitos maximos.\n\nA continuacion introduzca el numero: '))
+N = int(sys.argv[1])
 suma, cociente, k = 0, N, 0
 
 #Pre
 assert(0<N<10000000000)
 
 #Algo
+print('\n\n\nEste algoritmo calculara la suma de los digitos de un numero entero positivo de 10 digitos maximos.')
 while cociente > 0:
 	suma = suma + (cociente%10)
 	cociente = cociente//10
