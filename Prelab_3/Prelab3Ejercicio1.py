@@ -22,9 +22,8 @@ def prod( iterable ):
 		p *= n 
 	return p 
 
-
-#error en Post, mal argumento?
-assert(suma == sum(0<=i<=N for i in prod(1<=j<= i for j)))
+#Post
+assert(suma == sum(prod(range(1,i+1)) for i in range(0,N+1)))
 
 #Saluda
 print("El factorial es:", fact)
