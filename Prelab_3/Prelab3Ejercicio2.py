@@ -13,10 +13,10 @@ suma, cociente = 0, N
 #Pre, aseguramos que N tenga un valor mayor a 0 pero como maximo un numero de 10 digitos
 assert(0  < N< 10000000000)
 
-#Algo
+#Algoritmo
 #/////////////////////////////////////////////////////////////
 
-#explicacion
+#Explicacion
 print('\n\n\nEste algoritmo calculara la suma de los digitos de un numero entero positivo de 10 digitos maximos.')
 
 #loop que va sumando cociente%10 mientras que cociente sea mayor a 0, este loop se itera el numero de digitos que tenga N
@@ -29,4 +29,4 @@ while cociente > 0:
 assert(suma == sum((N//(10**(i)))%10 for i in range(0, 11) if (N//(10**(i)) != 0)))
 
 #Salida
-print("El valor de la suma es:", suma)
+print("\nEl valor de la suma es:", suma)
