@@ -11,7 +11,7 @@ class Estudiante:
 
 #Le pregunta al usuario cuantos estudiantes hay en su lista
 N = int(input("\nEste programa calculara el promedio de la edad del grupo y el promedio del indice.\n\nA continuacion introduzca la cantidad de estudiantes en la lista: "))
-grupo = []
+grupo = [] #lista donde se almacenaran los Estudiantes con su respectiva Edad, Nombre e Indice academico
 
 #Precondicion
 assert(N > 0)
@@ -30,7 +30,7 @@ PromedioIndice = round((sum(grupo[i].Indice for i in range(0, N)))/float(N), 4)
 
 #Postcondicion
 assert(
-		all(grupo[i].Edad > 0 and grupo[i].Edad > 0 and len(grupo[i].Nombre) for i in range(0, N)) and\
+		all((grupo[i].Edad > 0) and (grupo[i].Edad > 0) and (len(grupo[i].Nombre) > 0) for i in range(0, N)) and\
 		PromedioEdad == round((sum(grupo[i].Edad for i in range(0, N)))/float(N), 4) and\
 		PromedioIndice == round((sum(grupo[i].Indice for i in range(0, N)))/float(N), 4)
 	  )

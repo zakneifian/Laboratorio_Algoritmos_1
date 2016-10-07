@@ -10,7 +10,7 @@ class Concursante:
 
 #Le pregunta al usuario cuantos concursantes hay en su lista
 N = int(input("\nEste programa devolvera en orden de mayor a menor a los ganadores del evento.\n\nA continuacion introduzca la cantidad de concursantes en la lista: "))
-grupo = []
+grupo = [] #lista donde se almacenaran todos los Concursantes con sus respectivos Nombres y Cantidades de hamburguesas ingeridas
 
 #Precondicion
 assert(N > 0)
