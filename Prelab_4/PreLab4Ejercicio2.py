@@ -2,10 +2,12 @@
 
 #Para ver la utilidad del programa, recurra a /Instrucciones/PreLaboratorio4.pdf y dirijase a la descripcion de Prelab4Ejercicio2.py
 
+#Ultima modificacion: 6 Oct 2016
+
 #Define la clase concursante
 class Concursante:
 	def __init__(self, Nombre, Cantidad):
-		self.Nombre = Nombre  #Nombre del concursante
+		self.Nombre = Nombre     #Nombre del concursante
 		self.Cantidad = Cantidad #Cantidad de hamburguesas ingeridas por el concursante
 
 #Le pregunta al usuario cuantos concursantes hay en su lista

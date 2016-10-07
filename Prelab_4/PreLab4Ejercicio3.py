@@ -2,12 +2,14 @@
 
 #Para ver la utilidad del programa, recurra a /Instrucciones/PreLaboratorio4.pdf y dirijase a la descripcion de Prelab4Ejercicio3.py
 
+#Ultima modificacion: 6 Oct 2016
+
 #Define la clase estudiante
 class Estudiante:
 	def __init__(self, Edad, Nombre, Indice):
-		self.Edad = Edad
-		self.Nombre = Nombre
-		self.Indice = Indice
+		self.Edad = Edad     # Edad del estudiante
+		self.Nombre = Nombre # Nombre del estudiante
+		self.Indice = Indice # Indice del estudiante
 
 #Le pregunta al usuario cuantos estudiantes hay en su lista
 N = int(input("\nEste programa calculara el promedio de la edad del grupo y el promedio del indice.\n\nA continuacion introduzca la cantidad de estudiantes en la lista: "))

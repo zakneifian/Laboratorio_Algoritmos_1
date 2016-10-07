@@ -2,6 +2,8 @@
 
 #Para ver la utilidad del programa, recurra a /Instrucciones/PreLaboratorio4.pdf y dirijase a la descripcion de Prelab4Ejercicio1.py
 
+#Ultima modificacion: 6 Oct 2016
+
 #Valores iniciales
 A = []    #Lista que contendra los 10 enteros
 suma = 0  #Variable que contendra la suma de los 10 enteros
