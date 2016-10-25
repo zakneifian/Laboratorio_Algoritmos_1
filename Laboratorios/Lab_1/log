@@ -1,0 +1,219 @@
+# Autor: 
+
+#	Estudiante Alejandro Martínez 13-10839@usb.ve
+
+
+invitado@a3:~$ mkdir programaszak
+invitado@a3:~$ cd programaszak
+invitado@a3:~/programaszak$ python3 hola.py
+Hola Mundo!
+invitado@a3:~/programaszak$ python3
+Python 3.2.3 (default, Feb 20 2013, 14:44:27) 
+[GCC 4.7.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 2+2
+4
+>>> # Comentarios
+... 2+2
+4
+>>> 2+2 # y un comentario al final de una línea
+4
+>>> (50-5*6)//4
+5
+>>> # 
+>>> # La división entera retorna el piso:
+... 7//3
+2
+>>> 7//-3
+-3
+>>> width = 20
+>>> height = 5*9
+>>> width * height
+900
+>>> x=y=z=0
+>>> x
+0
+>>> y
+0
+>>> z
+0
+>>> x,y = 1.2
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'float' object is not iterable
+>>> x,y = 1,2
+>>> x,y
+(1, 2)
+>>> x,y = y,x
+>>> x,y
+(2, 1)
+>>> n
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'n' is not defined
+>>> 3 * 3.75 / 1.5
+7.5
+>>> 7.0 / 2
+3.5
+>>> 7 / 2
+3.5
+>>> 1j * 1j
+(-1+0j)
+>>> 1j * 1J
+(-1+0j)
+>>> 1j*1
+1j
+>>> 1j * complex(0,1)
+(-1+0j)
+>>> 3+1j*3
+(3+3j)
+>>> (3+1j)*3
+(9+3j)
+>>> (1+2j)/(1+1j)
+(1.5+0.5j)
+>>> a = 1.5 + 0.5j
+>>> a.real
+1.5
+>>> a.imag
+0.5
+>>> float(3)
+3.0
+>>> abs(-3)
+3
+>>> a = 3.0 + 4.0j
+>>> float(a)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: can't convert complex to float
+>>> a.real
+3.0
+>>> a.imag
+4.0
+>>> abs(a)
+5.0
+>>> float(a.real)
+3.0
+>>> impuesto = 12.5/100
+>>> precio = 100.5
+>>> precio * impuesto
+12.5625
+>>> precio + _
+113.0625
+>>> round (_, 2)
+113.06
+>>> range(1,100)
+range(1, 100)
+>>> range(10, 20)
+range(10, 20)
+>>> def esPar(x) : return x%2 == 0
+... 
+>>> esPar(9)
+False
+>>> esPar(2)
+True
+>>> esPar(0)
+True
+>>> esPar(2.5)
+False
+>>> esPar(-3)
+False
+>>> esPar(-1000)
+True
+>>> def predicado(b): return all ( x**2 <= b*10 for x in range(0, b))
+... 
+>>> predicado(19)
+False
+>>> predicado(5)
+True
+
+>>> def predicado2():
+...     return any(z*z == z+z for z in range(-10, 11) if z!=0)
+... 
+>>> predicado2()
+True
+>>> max (x for x in range(20, 31))
+30
+>>> min (x for x in range(20,31))
+20
+>>> sum (x for x in range(20,31))
+275
+>>> a,b = 1,2
+>>> assert(a == 1 and b == 2) #pre
+>>> c = a + b
+>>> assert( c == a + b)
+>>> assert(a==1 and b==1)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AssertionError
+>>> #Ejercicios Adicionales
+... 
+>>> x = 10 #x es una variable entera
+>>> edad = 32 #edad es una variable entera
+>>> pi = 3.14159 #pi es una variable del tipo float
+>>> altura = 2.1 #altura es una variable del tipo float
+>>> peso = 76.8  #peso es una variable del tipo float
+>>> y = 20 + 3j #y es una variable del tipo complejo
+>>> z = 1 + 1j #z es una variable del tipo complejo
+>>> x % 3
+1
+>>> 525 / edad
+16.40625
+>>> abs(-pi)
+3.14159
+>>> abs(y/peso)
+0.2633300575020402
+>>> altura*pi
+6.597339
+>>> #Parte 2
+... 
+>>> sum (x for x in range (1,100) if x%7 == 0)
+735
+>>> max (x for x in range(5,40) if ((x*x)%7 == 0))
+35
+>>> min (x for x in range(5,40) if ((x*x) == 128))
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: min() arg is an empty sequence
+>>> min (x for x in range(5,40))
+5
+>>> any (b==2*x for x in range(0,b+1))
+True
+>>> def Esperfecto(n): return any (n==x*x for x in range(0,n+1))
+... 
+>>> Esperfecto(1)
+True
+>>> #Parte 3
+... 
+>>> #Ejercicio 1
+... 
+>>> a,b = 32,43
+>>> assert(a == 32 and b == 43)
+>>> b,a = a,b
+>>> assert( a == 43 and b == 32)
+>>> #Ejercicio 2
+... 
+>>> a,b = 100,5 #asignamos valores a "a" y a "b"
+>>> assert(a == 100 and b == 5) #Aseguramos la asignacion previa
+>>> c = a/b #asignamos la division a c
+>>> assert(c == a/b) #Post - comprobamos la asignacion
+>>> #Ejercicio 3
+... 
+>>> a,b = 43, 35 #asignamos
+>>> assert (a == 43 and b ==35) #Pre - aseguramos
+>>> c = a%b
+>>> c=c*10
+>>> a=c
+>>> assert(a == c)
+>>> #Ejercicio 4
+... 
+>>> a,b,c = 80,180,0
+>>> assert(a==80 and b==180 and c==0) #Pre - aseguramos asignacion
+>>> c = 100*(b%a)
+>>> assert(a == 80 and b==180 and c==2000)
+>>> #Parte 4
+... 
+>>> from ejemplo1 import *
+El resultado es 
+-41.666666666666664
+
+
