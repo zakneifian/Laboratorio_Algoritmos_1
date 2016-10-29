@@ -1,0 +1,7 @@
+1 A
+5 ATCA
+0 CCC
+-1 A
+10 SA
+51 ATCG
+2 T
