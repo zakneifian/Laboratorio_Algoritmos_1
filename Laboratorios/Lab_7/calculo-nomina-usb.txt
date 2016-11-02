@@ -1,0 +1,5 @@
+Nombre-Apellido	HorasTrabajadas	Sueldo-Hora
+Pepe Rodríguez	5		350
+Julio López	15		100
+Andres Pizarro	10		300
+Marcos Palco	7		500

@@ -1,0 +1,6 @@
+Carnet	Nombre-Apellido	Indice	Sexo
+90-22250	Ricardo Perez	3.61	M
+90-22251	Maria Palacios	4.23	F
+90-22359	Horacio gonzalez	5	M
+91-45678	Isabel Medina	4.9	F
+80-35670	Angela Arrioja	3.02	F

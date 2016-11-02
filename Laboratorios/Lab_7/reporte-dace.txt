@@ -1,0 +1,5 @@
+El promedio de los indices es: 4.152
+Cantidad de estudiantes con carnet menor a 91: 4
+Cantidad de estudiantes con carnet mayor a 91: 0
+Cantidad de estudiantes masculinos con indice superior a 3.5: 2
+Cantidad de estudiantes femeninos con indice superior a 4.0: 2
