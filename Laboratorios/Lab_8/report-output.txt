@@ -1,0 +1,26 @@
+El promedio de pares positivos es: 4.0
+La sumatoria de los numeros impares negativos es: -10
+El promedio de los numeros pares positivos es: 4.0
+El mayor elemento par es: 8
+El menor elemento impar es: -9
+El promedio de la fila 1 es: 2.1666666666666665
+El promedio de la fila 2 es: 1.6666666666666667
+El promedio de la fila 3 es: 3.3333333333333335
+El promedio de la fila 4 es: 1.0
+El promedio de la fila 5 es: 2.0
+El promedio de la fila 6 es: -1.1666666666666667
+El promedio de la columna 1 es: 2.1666666666666665
+El promedio de la columna 2 es: 1.1666666666666667
+El promedio de la columna 3 es: -1.3333333333333333
+El promedio de la columna 4 es: 1.3333333333333333
+El promedio de la columna 5 es: 0.3333333333333333
+El promedio de la columna 6 es: 5.333333333333333
+El valor de la suma de la sub-region 1 es: 8
+El valor de la suma de la sub-region 2 es: 4
+El valor de la suma de la sub-region 3 es: 35
+El valor de la suma de la sub-region 4 es: 7
+El promedio de la sumatoria de las sub-regiones es: 13.5
+El porcentaje de la sub-region 1 con respecto a la suma de todas las sub-regiones es: 14.815%
+El porcentaje de la sub-region 2 con respecto a la suma de todas las sub-regiones es: 7.407%
+El porcentaje de la sub-region 3 con respecto a la suma de todas las sub-regiones es: 64.815%
+El porcentaje de la sub-region 4 con respecto a la suma de todas las sub-regiones es: 12.963%
