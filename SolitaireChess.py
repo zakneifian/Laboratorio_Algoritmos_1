@@ -137,15 +137,15 @@ def Niveles():
 		if MenuPrincipal:
 		#Animacion del background
 			if sentido == 'creciendo':
-				 gameDisplay.blit(blurPNG[blur], (0,0))
-				 blur += 1
-				 if blur == 9:
-				 	sentido = 'decreciendo'
+				gameDisplay.blit(blurPNG[blur], (0,0))
+				blur += 1
+				if blur == 9:
+					sentido = 'decreciendo'
 			elif sentido == 'decreciendo':
-			 	 gameDisplay.blit(blurPNG[blur], (0,0))
-				 blur -= 1
-			 	 if blur == 0:
-			 	 	sentido = 'creciendo'
+				gameDisplay.blit(blurPNG[blur], (0,0))
+				blur -= 1
+				if blur == 0:
+					sentido = 'creciendo'
 
 
 		if MenuNiveles: #pantallaniveles
@@ -155,15 +155,15 @@ def Niveles():
 			gameDisplay.blit(CajaPNG, (155,370))
 			gameDisplay.blit(facil, (120,120))
 			gameDisplay.blit(dificil, (580,120))
-		 	gameDisplay.blit(muydificil, (120,580))
-		 	gameDisplay.blit(tutorial, (580,580))
-		 	InputDificultad.draw(gameDisplay)
+			gameDisplay.blit(muydificil, (120,580))
+			gameDisplay.blit(tutorial, (580,580))
+			InputDificultad.draw(gameDisplay)
 			InputDificultad.update(eventos)
 			EzTextusuario.draw(gameDisplay)
 			OpcionMenuNiveles = InputDificultad.value #Guardamos el valor del inputDificultad en la variable OpcionMenuNiveles..
 			pygame.display.flip()
-		 	pygame.display.update()
-		 	fpsClock.tick(FPS)
+			pygame.display.update()
+			fpsClock.tick(FPS)
 		 	#Evento para salir hacia el menu Principal o para cargar el juego en su respectivo nivel
 		for event in eventos:
 
@@ -224,14 +224,14 @@ def LoopPrincipal():
 
 		#Animacion del background
 			if sentido == 'creciendo':
-				 gameDisplay.blit(blurPNG[blur], (0,0))
-				 blur += 1
-				 if blur == 9:
+				gameDisplay.blit(blurPNG[blur], (0,0))
+				blur += 1
+				if blur == 9:
 					sentido = 'decreciendo'
 			elif sentido == 'decreciendo':
-				 gameDisplay.blit(blurPNG[blur], (0,0))
-				 blur -= 1
-				 if blur == 0:
+				gameDisplay.blit(blurPNG[blur], (0,0))
+				blur -= 1
+				if blur == 0:
 					sentido = 'creciendo'
 
 		#Muestra las Opciones principales
