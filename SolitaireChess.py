@@ -32,6 +32,10 @@ blue  = (0  ,0  ,255)
 Font = pygame.font.SysFont(None, 30)
 
 #Carga de sprites
+CargadoTablero 	 = pygame.image.load('Sprites/CargadoTablero.png'	)
+Cartadesafio	 = pygame.image.load('Sprites/Cartadesafio.png'	)
+Cargarteclado 	 = pygame.image.load('Sprites/Cargarteclado.png')
+Opcionesfacil 	 = pygame.image.load('Sprites/OpcionesFacil.png')
 regresar 		 = pygame.image.load('Sprites/regresar.png'		)
 tutorial 		 = pygame.image.load('Sprites/tutorial.png'		)
 facil 			 = pygame.image.load('Sprites/facil.png'   		)
@@ -149,7 +153,8 @@ def Niveles():
 			if presionada[pygame.K_RETURN] and OpcionMenuNiveles == "0":
 				return 
 			if presionada[pygame.K_RETURN] and OpcionMenuNiveles == "1":
-				Tablero(OpcionMenuNiveles)
+				MenuDesafio(OpcionMenuNiveles)
+				#Tablero(OpcionMenuNiveles)
 				pass
 				#return FUNCION_JUEGO_FACIL()
 			if presionada[pygame.K_RETURN] and OpcionMenuNiveles == "2":
@@ -169,8 +174,8 @@ def Niveles():
 def LoopPrincipal():
 
 	#Para la escogencia de la opcion del menu, definimos un InputMenu con longitud 1 para un solo numero
-	InputMenu = eztext.Input(maxlength=1, color=black, prompt='Opcion: ')
-	InputMenu.set_pos(180,440)
+	InputMenu = eztext.Input(maxlength=1, color=white, prompt='Opcion: ')
+	InputMenu.set_pos(248,480)
 
 	#Muesta el nombre del usuario que esta jugando
 	EzTextusuario = eztext.Input(maxlength=0, color=white, prompt=Usuario)
@@ -211,7 +216,7 @@ def LoopPrincipal():
 				EzTextusuario.draw(gameDisplay)
 				OpcionMenuPrincipal = InputMenu.value
 
-			#Opcion Nueva Partida
+		#Opcion Nueva Partida
 			if OpcionNuevaPartida:
 				OpcionNuevaPartida = False
 				Niveles()
@@ -271,6 +276,7 @@ def LoopPrincipal():
 		pygame.display.update()
 		fpsClock.tick(FPS)
 
+			#Nivel es el parametro q determinara que opciones cargada segun el nivel
 def Tablero(OpcionMenuNiveles):
 
 	while True:
@@ -280,6 +286,7 @@ def Tablero(OpcionMenuNiveles):
 
 		#Creamos la ventana y le damos nombre
 		gameDisplay = pygame.display.set_mode((display_width, display_height))
+		gameDisplay.blit(Opcionesfacil,(758,0))
 		gameDisplay.blit(TableroPNG,(0,0))
 		pygame.display.update()
 
@@ -289,23 +296,54 @@ def Tablero(OpcionMenuNiveles):
 	#Variable que verifica si una tecla esta presionada
 		presionada = pygame.key.get_pressed()
 
-		if OpcionMenuNiveles == "1":
-			pass
+		for event in eventos:
 
+			if event.type == pygame.locals.QUIT: 
+				pygame.quit() 
+				sys.exit()
+			
 
+		pygame.display.update()
+		fpsClock.tick(FPS)
 
+				#OpcionMenuNiveles es el parametro que guarda el nivel(facil/dif...)
+def MenuDesafio(OpcionMenuNiveles):
+
+	InputCargado = eztext.Input(maxlength=1, color=white, prompt='')
+	InputCargado.set_pos(495, 263)
+#ReAsignamos el parametro dado a una nueva variable
+	Nivel = OpcionMenuNiveles
+
+	while True:
+		#Refresca los eventos a esta variable	
+		eventos = pygame.event.get()
+
+		#Variable que verifica si una tecla esta presionada
+		presionada = pygame.key.get_pressed()
+
+		#Bloque del Menu Principal
+		if True:
+
+			#Animacion del background
+			AnimacionBackground()
 
 		for event in eventos:
 
 			if event.type == pygame.locals.QUIT: 
 				pygame.quit() 
 				sys.exit()
+			if presionada[pygame.K_RETURN] and Opcion_Teclado_Desafio == "1":
+				Tablero(OpcionMenuNiveles)
 
+
+		gameDisplay.blit(CargadoTablero,(198,90))
+		gameDisplay.blit(Cargarteclado,(0,100))
+		gameDisplay.blit(Cartadesafio,(600,100))
+		InputCargado.draw(gameDisplay)
+		InputCargado.update(eventos)
 		pygame.display.update()
+		Opcion_Teclado_Desafio= InputCargado.value
 		fpsClock.tick(FPS)
-
-
-
 
 
 #Se asigna a la variable Usuario el nombre del usuario
