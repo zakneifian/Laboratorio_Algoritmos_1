@@ -173,6 +173,7 @@ def Niveles():
 			if presionada[pygame.K_RETURN] and OpcionMenuNiveles == "0":
 				return 
 			if presionada[pygame.K_RETURN] and OpcionMenuNiveles == "1":
+				Tablero(OpcionMenuNiveles)
 				pass
 				#return FUNCION_JUEGO_FACIL()
 			if presionada[pygame.K_RETURN] and OpcionMenuNiveles == "2":
@@ -191,9 +192,11 @@ def LoopPrincipal():
 	#Para la escogencia de la opcion del menu, definimos un InputMenu con longitud 1 para un solo numero
 	InputMenu = eztext.Input(maxlength=1, color=black, prompt='Opcion: ')
 	InputMenu.set_pos(180,440)
+
 	#Muesta el nombre del usuario que esta jugando
 	EzTextusuario = eztext.Input(maxlength=0, color=white, prompt=Usuario)
 	EzTextusuario.set_pos(330,10)
+
 	#Variables del background
 	sentido = 'creciendo'
 	blur = 0
@@ -311,6 +314,29 @@ def LoopPrincipal():
 	#Actualiza los dibujos de la pantalla a un determinado FPS
 		pygame.display.update()
 		fpsClock.tick(FPS)
+
+def Tablero(OpcionMenuNiveles):
+
+	while True:
+		#Ancho y largo de la ventana que se generara
+		display_width  = 1060
+		display_height = 760
+
+		#Creamos la ventana y le damos nombre
+		gameDisplay = pygame.display.set_mode((display_width, display_height))
+		gameDisplay.blit(TableroPNG,(0,0))
+		pygame.display.flip()
+		pygame.display.update()
+
+		#Refresca los eventos a esta variable
+		eventos = pygame.event.get()
+		pass
+		#Variable que verifica si una tecla esta presionada
+		presionada = pygame.key.get_pressed()
+		pass
+		if OpcionMenuNiveles == "1":
+			pass
+
 
 
 
