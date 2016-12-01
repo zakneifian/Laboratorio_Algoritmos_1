@@ -653,7 +653,7 @@ def Configuracion_por_teclado(Nivel):
 	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
 
 	#Cargara la cuadricula para habilitarle al usuario el poder ingresar como desea el tablero
-	InputConfiguracionTeclado = eztext.Input(maxlength=23, color=white, prompt='Introduce tu configuracion: ')
+	InputConfiguracionTeclado = eztext.Input(maxlength=31, color=white, prompt='Introduce tu configuracion: ')
 	InputConfiguracionTeclado.set_pos(0,380)
 	InputConfiguracionTeclado.value="ta1-ca2-ra3-da4-ad1-td2-ad3-cc3" #METODO PARA PROBAR LA POSICION DE LAS FICHAS
 
