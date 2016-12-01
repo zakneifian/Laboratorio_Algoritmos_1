@@ -32,11 +32,14 @@ blue  = (0  ,0  ,255)
 Font = pygame.font.SysFont(None, 30)
 
 #Carga de sprites
-CargadoTablero 	 = pygame.image.load('Sprites/CargadoTablero.png'	)
+CargadoTablero 	 = pygame.image.load('Sprites/CargadoTablero.png')
 Cartadesafio	 = pygame.image.load('Sprites/Cartadesafio.png'	)
 Cargarteclado 	 = pygame.image.load('Sprites/Cargarteclado.png')
 Opcionesfacil 	 = pygame.image.load('Sprites/OpcionesFacil.png')
+Opciondificil	 = pygame.image.load('Sprites/Dificil.png'      )
 regresar 		 = pygame.image.load('Sprites/regresar.png'		)
+Leyenda			 = pygame.image.load('Sprites/Leyenda.png'		)
+MensajeLeyenda   = pygame.image.load('Sprites/Mensaje1.png'		)
 tutorial 		 = pygame.image.load('Sprites/tutorial.png'		)
 facil 			 = pygame.image.load('Sprites/facil.png'   		)
 dificil 		 = pygame.image.load('Sprites/dificil.png' 		)
@@ -81,7 +84,6 @@ def LoopIntro():
 	#Almacena el nombre de usuario
 	NombreUsuario = eztext.Input(maxlength=13, color=white, prompt='Nombre de usuario: ')
 	NombreUsuario.set_pos(150,350)
-
 	Inicio = True
 	while Inicio:
 
@@ -112,8 +114,7 @@ def Niveles():
 
 	InputDificultad = eztext.Input(maxlength=1, color=white, prompt='Elija el nivel de dificultad: ')
 	InputDificultad.set_pos(250, 380)
-	EzTextusuario = eztext.Input(maxlength=0, color=white, prompt=Usuario)
-	EzTextusuario.set_pos(330,10)
+	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
 	#PROBANDO TRABAJAR CON MIDDLE DE LOS IMGS
 	#self.rect = self.EzTextusuario.get_rect()
 	#self.EzTextusuario.rect.centery = 10
@@ -137,11 +138,9 @@ def Niveles():
 		gameDisplay.blit(dificil, (580,120))
 		gameDisplay.blit(muydificil, (120,580))
 		gameDisplay.blit(tutorial, (580,580))
-
 		InputDificultad.draw(gameDisplay)
 		InputDificultad.update(eventos)
-		EzTextusuario.draw(gameDisplay)
-		OpcionMenuNiveles = InputDificultad.value #Guardamos el valor del inputDificultad en la variable OpcionMenuNiveles..
+		Nivel = InputDificultad.value #Guardamos el valor del inputDificultad en la variable Nivel..
 		
 
 		 #Evento para salir hacia el menu Principal o para cargar el juego en su respectivo nivel
@@ -150,22 +149,20 @@ def Niveles():
 			if event.type == pygame.locals.QUIT: 
 				pygame.quit() 
 				sys.exit()
-			if presionada[pygame.K_RETURN] and OpcionMenuNiveles == "0":
+			if presionada[pygame.K_RETURN] and Nivel == "0":
 				return 
-			if presionada[pygame.K_RETURN] and OpcionMenuNiveles == "1":
-				MenuDesafio(OpcionMenuNiveles)
-				#Tablero(OpcionMenuNiveles)
+			if presionada[pygame.K_RETURN] and Nivel == "1":
+				MenuDesafio(Nivel)				
+				
+			if presionada[pygame.K_RETURN] and Nivel == "2":
+				MenuDesafio(Nivel)
+				
+			if presionada[pygame.K_RETURN] and Nivel == "3":
 				pass
-				#return FUNCION_JUEGO_FACIL()
-			if presionada[pygame.K_RETURN] and OpcionMenuNiveles == "2":
+				
+			if presionada[pygame.K_RETURN] and Nivel == "4":
 				pass
-				#return FUNCION_JUEGO_DIFICIL()
-			if presionada[pygame.K_RETURN] and OpcionMenuNiveles == "3":
-				pass
-				#return FUNCION_JUEGO_MUYDIFICIL()
-			if presionada[pygame.K_RETURN] and OpcionMenuNiveles == "4":
-				pass
-				#return FUNCION_JUEGO_TUTORIAL()
+				
 
 		pygame.display.update()
 		fpsClock.tick(FPS)
@@ -176,10 +173,9 @@ def LoopPrincipal():
 	#Para la escogencia de la opcion del menu, definimos un InputMenu con longitud 1 para un solo numero
 	InputMenu = eztext.Input(maxlength=1, color=white, prompt='Opcion: ')
 	InputMenu.set_pos(248,480)
-
-	#Muesta el nombre del usuario que esta jugando
-	EzTextusuario = eztext.Input(maxlength=0, color=white, prompt=Usuario)
-	EzTextusuario.set_pos(330,10)
+	EzTextusuario = eztext.Input(maxlength = 0, color=white, prompt=Usuario)
+	#Muesta el nombre del usuario que esta jugando en la ventana
+	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
 
 	#Variable que verifica si ejecuta la parte del codigo del menu principal
 	#Menunivel = Niveles()
@@ -213,7 +209,6 @@ def LoopPrincipal():
 
 				InputMenu.draw(gameDisplay)
 				InputMenu.update(eventos)
-				EzTextusuario.draw(gameDisplay)
 				OpcionMenuPrincipal = InputMenu.value
 
 		#Opcion Nueva Partida
@@ -277,23 +272,26 @@ def LoopPrincipal():
 		fpsClock.tick(FPS)
 
 			#Nivel es el parametro q determinara que opciones cargada segun el nivel
-def Tablero(OpcionMenuNiveles):
+def Tablero(Nivel):
 
+	#Muesta el nombre del usuario que esta jugando en la ventana
+	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
+
+	Input_Tablero_Opcion = eztext.Input(maxlength=1, color=white, prompt='Elija una opcion: ')
+	Input_Tablero_Opcion.set_pos(799,720)
+
+	#Ancho y largo de la ventana que se generara
+	display_width  = 1060
+	display_height = 760
+	gameDisplay = pygame.display.set_mode((display_width, display_height))
 	while True:
-		#Ancho y largo de la ventana que se generara
-		display_width  = 1060
-		display_height = 760
 
-		#Creamos la ventana y le damos nombre
-		gameDisplay = pygame.display.set_mode((display_width, display_height))
-		gameDisplay.blit(Opcionesfacil,(758,0))
-		gameDisplay.blit(TableroPNG,(0,0))
-		pygame.display.update()
+		#Creamos la ventana nueva y le damos nombre
 
-	#Refresca los eventos a esta variable
+		#Refresca los eventos a esta variable	
 		eventos = pygame.event.get()
 
-	#Variable que verifica si una tecla esta presionada
+		#Variable que verifica si una tecla esta presionada
 		presionada = pygame.key.get_pressed()
 
 		for event in eventos:
@@ -301,18 +299,27 @@ def Tablero(OpcionMenuNiveles):
 			if event.type == pygame.locals.QUIT: 
 				pygame.quit() 
 				sys.exit()
-			
+		
+		if Nivel == "1":
+			gameDisplay.blit(Opcionesfacil,(758,0))
+		elif Nivel == "2":
+			gameDisplay.blit(Opciondificil,(758,0))
 
+		gameDisplay.blit(TableroPNG,(0,0))
+		Input_Tablero_Opcion.draw(gameDisplay)
+		Input_Tablero_Opcion.update(eventos)	
+		Opcion_Tablero=Input_Tablero_Opcion.value
 		pygame.display.update()
 		fpsClock.tick(FPS)
 
 				#OpcionMenuNiveles es el parametro que guarda el nivel(facil/dif...)
-def MenuDesafio(OpcionMenuNiveles):
+def MenuDesafio(Nivel):
+
+	#Muesta el nombre del usuario que esta jugando en la ventana
+	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
 
 	InputCargado = eztext.Input(maxlength=1, color=white, prompt='')
 	InputCargado.set_pos(495, 263)
-#ReAsignamos el parametro dado a una nueva variable
-	Nivel = OpcionMenuNiveles
 
 	while True:
 		#Refresca los eventos a esta variable	
@@ -321,30 +328,74 @@ def MenuDesafio(OpcionMenuNiveles):
 		#Variable que verifica si una tecla esta presionada
 		presionada = pygame.key.get_pressed()
 
-		#Bloque del Menu Principal
-		if True:
-
-			#Animacion del background
-			AnimacionBackground()
+		#Animacion del background
+		AnimacionBackground()
 
 		for event in eventos:
 
 			if event.type == pygame.locals.QUIT: 
 				pygame.quit() 
 				sys.exit()
+
+
 			if presionada[pygame.K_RETURN] and Opcion_Teclado_Desafio == "1":
-				Tablero(OpcionMenuNiveles)
+				#Llamamos la funcion que contiene la ventana del input para el usuario cree su tablero
+				Configuracion_por_teclado(Nivel)
 
 
 		gameDisplay.blit(CargadoTablero,(198,90))
 		gameDisplay.blit(Cargarteclado,(0,100))
 		gameDisplay.blit(Cartadesafio,(600,100))
 		InputCargado.draw(gameDisplay)
+		
 		InputCargado.update(eventos)
-		pygame.display.update()
 		Opcion_Teclado_Desafio= InputCargado.value
+		pygame.display.update()
 		fpsClock.tick(FPS)
 
+def Configuracion_por_teclado(Nivel):
+
+	#Muesta el nombre del usuario que esta jugando en la ventana
+	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
+
+	#Cargara la cuadricula para habilitarle al usuario el poder ingresar como desea el tablero
+	InputConfiguracionTeclado = eztext.Input(maxlength=40, color=white, prompt='Introduce tu configuracion: ')
+	InputConfiguracionTeclado.set_pos(0,380)
+
+	while True:
+
+		eventos = pygame.event.get()
+
+		#Variable que verifica si una tecla esta presionada
+		presionada = pygame.key.get_pressed()
+
+		#Efecto de animacion
+		AnimacionBackground()
+
+		for event in eventos:
+
+			if event.type == pygame.locals.QUIT: 
+				pygame.quit() 
+				sys.exit()
+
+			if presionada[pygame.K_RETURN]: #colocar la condicion de que sea un string valido
+				#Convertimos el string de configuracion_Teclado en una lista
+				Configuracion_Teclado = Configuracion_Teclado.split('-')
+				#retornamos el tablero con el nivel seleccionado
+				Tablero(Nivel)
+
+
+		gameDisplay.blit(CajaPNG,(0,367))
+		gameDisplay.blit(CajaPNG,(300,367))
+		gameDisplay.blit(CajaPNG,(600,367))
+		gameDisplay.blit(Leyenda,(150,0))
+		gameDisplay.blit(MensajeLeyenda, (150,440))
+		InputConfiguracionTeclado.draw(gameDisplay)
+		InputConfiguracionTeclado.update(eventos)
+		#Asignamos el valor de la configuracion a la variable Configuracion_teclado
+		Configuracion_Teclado = InputConfiguracionTeclado.value
+		pygame.display.update()
+		fpsClock.tick(FPS)
 
 #Se asigna a la variable Usuario el nombre del usuario
 Usuario = LoopIntro()
