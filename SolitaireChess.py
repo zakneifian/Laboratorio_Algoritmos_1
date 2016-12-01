@@ -32,23 +32,23 @@ blue  = (0  ,0  ,255)
 Font = pygame.font.SysFont(None, 30)
 
 #Carga de sprites
-Dificultad       = pygame.image.load('Sprites/Dificultad.png'	)
-CargadoTablero 	 = pygame.image.load('Sprites/CargadoTablero.png')
-Cartadesafio	 = pygame.image.load('Sprites/Cartadesafio.png'	)
-Cargarteclado 	 = pygame.image.load('Sprites/Cargarteclado.png')
-Opcionesfacil 	 = pygame.image.load('Sprites/OpcionesFacil.png')
-Opciondificil	 = pygame.image.load('Sprites/Dificil.png'      )
-Leyenda			 = pygame.image.load('Sprites/Leyenda.png'		)
-MensajeLeyenda   = pygame.image.load('Sprites/Mensaje1.png'		)
-TableroPNG       = pygame.image.load('Sprites/Tablero.png'      )
-ReyPNG           = pygame.image.load('Sprites/Rey.png'          )
-ReinaPNG         = pygame.image.load('Sprites/Reina.png'        )
-AlfilPNG         = pygame.image.load('Sprites/Alfil.png'        )
-CaballoPNG       = pygame.image.load('Sprites/Caballo.png'      )
-TorrePNG         = pygame.image.load('Sprites/Torre.png'        )
-PeonPNG          = pygame.image.load('Sprites/Peon.png'         )
-CajaPNG          = pygame.image.load('Sprites/Caja.png'         )
-MenuPrincipalPNG = pygame.image.load('Sprites/MenuPrincipal.png')
+Dificultad       = pygame.image.load('Sprites/Dificultad.png'	  )
+CargadoTablero 	 = pygame.image.load('Sprites/CargadoTablero.png' )
+Cartadesafio	 = pygame.image.load('Sprites/Cartadesafio.png'	  )
+Cargarteclado 	 = pygame.image.load('Sprites/Cargarteclado.png'  )
+Opcionesfacil 	 = pygame.image.load('Sprites/OpcionesFacil.png'  )
+OpcionesDificil	 = pygame.image.load('Sprites/OpcionesDificil.png')
+Leyenda			 = pygame.image.load('Sprites/Leyenda.png'		  )
+MensajeLeyenda   = pygame.image.load('Sprites/Mensaje1.png'		  )
+TableroPNG       = pygame.image.load('Sprites/Tablero.png'        )
+ReyPNG           = pygame.image.load('Sprites/Rey.png'            )
+ReinaPNG         = pygame.image.load('Sprites/Reina.png'          )
+AlfilPNG         = pygame.image.load('Sprites/Alfil.png'          )
+CaballoPNG       = pygame.image.load('Sprites/Caballo.png'        )
+TorrePNG         = pygame.image.load('Sprites/Torre.png'          )
+PeonPNG          = pygame.image.load('Sprites/Peon.png'           )
+CajaPNG          = pygame.image.load('Sprites/Caja.png'           )
+MenuPrincipalPNG = pygame.image.load('Sprites/MenuPrincipal.png'  )
 blurPNG = [pygame.image.load('Sprites/Blur/' + str(i) +'.png') for i in range(1,11)]
 #////////////////////////////////////////////////////////////////////////////////////
 
@@ -173,9 +173,8 @@ def LoopPrincipal():
 	OpcionScoreboard    = False        #Ejecuta el codigo del Scoreboard
 
 	#Si se cambia a True en el loop, se rompe y termina la ejecucion del juego
-	SalirDelJuego = False
 
-	while not SalirDelJuego:
+	while True:
 
 	#Refresca los eventos a esta variable	
 		eventos = pygame.event.get()
@@ -252,7 +251,8 @@ def LoopPrincipal():
 
 			#Opcion de Menu para salir dejuego
 			if presionada[pygame.K_RETURN] and OpcionMenuPrincipal == "4": 
-				SalirDelJuego       = True
+				pygame.quit() 
+				sys.exit()				
 
 	#Actualiza los dibujos de la pantalla a un determinado FPS
 		pygame.display.update()
@@ -266,13 +266,24 @@ def Tablero(Nivel):
 	
 	#Variables que manejaran cuando desactivar o activar un input (Dependiendo de la opcion seleccionada)
 	Mostrar_Input_Tablero_Opcion = True
-	Mostrar_Input_Terminar = False
+	Mostrar_Input_Jugar = False
+	Mostrar_Input_Jugar_0 = False
+	Mostrar_Input_Jugar_1 = False
 	Mostrar_Input_Pausa = False
+	Mostrar_Input_Terminar = False
 	#Declarar todos los inputs abajo de esto
 	#---------------------------------------
 	Input_Tablero_Opcion = eztext.Input(maxlength=1, color=white, prompt='Elija una opcion: ')
 	Input_Tablero_Opcion.set_pos(799,720)
 	Opcion_Tablero=Input_Tablero_Opcion.value
+	#---------------------------------------
+	Input_Jugar_0 = eztext.Input(maxlength=2, color=white, prompt='Posicion Inicial: ')
+	Input_Jugar_0.set_pos(799,680)
+	Jugar_0 = Input_Jugar_0.value
+	#---------------------------------------
+	Input_Jugar_1 = eztext.Input(maxlength=2, color=white, prompt='Posicion Final: ')
+	Input_Jugar_1.set_pos(799,720)
+	Jugar_1 = Input_Jugar_1.value
 	#---------------------------------------
 	Input_Pausa = eztext.Input(maxlength=1, color=white, prompt='Inserte 0 y presione enter para resumir: ')
 	Input_Pausa.set_pos(250,350)
@@ -309,26 +320,43 @@ def Tablero(Nivel):
 
 			#Funcion jugar
 			if  Opcion_Tablero == "1" and presionada[pygame.K_RETURN]:
-				print("Falta funcion jugar")
+				print("se ha accedido a la opcion 1")
+				Mostrar_Input_Jugar = True
+				Mostrar_Input_Jugar_0 = True
+				Mostrar_Input_Tablero_Opcion = False
+				Opcion_Tablero = None
 
+			#Relativo a Funcion Jugar: Jugar_0
+			if Jugar_0 != "" and presionada[pygame.K_RETURN]:
+				Mostrar_Input_Jugar_0 = False
+				Mostrar_Input_Jugar_1 = True
+				Pos_i = Jugar_0
+				Jugar_0 = ""
+
+			if Jugar_1 != "" and presionada[pygame.K_RETURN]:
+				print("Saliendo de jugar")
+				Mostrar_Input_Jugar_1 = False
+				Mostrar_Input_Jugar = False
+				Mostrar_Input_Tablero_Opcion = True
+				Pos_f = Jugar_1
+				Jugar_1 = ""
 			#Funcion pausar
 			if  Opcion_Tablero == "2" and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Pausa = True
 				Mostrar_Input_Tablero_Opcion = False
-				Opcion_Tablero = "0"
+				Opcion_Tablero = None
+
+			#Relativo a Funcion Pausar: Resumir despues de pausar
+			if Opcion_Pausa == "0" and presionada[pygame.K_RETURN]:
+				Mostrar_Input_Pausa = False
+				Mostrar_Input_Tablero_Opcion = True
+				Opcion_Pausa = None		
 
 			#Funcion Salir
 			if  Opcion_Tablero == "3" and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Tablero_Opcion = False
 				Mostrar_Input_Terminar=True
-
-				Opcion_Tablero= "0"
-			
-			#Funcion Deshacer
-			if  Opcion_Tablero == "4" and presionada[pygame.K_RETURN] and Nivel == "1":
-				print("Funcion de deshacer jugada para nivel facil")
-				Opcion_Tablero="0"
-				print("Falta funcion deshacer")
+				Opcion_Tablero = None
 
 			#Relativo a Funcion Salir: Salir sin Guardar
 			if Salir_o_Guardar == "1" and presionada[pygame.K_RETURN]:
@@ -343,10 +371,12 @@ def Tablero(Nivel):
 				print("Falta insertar funcion de guardado, se retornara al menu principal")
 				return LoopPrincipal()
 
-			if Opcion_Pausa == "0" and presionada[pygame.K_RETURN]:
-				Mostrar_Input_Pausa = False
-				Mostrar_Input_Tablero_Opcion = True
-				Opcion_Pausa = None				
+			#Funcion Deshacer
+			if  Opcion_Tablero == "4" and presionada[pygame.K_RETURN] and Nivel == "1":
+				print("Funcion de deshacer jugada para nivel facil")
+				Opcion_Tablero = None
+				print("Falta funcion deshacer")
+
 
 		#En caso de ser nivel 1(Facil) cargara el menu con botones faciles
 		if Nivel == "1":
@@ -362,21 +392,26 @@ def Tablero(Nivel):
 			Input_Tablero_Opcion.update(eventos)			
 			Opcion_Tablero=Input_Tablero_Opcion.value
 
+		if Mostrar_Input_Jugar == True:
+
+			Input_Jugar_0.draw(gameDisplay)
+			Input_Jugar_1.draw(gameDisplay)
+
+			if Mostrar_Input_Jugar_0 == True:
+				Input_Jugar_0.draw(gameDisplay)				
+				Input_Jugar_0.update(eventos)
+				Jugar_0 = Input_Jugar_0.value
+			
+			if Mostrar_Input_Jugar_1 == True:
+				Input_Jugar_1.draw(gameDisplay)				
+				Input_Jugar_1.update(eventos)
+				Jugar_1 = Input_Jugar_1.value
+
+
 		if Mostrar_Input_Terminar == True:
 			Input_Terminar.draw(gameDisplay)
 			Input_Terminar.update(eventos)
 			Salir_o_Guardar = Input_Terminar.value	
-
-		if Mostrar_Input_Pausa == True:
-			gameDisplay.blit(TableroPNG,(0,0))
-			gameDisplay.blit(CajaPNG, (250, 350))
-			Input_Pausa.draw(gameDisplay)
-			Input_Pausa.update(eventos)
-			Opcion_Pausa = Input_Pausa.value
-		
-		#pygame.display.update()
-		#fpsClock.tick(FPS)
-
 
 		gameDisplay.blit(TableroPNG,(0,0))
 		gameDisplay.blit(PeonPNG, (74,63)) 		#a4
@@ -395,7 +430,14 @@ def Tablero(Nivel):
 		gameDisplay.blit(AlfilPNG, (548,222)) 	#d3
 		gameDisplay.blit(TorrePNG, (548,379))	#d2 
 		gameDisplay.blit(PeonPNG, (548,536)) 	#d1
-	
+
+		if Mostrar_Input_Pausa == True:
+			gameDisplay.blit(TableroPNG,(0,0))
+			gameDisplay.blit(CajaPNG, (250, 350))
+			Input_Pausa.draw(gameDisplay)
+			Input_Pausa.update(eventos)
+			Opcion_Pausa = Input_Pausa.value	
+
 		pygame.display.update()
 		fpsClock.tick(FPS)
 
