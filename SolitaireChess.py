@@ -276,14 +276,27 @@ def Tablero(Nivel):
 
 	#Muesta el nombre del usuario que esta jugando en la ventana
 	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
+	
+	#Variables que manejaran cuando desactivar o activar un input (Dependiendo de la opcion seleccionada)
+	Valor_Terminar=False
+	Valor_Terminar2=True
+	#Activa el input para seleccionar una de las opciones (jugar, pausar, terminar etc)
+	if Valor_Terminar2 == True:
+		Input_Tablero_Opcion = eztext.Input(maxlength=1, color=white, prompt='Elija una opcion: ')
+		Input_Tablero_Opcion.set_pos(799,720)
+		Opcion_Tablero=Input_Tablero_Opcion.value
 
-	Input_Tablero_Opcion = eztext.Input(maxlength=1, color=white, prompt='Elija una opcion: ')
-	Input_Tablero_Opcion.set_pos(799,720)
+	Input_Terminar = eztext.Input(maxlength=0, color=white, prompt='1) Salir 2) guardar: ')
+	Input_Terminar.set_pos(799,680)
+	Salir_o_Guardar = Input_Terminar.value
 
 	#Ancho y largo de la ventana que se generara
 	display_width  = 1060
 	display_height = 760
+
+	#Cargamos de nuevo el display del juego con los nuevos valores
 	gameDisplay = pygame.display.set_mode((display_width, display_height))
+	
 	while True:
 
 		#Creamos la ventana nueva y le damos nombre
@@ -299,15 +312,35 @@ def Tablero(Nivel):
 			if event.type == pygame.locals.QUIT: 
 				pygame.quit() 
 				sys.exit()
-		
+			#Si selecciona terminar, desactivara la variable que permite el input de opciones y abrira el input de guardar o salir
+			if  Opcion_Tablero == "3" and presionada[pygame.K_RETURN]:
+				Valor_Terminar=True
+				Valor_Terminar2=False
+				Input_Terminar = eztext.Input(maxlength=1, color=white, prompt='1) Salir 2) guardar: ')
+				Input_Terminar.set_pos(799,680)
+				Salir_o_Guardar = Input_Terminar.value
+				Opcion_Tablero="0"
+			#Retornamos al menu principal en caso de que su seleccion sea Salir del juego
+			if Salir_o_Guardar == "1" and presionada[pygame.K_RETURN]:
+				display_width=760
+				display_height=760
+				gameDisplay = pygame.display.set_mode((display_width, display_height))
+				return LoopPrincipal()
+
+		#En caso de ser nivel 1(Facil) cargara el menu con botones faciles
 		if Nivel == "1":
 			gameDisplay.blit(Opcionesfacil,(758,0))
+		#En caso de ser nivel 2(dificil) cargara el menu con los botones dificiles
 		elif Nivel == "2":
 			gameDisplay.blit(Opciondificil,(758,0))
 
 		gameDisplay.blit(TableroPNG,(0,0))
-		Input_Tablero_Opcion.draw(gameDisplay)
-		Input_Tablero_Opcion.update(eventos)	
+		if Valor_Terminar==True:
+			Input_Terminar.draw(gameDisplay)
+			Input_Terminar.update(eventos)
+		if Valor_Terminar2==True:
+			Input_Tablero_Opcion.draw(gameDisplay)
+			Input_Tablero_Opcion.update(eventos)	
 		Opcion_Tablero=Input_Tablero_Opcion.value
 		pygame.display.update()
 		fpsClock.tick(FPS)
