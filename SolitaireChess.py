@@ -42,7 +42,7 @@ Leyenda			 = pygame.image.load('Sprites/Leyenda.png'		  )
 MensajeLeyenda   = pygame.image.load('Sprites/Mensaje1.png'		  )
 TableroPNG       = pygame.image.load('Sprites/Tablero.png'        )
 ReyPNG           = pygame.image.load('Sprites/Rey.png'            )
-ReinaPNG         = pygame.image.load('Sprites/Reina.png'          )
+DamaPNG         = pygame.image.load('Sprites/Reina.png'          )
 AlfilPNG         = pygame.image.load('Sprites/Alfil.png'          )
 CaballoPNG       = pygame.image.load('Sprites/Caballo.png'        )
 TorrePNG         = pygame.image.load('Sprites/Torre.png'          )
@@ -157,7 +157,6 @@ def Niveles():
 #Se define el Loop principal del juego
 def LoopPrincipal():
 
-	gameDisplay = pygame.display.set_mode((760,760))
 	#Para la escogencia de la opcion del menu, definimos un InputMenu con longitud 1 para un solo numero
 	InputMenu = eztext.Input(maxlength=1, color=white, prompt='Opcion: ')
 	InputMenu.set_pos(248,480)
@@ -260,7 +259,7 @@ def LoopPrincipal():
 		fpsClock.tick(FPS)
 
 			#Nivel es el parametro q determinara que opciones cargada segun el nivel
-def Tablero(Nivel):
+def Tablero(Nivel,PosPiezas):
 
 	#Muesta el nombre del usuario que esta jugando en la ventana
 	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
@@ -325,60 +324,57 @@ def Tablero(Nivel):
 				Mostrar_Input_Jugar = True
 				Mostrar_Input_Jugar_0 = True
 				Mostrar_Input_Tablero_Opcion = False
-				Input_Tablero_Opcion.value = ""
+				Opcion_Tablero = None
 
 			#Relativo a Funcion Jugar: Jugar_0
-			if len(Input_Jugar_0.value) == 2 and presionada[pygame.K_RETURN]:
+			if Jugar_0 != "" and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Jugar_0 = False
 				Mostrar_Input_Jugar_1 = True
 				Pos_i = Jugar_0
-				Jugar_0 = None
+				Jugar_0 = ""
 
-			if len(Input_Jugar_1.value) == 2 and presionada[pygame.K_RETURN]:
+			if Jugar_1 != "" and presionada[pygame.K_RETURN]:
 				print("Saliendo de jugar")
 				Mostrar_Input_Jugar_1 = False
 				Mostrar_Input_Jugar = False
 				Mostrar_Input_Tablero_Opcion = True
 				Pos_f = Jugar_1
-				Jugar_1 = None
-				Input_Jugar_0.value = ""
-				Input_Jugar_1.value = ""
-
+				Jugar_1 = ""
 			#Funcion pausar
 			if  Opcion_Tablero == "2" and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Pausa = True
 				Mostrar_Input_Tablero_Opcion = False
-				Opcion_Tablero = ""
-				Input_Tablero_Opcion.value = ""
+				Opcion_Tablero = None
 
 			#Relativo a Funcion Pausar: Resumir despues de pausar
 			if Opcion_Pausa == "0" and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Pausa = False
 				Mostrar_Input_Tablero_Opcion = True
-				Opcion_Pausa = ""
-				Input_Pausa.value = ""	
+				Opcion_Pausa = None		
 
 			#Funcion Salir
 			if  Opcion_Tablero == "3" and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Tablero_Opcion = False
 				Mostrar_Input_Terminar=True
-				Opcion_Tablero = ""
-				Input_Tablero_Opcion.value = ""
+				Opcion_Tablero = None
 
 			#Relativo a Funcion Salir: Salir sin Guardar
 			if Salir_o_Guardar == "1" and presionada[pygame.K_RETURN]:
+				display_width=760
+				display_height=760
+				gameDisplay = pygame.display.set_mode((display_width, display_height))
 				return LoopPrincipal()
 
 			#Relativo a Funcion Salir: Guardar y Salir
 			if Salir_o_Guardar == "2" and presionada[pygame.K_RETURN]:
+				gameDisplay = pygame.display.set_mode((760,760))
 				print("Falta insertar funcion de guardado, se retornara al menu principal")
 				return LoopPrincipal()
 
 			#Funcion Deshacer
 			if  Opcion_Tablero == "4" and presionada[pygame.K_RETURN] and Nivel == "1":
 				print("Funcion de deshacer jugada para nivel facil")
-				Opcion_Tablero = ""
-				Input_Tablero_Opcion = ""
+				Opcion_Tablero = None
 				print("Falta funcion deshacer")
 
 
@@ -397,6 +393,7 @@ def Tablero(Nivel):
 			Opcion_Tablero=Input_Tablero_Opcion.value
 
 		if Mostrar_Input_Jugar == True:
+
 			Input_Jugar_0.draw(gameDisplay)
 			Input_Jugar_1.draw(gameDisplay)
 
@@ -416,30 +413,192 @@ def Tablero(Nivel):
 			Input_Terminar.update(eventos)
 			Salir_o_Guardar = Input_Terminar.value	
 
-		gameDisplay.blit(TableroPNG,(0,0))
-		gameDisplay.blit(PeonPNG, (74,63)) 		#a4
-		gameDisplay.blit(TorrePNG, (230,63)) 	#b4
-		gameDisplay.blit(ReinaPNG, (386,63)) 	#c4
-		gameDisplay.blit(ReyPNG, (548,63)) 		#d4
-		gameDisplay.blit(TorrePNG, (74,222)) 	#a3
-		gameDisplay.blit(CaballoPNG, (74,379)) 	#a2
-		gameDisplay.blit(AlfilPNG, (74,536)) 	#a1
-		gameDisplay.blit(TorrePNG, (230,222)) 	#b3
-		gameDisplay.blit(PeonPNG, (230,379))	#b2
-		gameDisplay.blit(ReyPNG, (230,536)) 	#b1
-		gameDisplay.blit(PeonPNG,(386,222))		#c3
-		gameDisplay.blit(TorrePNG, (386,379)) 	#c2
-		gameDisplay.blit(CaballoPNG, (386,536)) #c1
-		gameDisplay.blit(AlfilPNG, (548,222)) 	#d3
-		gameDisplay.blit(TorrePNG, (548,379))	#d2 
-		gameDisplay.blit(PeonPNG, (548,536)) 	#d1
-
 		if Mostrar_Input_Pausa == True:
 			gameDisplay.blit(TableroPNG,(0,0))
 			gameDisplay.blit(CajaPNG, (250, 350))
 			Input_Pausa.draw(gameDisplay)
 			Input_Pausa.update(eventos)
 			Opcion_Pausa = Input_Pausa.value	
+
+		gameDisplay.blit(TableroPNG,(0,0))
+
+		matriz = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+		x=0
+		y=0
+
+		for pieza in PosPiezas:
+			if len(pieza) == 3:
+
+				if pieza[0].lower() == "t":
+					if pieza[1]=="a":
+						matriz[int(pieza[2])-1][0]="t"
+						x=69
+					elif pieza[1] == "b":
+						matriz[int(pieza[2])-1][1]="t"
+						x=225
+					elif pieza[1] == "c":
+						matriz[int(pieza[2])-1][2]="t"
+						x=381
+					elif pieza[1] == "d":
+						matriz[int(pieza[2])-1][3]="t"
+						x=538
+
+					if pieza[2]=="4":
+						gameDisplay.blit(TorrePNG, (x,65)) 
+
+					elif pieza[2]=="3":
+						gameDisplay.blit(TorrePNG, (x,222)) 
+
+					elif pieza[2] == "2":
+						gameDisplay.blit(TorrePNG, (x,378)) 
+
+					elif pieza[2] == "1":
+						gameDisplay.blit(TorrePNG, (x,536)) 
+
+				elif pieza[0].lower() == "c":
+					if pieza[1]=="a":
+						matriz[int(pieza[2])-1][0]="c"
+						x=69
+					elif pieza[1] == "b":
+						matriz[int(pieza[2])-1][1]="c"
+						x=225
+					elif pieza[1] == "c":
+						matriz[int(pieza[2])-1][2]="c"
+						x=381
+					elif pieza[1] == "d":
+						matriz[int(pieza[2])-1][2]="c"
+						x=538
+
+					if pieza[2]=="4":
+						gameDisplay.blit(CaballoPNG, (x,65)) 
+
+					elif pieza[2]=="3":
+						gameDisplay.blit(CaballoPNG, (x,222)) 
+
+					elif pieza[2] == "2":
+						gameDisplay.blit(CaballoPNG, (x,378)) 
+
+					elif pieza[2] == "1":
+						gameDisplay.blit(CaballoPNG, (x,534)) 
+
+				elif pieza[0].lower() == "a":
+					if pieza[1]=="a":
+						matriz[int(pieza[2])-1][0]="a"
+						x=69
+					elif pieza[1] == "b":
+						matriz[int(pieza[2])-1][1]="a"
+						x=225
+					elif pieza[1] == "c":
+						matriz[int(pieza[2])-1][2]="a"
+						x=381
+					elif pieza[1] == "d":
+						matriz[int(pieza[2])-1][3]="a"
+						x=538
+
+					if pieza[2]=="4":
+						gameDisplay.blit(AlfilPNG, (x,65)) 
+
+					elif pieza[2]=="3":
+						gameDisplay.blit(AlfilPNG, (x,222)) 
+
+					elif pieza[2] == "2":
+						gameDisplay.blit(AlfilPNG, (x,378)) 
+
+					elif pieza[2] == "1":
+						gameDisplay.blit(AlfilPNG, (x,534)) 
+
+				elif pieza[0].lower() == "r":
+					if pieza[1]=="a":
+						matriz[int(pieza[2])-1][0]="r"
+						x=69
+					elif pieza[1] == "b":
+						matriz[int(pieza[2])-1][1]="r"
+						x=225
+					elif pieza[1] == "c":
+						matriz[int(pieza[2])-1][2]="r"
+						x=381
+					elif pieza[1] == "d":
+						matriz[int(pieza[2])-1][3]="r"
+						x=538
+
+					if pieza[2]=="4":
+						gameDisplay.blit(ReyPNG, (x,65)) 
+
+					elif pieza[2]=="3":
+						gameDisplay.blit(ReyPNG, (x,222)) 
+
+					elif pieza[2] == "2":
+						gameDisplay.blit(ReyPNG, (x,378)) 
+
+					elif pieza[2] == "1":
+						gameDisplay.blit(ReyPNG, (x,534)) 
+
+				elif pieza[0].lower() == "d":
+					if pieza[1]=="a":
+						matriz[int(pieza[2])-1][0]="d"
+						x=69
+					elif pieza[1] == "b":
+						matriz[int(pieza[2])-1][1]="d"
+						x=225
+					elif pieza[1] == "c":
+						matriz[int(pieza[2])-1][2]="d"
+						x=381
+					elif pieza[1] == "d":
+						matriz[int(pieza[2])-1][3]="d"
+						x=538
+
+					if pieza[2]=="4":
+						gameDisplay.blit(DamaPNG, (x,65)) 
+
+					elif pieza[2]=="3":
+						gameDisplay.blit(DamaPNG, (x,222)) 
+
+					elif pieza[2] == "2":
+						gameDisplay.blit(DamaPNG, (x,378)) 
+
+					elif pieza[2] == "1":
+						gameDisplay.blit(DamaPNG, (x,534)) 
+		print(matriz)
+
+			#ta1-ca2-ra3-da4-ad1-td2-ad3-cc3
+		
+		#gameDisplay.blit(PeonPNG, (74,63)) 		#a4
+		#gameDisplay.blit(TorrePNG, (230,63)) 	#b4
+		#gameDisplay.blit(DamaPNG, (386,63)) 	#c4
+		#gameDisplay.blit(ReyPNG, (548,63)) 		#d4
+		#gameDisplay.blit(TorrePNG, (74,222)) 	#a3
+		#gameDisplay.blit(CaballoPNG, (74,379)) 	#a2
+		#gameDisplay.blit(AlfilPNG, (74,536)) 	#a1
+		#gameDisplay.blit(TorrePNG, (230,222)) 	#b3
+		#gameDisplay.blit(PeonPNG, (230,379))	#b2
+		#gameDisplay.blit(ReyPNG, (230,536)) 	#b1
+		#gameDisplay.blit(PeonPNG,(386,222))		#c3
+		#gameDisplay.blit(TorrePNG, (386,379)) 	#c2
+		#gameDisplay.blit(CaballoPNG, (386,536)) #c1
+		#gameDisplay.blit(AlfilPNG, (548,222)) 	#d3
+		#gameDisplay.blit(TorrePNG, (548,379))	#d2 
+		#gameDisplay.blit(PeonPNG, (548,536)) 	#d1
+
+#NUEVAS POSICIONES CON NUEVOS SPRITES
+		#gameDisplay.blit(AlfilPNG, (69,534)) 	#a1
+		#gameDisplay.blit(CaballoPNG, (69,378)) 	#a2
+		#gameDisplay.blit(TorrePNG, (69,222)) 	#a3
+		#gameDisplay.blit(PeonPNG, (69,65)) 		#a4
+
+		#gameDisplay.blit(ReyPNG, (225,534)) 	#b1
+		#gameDisplay.blit(PeonPNG, (225,378))	#b2
+		#gameDisplay.blit(TorrePNG, (225,222)) 	#b3
+		#gameDisplay.blit(TorrePNG, (225,65)) 	#b4
+
+		#gameDisplay.blit(CaballoPNG, (381,534)) #c1
+		#gameDisplay.blit(TorrePNG, (381,378)) 	#c2
+		#gameDisplay.blit(PeonPNG,(381,222))		#c3
+		#gameDisplay.blit(ReinaPNG, (381,65)) 	#c4
+
+		#gameDisplay.blit(PeonPNG, (538,534)) 	#d1
+		#gameDisplay.blit(TorrePNG, (538,378))	#d2
+		#gameDisplay.blit(AlfilPNG, (538,222)) 	#d3
+		#gameDisplay.blit(ReyPNG, (538,65)) 		#d4
 
 		pygame.display.update()
 		fpsClock.tick(FPS)
@@ -491,8 +650,9 @@ def Configuracion_por_teclado(Nivel):
 	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
 
 	#Cargara la cuadricula para habilitarle al usuario el poder ingresar como desea el tablero
-	InputConfiguracionTeclado = eztext.Input(maxlength=23, color=white, prompt='Introduce tu configuracion: ')
+	InputConfiguracionTeclado = eztext.Input(maxlength=40, color=white, prompt='Introduce tu configuracion: ')
 	InputConfiguracionTeclado.set_pos(0,380)
+	InputConfiguracionTeclado.value="ta1-ca2-ra3-da4-ad1-td2-ad3-cc3" #METODO PARA PROBAR LA POSICION DE LAS FICHAS
 
 	while True:
 
@@ -512,9 +672,11 @@ def Configuracion_por_teclado(Nivel):
 
 			if presionada[pygame.K_RETURN]: #colocar la condicion de que sea un string valido
 				#Convertimos el string de configuracion_Teclado en una lista
-				Configuracion_Teclado = Configuracion_Teclado.split('-')
+				InputConfiguracionTeclado.value = InputConfiguracionTeclado.value.split('-')
+				print(InputConfiguracionTeclado.value)
+				PosPiezas = InputConfiguracionTeclado.value
 				#retornamos el tablero con el nivel seleccionado
-				Tablero(Nivel)
+				Tablero(Nivel,PosPiezas)
 
 
 		gameDisplay.blit(CajaPNG,(0,367))
