@@ -416,12 +416,6 @@ def Tablero(Nivel,PosPiezas):
 			Input_Terminar.update(eventos)
 			Salir_o_Guardar = Input_Terminar.value	
 
-		if Mostrar_Input_Pausa == True:
-			gameDisplay.blit(TableroPNG,(0,0))
-			gameDisplay.blit(CajaPNG, (250, 350))
-			Input_Pausa.draw(gameDisplay)
-			Input_Pausa.update(eventos)
-			Opcion_Pausa = Input_Pausa.value	
 
 		gameDisplay.blit(TableroPNG,(0,0))
 
@@ -602,6 +596,13 @@ def Tablero(Nivel,PosPiezas):
 		#gameDisplay.blit(TorrePNG, (538,378))	#d2
 		#gameDisplay.blit(AlfilPNG, (538,222)) 	#d3
 		#gameDisplay.blit(ReyPNG, (538,65)) 		#d4
+
+		if Mostrar_Input_Pausa == True:
+			gameDisplay.blit(TableroPNG,(0,0))
+			gameDisplay.blit(CajaPNG, (250, 350))
+			Input_Pausa.draw(gameDisplay)
+			Input_Pausa.update(eventos)
+			Opcion_Pausa = Input_Pausa.value	
 
 		pygame.display.update()
 		fpsClock.tick(FPS)
