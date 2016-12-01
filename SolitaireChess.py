@@ -32,27 +32,27 @@ blue  = (0  ,0  ,255)
 Font = pygame.font.SysFont(None, 30)
 
 #Carga de sprites
-CargadoTablero 	 = pygame.image.load('Sprites/CargadoTablero.png')
-Cartadesafio	 = pygame.image.load('Sprites/Cartadesafio.png'	)
-Cargarteclado 	 = pygame.image.load('Sprites/Cargarteclado.png')
-Opcionesfacil 	 = pygame.image.load('Sprites/OpcionesFacil.png')
-Opciondificil	 = pygame.image.load('Sprites/Dificil.png'      )
-regresar 		 = pygame.image.load('Sprites/regresar.png'		)
-Leyenda			 = pygame.image.load('Sprites/Leyenda.png'		)
-MensajeLeyenda   = pygame.image.load('Sprites/Mensaje1.png'		)
-tutorial 		 = pygame.image.load('Sprites/tutorial.png'		)
-facil 			 = pygame.image.load('Sprites/facil.png'   		)
-dificil 		 = pygame.image.load('Sprites/dificil.png' 		)
-muydificil 		 = pygame.image.load('Sprites/muydificil.png'  	)
-TableroPNG       = pygame.image.load('Sprites/Tablero.png'      )
-ReyPNG           = pygame.image.load('Sprites/Rey.png'          )
-ReinaPNG         = pygame.image.load('Sprites/Reina.png'        )
-AlfilPNG         = pygame.image.load('Sprites/Alfil.png'        )
-CaballoPNG       = pygame.image.load('Sprites/Caballo.png'      )
-TorrePNG         = pygame.image.load('Sprites/Torre.png'        )
-PeonPNG          = pygame.image.load('Sprites/Peon.png'         )
-CajaPNG          = pygame.image.load('Sprites/Caja.png'         )
-MenuPrincipalPNG = pygame.image.load('Sprites/MenuPrincipal.png')
+CargadoTablero 	 = pygame.image.load('Sprites/CargadoTablero.png' )
+Cartadesafio	 = pygame.image.load('Sprites/Cartadesafio.png'	  )
+Cargarteclado 	 = pygame.image.load('Sprites/Cargarteclado.png'  )
+Opcionesfacil 	 = pygame.image.load('Sprites/OpcionesFacil.png'  )
+OpcionesDificil	 = pygame.image.load('Sprites/OpcionesDificil.png')
+regresar 		 = pygame.image.load('Sprites/regresar.png'		  )
+Leyenda			 = pygame.image.load('Sprites/Leyenda.png'		  )
+MensajeLeyenda   = pygame.image.load('Sprites/Mensaje1.png'		  )
+tutorial 		 = pygame.image.load('Sprites/tutorial.png'		  )
+facil 			 = pygame.image.load('Sprites/facil.png'   		  )
+dificil 		 = pygame.image.load('Sprites/dificil.png' 		  )
+muydificil 		 = pygame.image.load('Sprites/muydificil.png'     )
+TableroPNG       = pygame.image.load('Sprites/Tablero.png'        )
+ReyPNG           = pygame.image.load('Sprites/Rey.png'            )
+ReinaPNG         = pygame.image.load('Sprites/Reina.png'          )
+AlfilPNG         = pygame.image.load('Sprites/Alfil.png'          )
+CaballoPNG       = pygame.image.load('Sprites/Caballo.png'        )
+TorrePNG         = pygame.image.load('Sprites/Torre.png'          )
+PeonPNG          = pygame.image.load('Sprites/Peon.png'           )
+CajaPNG          = pygame.image.load('Sprites/Caja.png'           )
+MenuPrincipalPNG = pygame.image.load('Sprites/MenuPrincipal.png'  )
 blurPNG = [pygame.image.load('Sprites/Blur/' + str(i) +'.png') for i in range(1,11)]
 #////////////////////////////////////////////////////////////////////////////////////
 
@@ -272,23 +272,31 @@ def LoopPrincipal():
 		fpsClock.tick(FPS)
 
 			#Nivel es el parametro q determinara que opciones cargada segun el nivel
+
 def Tablero(Nivel):
 
 	#Muesta el nombre del usuario que esta jugando en la ventana
 	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
 	
 	#Variables que manejaran cuando desactivar o activar un input (Dependiendo de la opcion seleccionada)
-	Valor_Terminar=False
-	Valor_Terminar2=True
-	#Activa el input para seleccionar una de las opciones (jugar, pausar, terminar etc)
-	if Valor_Terminar2 == True:
-		Input_Tablero_Opcion = eztext.Input(maxlength=1, color=white, prompt='Elija una opcion: ')
-		Input_Tablero_Opcion.set_pos(799,720)
-		Opcion_Tablero=Input_Tablero_Opcion.value
-
-	Input_Terminar = eztext.Input(maxlength=0, color=white, prompt='1) Salir 2) guardar: ')
+	Mostrar_Input_Tablero_Opcion = True
+	Mostrar_Input_Terminar = False
+	Mostrar_Input_Pausa = False
+	#Declarar todos los inputs abajo de esto
+	#---------------------------------------
+	Input_Tablero_Opcion = eztext.Input(maxlength=1, color=white, prompt='Elija una opcion: ')
+	Input_Tablero_Opcion.set_pos(799,720)
+	Opcion_Tablero=Input_Tablero_Opcion.value
+	#---------------------------------------
+	Input_Pausa = eztext.Input(maxlength=1, color=white, prompt='Inserte 0 y presione enter para resumir: ')
+	Input_Pausa.set_pos(250,350)
+	Opcion_Pausa = Input_Pausa.value
+	#---------------------------------------
+	Input_Terminar = eztext.Input(maxlength=1, color=white, prompt='1) Salir 2) guardar: ')
 	Input_Terminar.set_pos(799,680)
 	Salir_o_Guardar = Input_Terminar.value
+	#---------------------------------------
+	#Declarar todos los inputs encima de esto
 
 	#Ancho y largo de la ventana que se generara
 	display_width  = 1060
@@ -312,36 +320,74 @@ def Tablero(Nivel):
 			if event.type == pygame.locals.QUIT: 
 				pygame.quit() 
 				sys.exit()
-			#Si selecciona terminar, desactivara la variable que permite el input de opciones y abrira el input de guardar o salir
+
+			#Funcion jugar
+			if  Opcion_Tablero == "1" and presionada[pygame.K_RETURN]:
+				print("Falta funcion jugar")
+
+			#Funcion pausar
+			if  Opcion_Tablero == "2" and presionada[pygame.K_RETURN]:
+				Mostrar_Input_Pausa = True
+				Mostrar_Input_Tablero_Opcion = False
+				Opcion_Tablero = "0"
+
+			#Funcion Salir
 			if  Opcion_Tablero == "3" and presionada[pygame.K_RETURN]:
-				Valor_Terminar=True
-				Valor_Terminar2=False
-				Input_Terminar = eztext.Input(maxlength=1, color=white, prompt='1) Salir 2) guardar: ')
-				Input_Terminar.set_pos(799,680)
-				Salir_o_Guardar = Input_Terminar.value
+				Mostrar_Input_Tablero_Opcion = False
+				Mostrar_Input_Terminar=True
+
+				Opcion_Tablero= "0"
+			
+			#Funcion Deshacer
+			if  Opcion_Tablero == "4" and presionada[pygame.K_RETURN] and Nivel == "1":
+				print("Funcion de deshacer jugada para nivel facil")
 				Opcion_Tablero="0"
-			#Retornamos al menu principal en caso de que su seleccion sea Salir del juego
+				print("Falta funcion deshacer")
+
+			#Relativo a Funcion Salir: Salir sin Guardar
 			if Salir_o_Guardar == "1" and presionada[pygame.K_RETURN]:
 				display_width=760
 				display_height=760
 				gameDisplay = pygame.display.set_mode((display_width, display_height))
 				return LoopPrincipal()
 
+			#Relativo a Funcion Salir: Guardar y Salir
+			if Salir_o_Guardar == "2" and presionada[pygame.K_RETURN]:
+				gameDisplay = pygame.display.set_mode((760,760))
+				print("Falta insertar funcion de guardado, se retornara al menu principal")
+				return LoopPrincipal()
+
+			if Opcion_Pausa == "0" and presionada[pygame.K_RETURN]:
+				Mostrar_Input_Pausa = False
+				Mostrar_Input_Tablero_Opcion = True
+				Opcion_Pausa = None				
+
 		#En caso de ser nivel 1(Facil) cargara el menu con botones faciles
 		if Nivel == "1":
 			gameDisplay.blit(Opcionesfacil,(758,0))
 		#En caso de ser nivel 2(dificil) cargara el menu con los botones dificiles
 		elif Nivel == "2":
-			gameDisplay.blit(Opciondificil,(758,0))
+			gameDisplay.blit(OpcionesDificil,(758,0))
 
 		gameDisplay.blit(TableroPNG,(0,0))
-		if Valor_Terminar==True:
+
+		if Mostrar_Input_Tablero_Opcion == True:
+			Input_Tablero_Opcion.draw(gameDisplay)
+			Input_Tablero_Opcion.update(eventos)			
+			Opcion_Tablero=Input_Tablero_Opcion.value
+
+		if Mostrar_Input_Terminar == True:
 			Input_Terminar.draw(gameDisplay)
 			Input_Terminar.update(eventos)
-		if Valor_Terminar2==True:
-			Input_Tablero_Opcion.draw(gameDisplay)
-			Input_Tablero_Opcion.update(eventos)	
-		Opcion_Tablero=Input_Tablero_Opcion.value
+			Salir_o_Guardar = Input_Terminar.value	
+
+		if Mostrar_Input_Pausa == True:
+			gameDisplay.blit(TableroPNG,(0,0))
+			gameDisplay.blit(CajaPNG, (250, 350))
+			Input_Pausa.draw(gameDisplay)
+			Input_Pausa.update(eventos)
+			Opcion_Pausa = Input_Pausa.value
+		
 		pygame.display.update()
 		fpsClock.tick(FPS)
 
