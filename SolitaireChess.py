@@ -32,27 +32,23 @@ blue  = (0  ,0  ,255)
 Font = pygame.font.SysFont(None, 30)
 
 #Carga de sprites
-CargadoTablero 	 = pygame.image.load('Sprites/CargadoTablero.png' )
-Cartadesafio	 = pygame.image.load('Sprites/Cartadesafio.png'	  )
-Cargarteclado 	 = pygame.image.load('Sprites/Cargarteclado.png'  )
-Opcionesfacil 	 = pygame.image.load('Sprites/OpcionesFacil.png'  )
-OpcionesDificil	 = pygame.image.load('Sprites/OpcionesDificil.png')
-regresar 		 = pygame.image.load('Sprites/regresar.png'		  )
-Leyenda			 = pygame.image.load('Sprites/Leyenda.png'		  )
-MensajeLeyenda   = pygame.image.load('Sprites/Mensaje1.png'		  )
-tutorial 		 = pygame.image.load('Sprites/tutorial.png'		  )
-facil 			 = pygame.image.load('Sprites/facil.png'   		  )
-dificil 		 = pygame.image.load('Sprites/dificil.png' 		  )
-muydificil 		 = pygame.image.load('Sprites/muydificil.png'     )
-TableroPNG       = pygame.image.load('Sprites/Tablero.png'        )
-ReyPNG           = pygame.image.load('Sprites/Rey.png'            )
-ReinaPNG         = pygame.image.load('Sprites/Reina.png'          )
-AlfilPNG         = pygame.image.load('Sprites/Alfil.png'          )
-CaballoPNG       = pygame.image.load('Sprites/Caballo.png'        )
-TorrePNG         = pygame.image.load('Sprites/Torre.png'          )
-PeonPNG          = pygame.image.load('Sprites/Peon.png'           )
-CajaPNG          = pygame.image.load('Sprites/Caja.png'           )
-MenuPrincipalPNG = pygame.image.load('Sprites/MenuPrincipal.png'  )
+Dificultad       = pygame.image.load('Sprites/Dificultad.png'	)
+CargadoTablero 	 = pygame.image.load('Sprites/CargadoTablero.png')
+Cartadesafio	 = pygame.image.load('Sprites/Cartadesafio.png'	)
+Cargarteclado 	 = pygame.image.load('Sprites/Cargarteclado.png')
+Opcionesfacil 	 = pygame.image.load('Sprites/OpcionesFacil.png')
+Opciondificil	 = pygame.image.load('Sprites/Dificil.png'      )
+Leyenda			 = pygame.image.load('Sprites/Leyenda.png'		)
+MensajeLeyenda   = pygame.image.load('Sprites/Mensaje1.png'		)
+TableroPNG       = pygame.image.load('Sprites/Tablero.png'      )
+ReyPNG           = pygame.image.load('Sprites/Rey.png'          )
+ReinaPNG         = pygame.image.load('Sprites/Reina.png'        )
+AlfilPNG         = pygame.image.load('Sprites/Alfil.png'        )
+CaballoPNG       = pygame.image.load('Sprites/Caballo.png'      )
+TorrePNG         = pygame.image.load('Sprites/Torre.png'        )
+PeonPNG          = pygame.image.load('Sprites/Peon.png'         )
+CajaPNG          = pygame.image.load('Sprites/Caja.png'         )
+MenuPrincipalPNG = pygame.image.load('Sprites/MenuPrincipal.png')
 blurPNG = [pygame.image.load('Sprites/Blur/' + str(i) +'.png') for i in range(1,11)]
 #////////////////////////////////////////////////////////////////////////////////////
 
@@ -112,14 +108,10 @@ def LoopIntro():
 
 def Niveles():
 
-	InputDificultad = eztext.Input(maxlength=1, color=white, prompt='Elija el nivel de dificultad: ')
-	InputDificultad.set_pos(250, 380)
+	InputDificultad = eztext.Input(maxlength=1, color=white, prompt='')
+	InputDificultad.set_pos(407, 422)
 	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
-	#PROBANDO TRABAJAR CON MIDDLE DE LOS IMGS
-	#self.rect = self.EzTextusuario.get_rect()
-	#self.EzTextusuario.rect.centery = 10
-	#self.EzTextusuario.rect.centerx = display_width/2
-
+	
 	MenuNiveles = True
 	while MenuNiveles:
 
@@ -132,12 +124,7 @@ def Niveles():
 
 		#CAMBIAR LAS IMAGENES
 		#Cargamos las imagenes con las opciones de los diferentes niveles del juego
-		gameDisplay.blit(regresar, (340,580))
-		gameDisplay.blit(CajaPNG, (155,370))
-		gameDisplay.blit(facil, (120,120))
-		gameDisplay.blit(dificil, (580,120))
-		gameDisplay.blit(muydificil, (120,580))
-		gameDisplay.blit(tutorial, (580,580))
+		gameDisplay.blit(Dificultad, (180,125))
 		InputDificultad.draw(gameDisplay)
 		InputDificultad.update(eventos)
 		Nivel = InputDificultad.value #Guardamos el valor del inputDificultad en la variable Nivel..
@@ -272,7 +259,6 @@ def LoopPrincipal():
 		fpsClock.tick(FPS)
 
 			#Nivel es el parametro q determinara que opciones cargada segun el nivel
-
 def Tablero(Nivel):
 
 	#Muesta el nombre del usuario que esta jugando en la ventana
@@ -388,6 +374,28 @@ def Tablero(Nivel):
 			Input_Pausa.update(eventos)
 			Opcion_Pausa = Input_Pausa.value
 		
+		#pygame.display.update()
+		#fpsClock.tick(FPS)
+
+
+		gameDisplay.blit(TableroPNG,(0,0))
+		gameDisplay.blit(PeonPNG, (74,63)) 		#a4
+		gameDisplay.blit(TorrePNG, (230,63)) 	#b4
+		gameDisplay.blit(ReinaPNG, (386,63)) 	#c4
+		gameDisplay.blit(ReyPNG, (548,63)) 		#d4
+		gameDisplay.blit(TorrePNG, (74,222)) 	#a3
+		gameDisplay.blit(CaballoPNG, (74,379)) 	#a2
+		gameDisplay.blit(AlfilPNG, (74,536)) 	#a1
+		gameDisplay.blit(TorrePNG, (230,222)) 	#b3
+		gameDisplay.blit(PeonPNG, (230,379))	#b2
+		gameDisplay.blit(ReyPNG, (230,536)) 	#b1
+		gameDisplay.blit(PeonPNG,(386,222))		#c3
+		gameDisplay.blit(TorrePNG, (386,379)) 	#c2
+		gameDisplay.blit(CaballoPNG, (386,536)) #c1
+		gameDisplay.blit(AlfilPNG, (548,222)) 	#d3
+		gameDisplay.blit(TorrePNG, (548,379))	#d2 
+		gameDisplay.blit(PeonPNG, (548,536)) 	#d1
+	
 		pygame.display.update()
 		fpsClock.tick(FPS)
 
