@@ -157,6 +157,7 @@ def Niveles():
 #Se define el Loop principal del juego
 def LoopPrincipal():
 
+	gameDisplay = pygame.display.set_mode((760,760))
 	#Para la escogencia de la opcion del menu, definimos un InputMenu con longitud 1 para un solo numero
 	InputMenu = eztext.Input(maxlength=1, color=white, prompt='Opcion: ')
 	InputMenu.set_pos(248,480)
@@ -324,57 +325,60 @@ def Tablero(Nivel,PosPiezas):
 				Mostrar_Input_Jugar = True
 				Mostrar_Input_Jugar_0 = True
 				Mostrar_Input_Tablero_Opcion = False
-				Opcion_Tablero = None
+				Input_Tablero_Opcion.value = ""
 
 			#Relativo a Funcion Jugar: Jugar_0
-			if Jugar_0 != "" and presionada[pygame.K_RETURN]:
+			if len(Input_Jugar_0.value) == 2 and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Jugar_0 = False
 				Mostrar_Input_Jugar_1 = True
 				Pos_i = Jugar_0
-				Jugar_0 = ""
+				Jugar_0 = None
 
-			if Jugar_1 != "" and presionada[pygame.K_RETURN]:
+			if len(Input_Jugar_1.value) == 2 and presionada[pygame.K_RETURN]:
 				print("Saliendo de jugar")
 				Mostrar_Input_Jugar_1 = False
 				Mostrar_Input_Jugar = False
 				Mostrar_Input_Tablero_Opcion = True
 				Pos_f = Jugar_1
-				Jugar_1 = ""
+				Jugar_1 = None
+				Input_Jugar_0.value = ""
+				Input_Jugar_1.value = ""
+
 			#Funcion pausar
 			if  Opcion_Tablero == "2" and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Pausa = True
 				Mostrar_Input_Tablero_Opcion = False
-				Opcion_Tablero = None
+				Opcion_Tablero = ""
+				Input_Tablero_Opcion.value = ""
 
 			#Relativo a Funcion Pausar: Resumir despues de pausar
 			if Opcion_Pausa == "0" and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Pausa = False
 				Mostrar_Input_Tablero_Opcion = True
-				Opcion_Pausa = None		
+				Opcion_Pausa = ""
+				Input_Pausa.value = ""		
 
 			#Funcion Salir
 			if  Opcion_Tablero == "3" and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Tablero_Opcion = False
 				Mostrar_Input_Terminar=True
-				Opcion_Tablero = None
+				Opcion_Tablero = ""
+				Input_Tablero_Opcion.value = ""
 
 			#Relativo a Funcion Salir: Salir sin Guardar
 			if Salir_o_Guardar == "1" and presionada[pygame.K_RETURN]:
-				display_width=760
-				display_height=760
-				gameDisplay = pygame.display.set_mode((display_width, display_height))
 				return LoopPrincipal()
 
 			#Relativo a Funcion Salir: Guardar y Salir
 			if Salir_o_Guardar == "2" and presionada[pygame.K_RETURN]:
-				gameDisplay = pygame.display.set_mode((760,760))
 				print("Falta insertar funcion de guardado, se retornara al menu principal")
 				return LoopPrincipal()
 
 			#Funcion Deshacer
 			if  Opcion_Tablero == "4" and presionada[pygame.K_RETURN] and Nivel == "1":
 				print("Funcion de deshacer jugada para nivel facil")
-				Opcion_Tablero = None
+				Opcion_Tablero = ""
+				Input_Tablero_Opcion = ""
 				print("Falta funcion deshacer")
 
 
@@ -393,7 +397,6 @@ def Tablero(Nivel,PosPiezas):
 			Opcion_Tablero=Input_Tablero_Opcion.value
 
 		if Mostrar_Input_Jugar == True:
-
 			Input_Jugar_0.draw(gameDisplay)
 			Input_Jugar_1.draw(gameDisplay)
 
@@ -650,7 +653,7 @@ def Configuracion_por_teclado(Nivel):
 	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
 
 	#Cargara la cuadricula para habilitarle al usuario el poder ingresar como desea el tablero
-	InputConfiguracionTeclado = eztext.Input(maxlength=40, color=white, prompt='Introduce tu configuracion: ')
+	InputConfiguracionTeclado = eztext.Input(maxlength=23, color=white, prompt='Introduce tu configuracion: ')
 	InputConfiguracionTeclado.set_pos(0,380)
 	InputConfiguracionTeclado.value="ta1-ca2-ra3-da4-ad1-td2-ad3-cc3" #METODO PARA PROBAR LA POSICION DE LAS FICHAS
 
