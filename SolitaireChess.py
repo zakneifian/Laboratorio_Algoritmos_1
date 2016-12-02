@@ -262,6 +262,7 @@ def LoopPrincipal():
 		fpsClock.tick(FPS)
 
 			#Nivel es el parametro q determinara que opciones cargada segun el nivel
+
 def Tablero(Nivel,PosPiezas):
 
 	#Muesta el nombre del usuario que esta jugando en la ventana
@@ -356,7 +357,6 @@ def Tablero(Nivel,PosPiezas):
 				Mostrar_Input_Jugar_0 = False
 				Mostrar_Input_Jugar_1 = True
 				Pos_i = Jugar_0
-				Jugar_0 = None
 
 			if len(Input_Jugar_1.value) == 2 and presionada[pygame.K_RETURN]:
 				print("Saliendo de jugar")
@@ -364,7 +364,7 @@ def Tablero(Nivel,PosPiezas):
 				Mostrar_Input_Jugar = False
 				Mostrar_Input_Tablero_Opcion = True
 				Pos_f = Jugar_1
-				Jugar_1 = None
+				Torre(Pos_i, Pos_f, matriz, PosPiezas) #PROBANDO TORRE
 				Input_Jugar_0.value = ""
 				Input_Jugar_1.value = ""
 				###### FALTAN CAMBIOS A LA MATRIZ REALMENTE Y DESPUES LO SIGUIENTE####
@@ -479,6 +479,7 @@ def Tablero(Nivel,PosPiezas):
 		fpsClock.tick(FPS)
 
 				#OpcionMenuNiveles es el parametro que guarda el nivel(facil/dif...)
+
 def MenuDesafio(Nivel):
 
 	#Muesta el nombre del usuario que esta jugando en la ventana
@@ -754,6 +755,88 @@ def Configuracion_por_teclado(Nivel):
 		Configuracion_Teclado = InputConfiguracionTeclado.value
 		pygame.display.update()
 		fpsClock.tick(FPS)
+
+def Torre(Pos_i, Pos_f, Matriz, PosPiezas):
+	try:
+		Pos_i = [Pos_i[:1], int(Pos_i[1:])] #letra, numero
+		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
+		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
+		print(Pos_i)
+		print(Pos_f)
+		
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "t" and Matriz[Pos_f[1]][Pos_f[0]] != "0") #que el inicial sea torre y el final distinto de 0
+		print("[DEBUG] Torre: Pos_i: " + str(Pos_i) + "\n[DEBUG] Torre: Pos_f: " + str(Pos_f) + "\n[DEBUG] Torre: Exito de Assert")
+		#En este for, se construye la lista de posibles para la torre
+		for numero, diccionario in Matriz.items():
+			for letra, pieza in diccionario.items():
+				print("[DEBUG] Torre: Checkpoint 0")
+				if numero == Pos_i[1]: #Primero trabajamos en el eje de los numeros
+					print("[DEBUG] Torre: Checkpoint 1")
+					if pieza != "0": #Si hay una pieza
+						print("[DEBUG] Torre: Checkpoint 2")
+						posibles.append([letra, numero]) #Prueba, se agrega para que no inicie vacia la lista de posibles					
+						for posible in posibles: #verificamos que esta jugada sea la mas cercana a la torre por ambos sentidos del eje
+							print("[DEBUG] Torre: Checkpoint 3")
+							if numero == posible[1]: #Estamos trabajando sobre las posibilidades con el mismo numero
+								print("[DEBUG] Torre: Checkpoint 4")
+								if letra > Pos_i[0]: #si la letra esta mas alla de donde esta la torre por la derecha
+									print("[DEBUG] Torre: Checkpoint 5")
+									if letra < posible[0]: #Si la letra esta mas cerca de la torre que la existente en la lista por la derecha
+										print("[DEBUG] Torre: Checkpoint 6")
+										posible.remove([posible[0], posible[1]]) #se remueve la anterior
+										print("[DEBUG] Torre: Checkpoint 7")
+										posibles.append([letra, numero]) # y se agrega la nueva
+										print("[DEBUG] Torre: Checkpoint 8")
+
+								elif letra < Pos_i[0]: #si la letra esta mas alla de donde esta la torre por la izquierda
+									print("[DEBUG] Torre: Checkpoint 5\'")
+									if letra > posible[0]: #Si la letra esta mas cerca de la torre que la existente en la lista por la izquierda
+										print("[DEBUG] Torre: Checkpoint 6\'")
+										posible.remove([posible[0], posible[1]]) #Se remueve la anterior
+										print("[DEBUG] Torre: Checkpoint 7\'")
+										posibles.append([letra, numero]) #y se agrega la nueva
+										print("[DEBUG] Torre: Checkpoint 8\'")
+								elif letra == Pos_i[0]:
+									pass
+
+				print("[DEBUG] Torre: Checkpoint 0*")
+				if letra == Pos_i[0]: #Ahora trabajamos en el eje de las letras
+					print("[DEBUG] Torre: Checkpoint 1*")
+					if pieza != "0": #Si hay una pieza
+						print("[DEBUG] Torre: Checkpoint 2*")
+						posibles.append([letra, numero]) #Prueba, se agrega para que no inicie vacia la lista de posibles	
+						for posible in posibles: #Verificamos que esta jugada sea las mas cercana a la torre por ambos sentidos del eje
+							print("[DEBUG] Torre: Checkpoint 3*")
+							if letra == posible[0]: #Estamos solo trabajando en el eje de las letras, por ende verificamos en el
+								print("[DEBUG] Torre: Checkpoint 4*")
+								if numero > Pos_i[1]: #Si el candidato a posible esta por la derecha de la torre
+									print("[DEBUG] Torre: Checkpoint 5*")
+									if numero < posible[1]: #Si el candidato es lo mas cercano por la derecha a la torre
+										print("[DEBUG] Torre: Checkpoint 6*")
+										posible.remove([posible[0], posible[1]]) #se remueve la anterior
+										print("[DEBUG] Torre: Checkpoint 7*")
+										posibles.append([letra, numero]) # y se agrega la nueva	
+										print("[DEBUG] Torre: Checkpoint 8*")								
+
+								elif numero < Pos_i[1]: #Si el candidato a posible esta por la izquierda de la torre
+									print("[DEBUG] Torre: Checkpoint 5\'*")
+									if numero > posible[1]: #Si el candidato es el mas cercano por la izquierda a la torre
+										print("[DEBUG] Torre: Checkpoint 6\'*")
+										posible.remove([posible[0], posible[1]]) #se remueve la anterior
+										print("[DEBUG] Torre: Checkpoint 7\'*")
+										posibles.append([letra, numero]) # y se agrega la nueva
+										print("[DEBUG] Torre: Checkpoint 8\'*")
+		#En este for se busca la posicion final entre los posibles y se cambia el inicial por "0" y el final por la torre
+		for posible in posibles:
+			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
+				Matriz[Pos_i[1]][Pos_i[0]] = "0"
+				Matriz[Pos_f[1]][Pos_f[0]] = "t"
+				for valor in PosPiezas:
+					if valor.lower() == "t" + Pos_i[0] + str(Pos_i[1]):
+						PosPiezas.remove(valor)
+						PosPiezas.append("t" + Pos_f[0] + str(Pos_f[1]))
+	except:
+		print("La pieza inicial no es una Torre, o algo peor ha sucedido")
 
 #Se asigna a la variable Usuario el nombre del usuario
 Usuario = LoopIntro()
