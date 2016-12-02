@@ -418,209 +418,10 @@ def Tablero(Nivel,PosPiezas):
 
 		gameDisplay.blit(TableroPNG,(0,0))
 
-		matriz = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
-		x=0
-		y=0
 
-		for pieza in PosPiezas:
-			if len(pieza) == 3:
 
-				if pieza[0].lower() == "t":
-					if pieza[1]=="a":
-						matriz[int(pieza[2])-1][0]="t"
-						x=69
-					elif pieza[1] == "b":
-						matriz[int(pieza[2])-1][1]="t"
-						x=225
-					elif pieza[1] == "c":
-						matriz[int(pieza[2])-1][2]="t"
-						x=381
-					elif pieza[1] == "d":
-						matriz[int(pieza[2])-1][3]="t"
-						x=538
-
-					if pieza[2]=="4":
-						gameDisplay.blit(TorrePNG, (x,65)) 
-
-					elif pieza[2]=="3":
-						gameDisplay.blit(TorrePNG, (x,222)) 
-
-					elif pieza[2] == "2":
-						gameDisplay.blit(TorrePNG, (x,378)) 
-
-					elif pieza[2] == "1":
-						gameDisplay.blit(TorrePNG, (x,536)) 
-
-				elif pieza[0].lower() == "c":
-					if pieza[1]=="a":
-						matriz[int(pieza[2])-1][0]="c"
-						x=69
-					elif pieza[1] == "b":
-						matriz[int(pieza[2])-1][1]="c"
-						x=225
-					elif pieza[1] == "c":
-						matriz[int(pieza[2])-1][2]="c"
-						x=381
-					elif pieza[1] == "d":
-						matriz[int(pieza[2])-1][2]="c"
-						x=538
-
-					if pieza[2]=="4":
-						gameDisplay.blit(CaballoPNG, (x,65)) 
-
-					elif pieza[2]=="3":
-						gameDisplay.blit(CaballoPNG, (x,222)) 
-
-					elif pieza[2] == "2":
-						gameDisplay.blit(CaballoPNG, (x,378)) 
-
-					elif pieza[2] == "1":
-						gameDisplay.blit(CaballoPNG, (x,534)) 
-
-				elif pieza[0].lower() == "a":
-					if pieza[1]=="a":
-						matriz[int(pieza[2])-1][0]="a"
-						x=69
-					elif pieza[1] == "b":
-						matriz[int(pieza[2])-1][1]="a"
-						x=225
-					elif pieza[1] == "c":
-						matriz[int(pieza[2])-1][2]="a"
-						x=381
-					elif pieza[1] == "d":
-						matriz[int(pieza[2])-1][3]="a"
-						x=538
-
-					if pieza[2]=="4":
-						gameDisplay.blit(AlfilPNG, (x,65)) 
-
-					elif pieza[2]=="3":
-						gameDisplay.blit(AlfilPNG, (x,222)) 
-
-					elif pieza[2] == "2":
-						gameDisplay.blit(AlfilPNG, (x,378)) 
-
-					elif pieza[2] == "1":
-						gameDisplay.blit(AlfilPNG, (x,534)) 
-
-				elif pieza[0].lower() == "r":
-					if pieza[1]=="a":
-						matriz[int(pieza[2])-1][0]="r"
-						x=69
-					elif pieza[1] == "b":
-						matriz[int(pieza[2])-1][1]="r"
-						x=225
-					elif pieza[1] == "c":
-						matriz[int(pieza[2])-1][2]="r"
-						x=381
-					elif pieza[1] == "d":
-						matriz[int(pieza[2])-1][3]="r"
-						x=538
-
-					if pieza[2]=="4":
-						gameDisplay.blit(ReyPNG, (x,65)) 
-
-					elif pieza[2]=="3":
-						gameDisplay.blit(ReyPNG, (x,222)) 
-
-					elif pieza[2] == "2":
-						gameDisplay.blit(ReyPNG, (x,378)) 
-
-					elif pieza[2] == "1":
-						gameDisplay.blit(ReyPNG, (x,534)) 
-
-				elif pieza[0].lower() == "d":
-					if pieza[1]=="a":
-						matriz[int(pieza[2])-1][0]="d"
-						x=69
-					elif pieza[1] == "b":
-						matriz[int(pieza[2])-1][1]="d"
-						x=225
-					elif pieza[1] == "c":
-						matriz[int(pieza[2])-1][2]="d"
-						x=381
-					elif pieza[1] == "d":
-						matriz[int(pieza[2])-1][3]="d"
-						x=538
-
-					if pieza[2]=="4":
-						gameDisplay.blit(DamaPNG, (x,65)) 
-
-					elif pieza[2]=="3":
-						gameDisplay.blit(DamaPNG, (x,222)) 
-
-					elif pieza[2] == "2":
-						gameDisplay.blit(DamaPNG, (x,378)) 
-
-					elif pieza[2] == "1":
-						gameDisplay.blit(DamaPNG, (x,534)) 
-
-			elif len(pieza)==2:
-					if pieza[0]=="a":
-						matriz[int(pieza[1])-1][0]="P"
-						x=69
-					elif pieza[0] == "b":
-						matriz[int(pieza[1])-1][1]="P"
-						x=225
-					elif pieza[0] == "c":
-						matriz[int(pieza[1])-1][2]="P"
-						x=381
-					elif pieza[0] == "d":
-						matriz[int(pieza[1])-1][3]="P"
-						x=538
-
-					if pieza[1]=="4":
-						gameDisplay.blit(PeonPNG, (x,65)) 
-
-					elif pieza[1]=="3":
-						gameDisplay.blit(PeonPNG, (x,222)) 
-
-					elif pieza[1] == "2":
-						gameDisplay.blit(PeonPNG, (x,378)) 
-
-					elif pieza[1] == "1":
-						gameDisplay.blit(PeonPNG, (x,534))
-		print(matriz)
-
-			#ta1-ca2-ra3-da4-ad1-td2-ad3-cc3
-		
-		#gameDisplay.blit(PeonPNG, (74,63)) 		#a4
-		#gameDisplay.blit(TorrePNG, (230,63)) 	#b4
-		#gameDisplay.blit(DamaPNG, (386,63)) 	#c4
-		#gameDisplay.blit(ReyPNG, (548,63)) 		#d4
-		#gameDisplay.blit(TorrePNG, (74,222)) 	#a3
-		#gameDisplay.blit(CaballoPNG, (74,379)) 	#a2
-		#gameDisplay.blit(AlfilPNG, (74,536)) 	#a1
-		#gameDisplay.blit(TorrePNG, (230,222)) 	#b3
-		#gameDisplay.blit(PeonPNG, (230,379))	#b2
-		#gameDisplay.blit(ReyPNG, (230,536)) 	#b1
-		#gameDisplay.blit(PeonPNG,(386,222))		#c3
-		#gameDisplay.blit(TorrePNG, (386,379)) 	#c2
-		#gameDisplay.blit(CaballoPNG, (386,536)) #c1
-		#gameDisplay.blit(AlfilPNG, (548,222)) 	#d3
-		#gameDisplay.blit(TorrePNG, (548,379))	#d2 
-		#gameDisplay.blit(PeonPNG, (548,536)) 	#d1
-
-#NUEVAS POSICIONES CON NUEVOS SPRITES
-		#gameDisplay.blit(AlfilPNG, (69,534)) 	#a1
-		#gameDisplay.blit(CaballoPNG, (69,378)) 	#a2
-		#gameDisplay.blit(TorrePNG, (69,222)) 	#a3
-		#gameDisplay.blit(PeonPNG, (69,65)) 		#a4
-
-		#gameDisplay.blit(ReyPNG, (225,534)) 	#b1
-		#gameDisplay.blit(PeonPNG, (225,378))	#b2
-		#gameDisplay.blit(TorrePNG, (225,222)) 	#b3
-		#gameDisplay.blit(TorrePNG, (225,65)) 	#b4
-
-		#gameDisplay.blit(CaballoPNG, (381,534)) #c1
-		#gameDisplay.blit(TorrePNG, (381,378)) 	#c2
-		#gameDisplay.blit(PeonPNG,(381,222))		#c3
-		#gameDisplay.blit(ReinaPNG, (381,65)) 	#c4
-
-		#gameDisplay.blit(PeonPNG, (538,534)) 	#d1
-		#gameDisplay.blit(TorrePNG, (538,378))	#d2
-		#gameDisplay.blit(AlfilPNG, (538,222)) 	#d3
-		#gameDisplay.blit(ReyPNG, (538,65)) 		#d4
+		lectura(PosPiezas)
+		print(matriz[1]['a'])
 
 		if Mostrar_Input_Pausa == True:
 			gameDisplay.blit(TableroPNG,(0,0))
@@ -672,6 +473,178 @@ def MenuDesafio(Nivel):
 		Opcion_Teclado_Desafio= InputCargado.value
 		pygame.display.update()
 		fpsClock.tick(FPS)
+
+def lectura(PosPiezas):
+	global matriz
+	matriz = {
+			  1:{'a':0, 'b':0, 'c':0, 'd':0},
+			  2:{'a':0, 'b':0, 'c':0, 'd':0},
+			  3:{'a':0, 'b':0, 'c':0, 'd':0},
+			  4:{'a':0, 'b':0, 'c':0, 'd':0}
+			 }
+	x=0
+	y=0
+
+	for pieza in PosPiezas:
+		if len(pieza) == 3:
+
+			if pieza[0].lower() == "t":
+				if pieza[1]=="a":
+					matriz[int(pieza[2])]['a']="t"
+					x=69
+				elif pieza[1] == "b":
+					matriz[int(pieza[2])]['b']="t"
+					x=225
+				elif pieza[1] == "c":
+					matriz[int(pieza[2])]['c']="t"
+					x=381
+				elif pieza[1] == "d":
+					matriz[int(pieza[2])]['d']="t"
+					x=538
+
+				if pieza[2]=="4":
+					gameDisplay.blit(TorrePNG, (x,65)) 
+
+				elif pieza[2]=="3":
+					gameDisplay.blit(TorrePNG, (x,222)) 
+
+				elif pieza[2] == "2":
+					gameDisplay.blit(TorrePNG, (x,378)) 
+
+				elif pieza[2] == "1":
+					gameDisplay.blit(TorrePNG, (x,536)) 
+
+			elif pieza[0].lower() == "c":
+				if pieza[1]=="a":
+					matriz[int(pieza[2])]['a']="c"
+					x=69
+				elif pieza[1] == "b":
+					matriz[int(pieza[2])]['b']="c"
+					x=225
+				elif pieza[1] == "c":
+					matriz[int(pieza[2])]['c']="c"
+					x=381
+				elif pieza[1] == "d":
+					matriz[int(pieza[2])]['d']="c"
+					x=538
+
+				if pieza[2]=="4":
+					gameDisplay.blit(CaballoPNG, (x,65)) 
+
+				elif pieza[2]=="3":
+					gameDisplay.blit(CaballoPNG, (x,222)) 
+
+				elif pieza[2] == "2":
+					gameDisplay.blit(CaballoPNG, (x,378)) 
+
+				elif pieza[2] == "1":
+					gameDisplay.blit(CaballoPNG, (x,534)) 
+
+			elif pieza[0].lower() == "a":
+				if pieza[1]=="a":
+					matriz[int(pieza[2])]['a']="a"
+					x=69
+				elif pieza[1] == "b":
+					matriz[int(pieza[2])]['b']="a"
+					x=225
+				elif pieza[1] == "c":
+					matriz[int(pieza[2])]['c']="a"
+					x=381
+				elif pieza[1] == "d":
+					matriz[int(pieza[2])]['d']="a"
+					x=538
+
+				if pieza[2]=="4":
+					gameDisplay.blit(AlfilPNG, (x,65)) 
+
+				elif pieza[2]=="3":
+					gameDisplay.blit(AlfilPNG, (x,222)) 
+
+				elif pieza[2] == "2":
+					gameDisplay.blit(AlfilPNG, (x,378)) 
+
+				elif pieza[2] == "1":
+					gameDisplay.blit(AlfilPNG, (x,534)) 
+
+			elif pieza[0].lower() == "r":
+				if pieza[1]=="a":
+					matriz[int(pieza[2])]['a']="r"
+					x=69
+				elif pieza[1] == "b":
+					matriz[int(pieza[2])]['b']="r"
+					x=225
+				elif pieza[1] == "c":
+					matriz[int(pieza[2])]['c']="r"
+					x=381
+				elif pieza[1] == "d":
+					matriz[int(pieza[2])]['d']="r"
+					x=538
+
+				if pieza[2]=="4":
+					gameDisplay.blit(ReyPNG, (x,65)) 
+
+				elif pieza[2]=="3":
+					gameDisplay.blit(ReyPNG, (x,222)) 
+
+				elif pieza[2] == "2":
+					gameDisplay.blit(ReyPNG, (x,378)) 
+
+				elif pieza[2] == "1":
+					gameDisplay.blit(ReyPNG, (x,534)) 
+
+			elif pieza[0].lower() == "d":
+				if pieza[1]=="a":
+					matriz[int(pieza[2])]['a']="d"
+					x=69
+				elif pieza[1] == "b":
+					matriz[int(pieza[2])]['b']="d"
+					x=225
+				elif pieza[1] == "c":
+					matriz[int(pieza[2])]['c']="d"
+					x=381
+				elif pieza[1] == "d":
+					matriz[int(pieza[2])]['d']="d"
+					x=538
+
+				if pieza[2]=="4":
+					gameDisplay.blit(DamaPNG, (x,65)) 
+
+				elif pieza[2]=="3":
+					gameDisplay.blit(DamaPNG, (x,222)) 
+
+				elif pieza[2] == "2":
+					gameDisplay.blit(DamaPNG, (x,378)) 
+
+				elif pieza[2] == "1":
+					gameDisplay.blit(DamaPNG, (x,534)) 
+
+		elif len(pieza)==2:
+				if pieza[0]=="a":
+					matriz[int(pieza[1])]['a']="P"
+					x=69
+				elif pieza[0] == "b":
+					matriz[int(pieza[1])]['b']="P"
+					x=225
+				elif pieza[0] == "c":
+					matriz[int(pieza[1])]['c']="P"
+					x=381
+				elif pieza[0] == "d":
+					matriz[int(pieza[1])]['d']="P"
+					x=538
+
+				if pieza[1]=="4":
+					gameDisplay.blit(PeonPNG, (x,65)) 
+
+				elif pieza[1]=="3":
+					gameDisplay.blit(PeonPNG, (x,222)) 
+
+				elif pieza[1] == "2":
+					gameDisplay.blit(PeonPNG, (x,378)) 
+
+				elif pieza[1] == "1":
+					gameDisplay.blit(PeonPNG, (x,534))
+
+	return matriz
 
 def Configuracion_por_teclado(Nivel):
 
