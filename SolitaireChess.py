@@ -34,8 +34,7 @@ Font = pygame.font.SysFont(None, 30)
 #Carga de sprites
 Dificultad       = pygame.image.load('Sprites/Dificultad.png'	  )
 CargadoTablero 	 = pygame.image.load('Sprites/CargadoTablero.png' )
-Cartadesafio	 = pygame.image.load('Sprites/DesafioTeclado.png'	  )
-#Cargarteclado 	 = pygame.image.load('Sprites/Cargarteclado.png'  )
+DesafioTeclado	 = pygame.image.load('Sprites/DesafioTeclado.png' )
 Opcionesfacil 	 = pygame.image.load('Sprites/OpcionesFacil.png'  )
 OpcionesDificil	 = pygame.image.load('Sprites/OpcionesDificil.png')
 Leyenda			 = pygame.image.load('Sprites/Leyenda.png'		  )
@@ -487,8 +486,7 @@ def MenuDesafio(Nivel):
 
 
 		gameDisplay.blit(CargadoTablero,(198,90))
-#		gameDisplay.blit(Cargarteclado,(0,100))
-		gameDisplay.blit(Cartadesafio,(600,100))
+		gameDisplay.blit(DesafioTeclado,(90,350))
 		InputCargado.draw(gameDisplay)
 		
 		InputCargado.update(eventos)
