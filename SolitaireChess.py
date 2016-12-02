@@ -39,10 +39,9 @@ Cargarteclado 	 = pygame.image.load('Sprites/Cargarteclado.png'  )
 Opcionesfacil 	 = pygame.image.load('Sprites/OpcionesFacil.png'  )
 OpcionesDificil	 = pygame.image.load('Sprites/OpcionesDificil.png')
 Leyenda			 = pygame.image.load('Sprites/Leyenda.png'		  )
-MensajeLeyenda   = pygame.image.load('Sprites/Mensaje1.png'		  )
 TableroPNG       = pygame.image.load('Sprites/Tablero.png'        )
 ReyPNG           = pygame.image.load('Sprites/Rey.png'            )
-DamaPNG         = pygame.image.load('Sprites/Reina.png'          )
+DamaPNG         = pygame.image.load('Sprites/Reina.png'           )
 AlfilPNG         = pygame.image.load('Sprites/Alfil.png'          )
 CaballoPNG       = pygame.image.load('Sprites/Caballo.png'        )
 TorrePNG         = pygame.image.load('Sprites/Torre.png'          )
@@ -555,6 +554,32 @@ def Tablero(Nivel,PosPiezas):
 
 					elif pieza[2] == "1":
 						gameDisplay.blit(DamaPNG, (x,534)) 
+
+			elif len(pieza)==2:
+					if pieza[0]=="a":
+						matriz[int(pieza[1])-1][0]="P"
+						x=69
+					elif pieza[0] == "b":
+						matriz[int(pieza[1])-1][1]="P"
+						x=225
+					elif pieza[0] == "c":
+						matriz[int(pieza[1])-1][2]="P"
+						x=381
+					elif pieza[0] == "d":
+						matriz[int(pieza[1])-1][3]="P"
+						x=538
+
+					if pieza[1]=="4":
+						gameDisplay.blit(PeonPNG, (x,65)) 
+
+					elif pieza[1]=="3":
+						gameDisplay.blit(PeonPNG, (x,222)) 
+
+					elif pieza[1] == "2":
+						gameDisplay.blit(PeonPNG, (x,378)) 
+
+					elif pieza[1] == "1":
+						gameDisplay.blit(PeonPNG, (x,534))
 		print(matriz)
 
 			#ta1-ca2-ra3-da4-ad1-td2-ad3-cc3
@@ -655,7 +680,7 @@ def Configuracion_por_teclado(Nivel):
 
 	#Cargara la cuadricula para habilitarle al usuario el poder ingresar como desea el tablero
 	InputConfiguracionTeclado = eztext.Input(maxlength=31, color=white, prompt='Introduce tu configuracion: ')
-	InputConfiguracionTeclado.set_pos(0,380)
+	InputConfiguracionTeclado.set_pos(0,727)
 	InputConfiguracionTeclado.value="ta1-ca2-ra3-da4-ad1-td2-ad3-cc3" #METODO PARA PROBAR LA POSICION DE LAS FICHAS
 
 	while True:
@@ -683,11 +708,10 @@ def Configuracion_por_teclado(Nivel):
 				Tablero(Nivel,PosPiezas)
 
 
-		gameDisplay.blit(CajaPNG,(0,367))
-		gameDisplay.blit(CajaPNG,(300,367))
-		gameDisplay.blit(CajaPNG,(600,367))
-		gameDisplay.blit(Leyenda,(150,0))
-		gameDisplay.blit(MensajeLeyenda, (150,440))
+		gameDisplay.blit(CajaPNG,(0,717))
+		gameDisplay.blit(CajaPNG,(300,717))
+		gameDisplay.blit(CajaPNG,(600,717))
+		gameDisplay.blit(Leyenda,(88,145))
 		InputConfiguracionTeclado.draw(gameDisplay)
 		InputConfiguracionTeclado.update(eventos)
 		#Asignamos el valor de la configuracion a la variable Configuracion_teclado
