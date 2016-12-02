@@ -311,6 +311,11 @@ def Tablero(Nivel,PosPiezas):
 		contador = 3*60
 	elif Nivel == '2':
 		contador = int(1.5*60)
+
+	#Relativo a Deshacer
+	lectura(PosPiezas)
+	Deshacer_Temp_List = [MatrizToString(matriz)]
+	Contador_de_deshacer = 0
 	
 	while True:
 
@@ -362,6 +367,8 @@ def Tablero(Nivel,PosPiezas):
 				Jugar_1 = None
 				Input_Jugar_0.value = ""
 				Input_Jugar_1.value = ""
+				###### FALTAN CAMBIOS A LA MATRIZ REALMENTE Y DESPUES LO SIGUIENTE####
+				Deshacer_Temp_List.append(MatrizToString(matriz))
 
 			#Funcion pausar
 			if  Opcion_Tablero == "2" and presionada[pygame.K_RETURN]:
@@ -407,10 +414,15 @@ def Tablero(Nivel,PosPiezas):
 
 			#Funcion Deshacer
 			if  Opcion_Tablero == "4" and presionada[pygame.K_RETURN] and Nivel == "1":
-				print("Funcion de deshacer jugada para nivel facil")
 				Opcion_Tablero = ""
-				Input_Tablero_Opcion = ""
-				print("Falta funcion deshacer")
+				Input_Tablero_Opcion.value = ""
+				if len(Deshacer_Temp_List) - Contador_de_deshacer > 1:
+					Contador_de_deshacer += 1
+					lectura(Deshacer_Temp_List[len(Deshacer_Temp_List) - Contador_de_deshacer - 1])
+					print("Antes) indice: " + str(len(Deshacer_Temp_List) - 1) + " string: " + Deshacer_Temp_List[len(Deshacer_Temp_List) - 1])
+					print("Ahora) indice: " + str(len(Deshacer_Temp_List) - Contador_de_deshacer - 1) + " string: " + Deshacer_Temp_List[len(Deshacer_Temp_List) - Contador_de_deshacer - 1])
+				else:
+					print("ERROR, has deshecho todo lo posible, esta es la lista temporal actual:" + str(Deshacer_Temp_List))
 
 
 		#En caso de ser nivel 1(Facil) cargara el menu con botones faciles
