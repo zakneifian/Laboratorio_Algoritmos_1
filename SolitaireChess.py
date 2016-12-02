@@ -34,8 +34,8 @@ Font = pygame.font.SysFont(None, 30)
 #Carga de sprites
 Dificultad       = pygame.image.load('Sprites/Dificultad.png'	  )
 CargadoTablero 	 = pygame.image.load('Sprites/CargadoTablero.png' )
-Cartadesafio	 = pygame.image.load('Sprites/Cartadesafio.png'	  )
-Cargarteclado 	 = pygame.image.load('Sprites/Cargarteclado.png'  )
+Cartadesafio	 = pygame.image.load('Sprites/DesafioTeclado.png'	  )
+#Cargarteclado 	 = pygame.image.load('Sprites/Cargarteclado.png'  )
 Opcionesfacil 	 = pygame.image.load('Sprites/OpcionesFacil.png'  )
 OpcionesDificil	 = pygame.image.load('Sprites/OpcionesDificil.png')
 Leyenda			 = pygame.image.load('Sprites/Leyenda.png'		  )
@@ -54,6 +54,10 @@ blurPNG = [pygame.image.load('Sprites/Blur/' + str(i) +'.png') for i in range(1,
 #Definiciones para el background
 sentido = 'creciendo'
 blur = 0
+
+#Definiciones para el reloj
+reloj = pygame.time.Clock()
+pygame.time.set_timer(pygame.USEREVENT, 1000)
 
 #Funcion que se usa en un loop para proveer animacion de background
 def AnimacionBackground():
@@ -137,7 +141,7 @@ def Niveles():
 				sys.exit()
 			if presionada[pygame.K_RETURN] and Nivel == "0":
 				return 
-			if presionada[pygame.K_RETURN] and Nivel == "1":
+			if presionada[pygame.K_RETURN] and Nivel == "1":				
 				MenuDesafio(Nivel)				
 				
 			if presionada[pygame.K_RETURN] and Nivel == "2":
@@ -301,6 +305,13 @@ def Tablero(Nivel,PosPiezas):
 
 	#Cargamos de nuevo el display del juego con los nuevos valores
 	gameDisplay = pygame.display.set_mode((display_width, display_height))
+
+	#Variables de tiempo
+	TextoDeContador = 'Tiempo restante: '
+	if Nivel == '1':
+		contador = 3*60
+	elif Nivel == '2':
+		contador = int(1.5*60)
 	
 	while True:
 
@@ -317,6 +328,16 @@ def Tablero(Nivel,PosPiezas):
 			if event.type == pygame.locals.QUIT: 
 				pygame.quit() 
 				sys.exit()
+
+			#Funcion contadora de tiempo
+			if event.type == pygame.USEREVENT and Mostrar_Input_Pausa == False:
+				contador -= 1
+				if contador > 0:
+					TextoDeContador = 'Tiempo restante: ' + str(contador)
+				else:
+					print("Has perdido. Anadir pantalla de perder")
+					return LoopPrincipal()
+
 
 			#Funcion jugar
 			if  Opcion_Tablero == "1" and presionada[pygame.K_RETURN]:
@@ -418,17 +439,18 @@ def Tablero(Nivel,PosPiezas):
 
 		gameDisplay.blit(TableroPNG,(0,0))
 
-
-
 		lectura(PosPiezas)
-		print(matriz[1]['a'])
 
+		#Pantalla de Pausa
 		if Mostrar_Input_Pausa == True:
 			gameDisplay.blit(TableroPNG,(0,0))
 			gameDisplay.blit(CajaPNG, (250, 350))
 			Input_Pausa.draw(gameDisplay)
 			Input_Pausa.update(eventos)
-			Opcion_Pausa = Input_Pausa.value	
+			Opcion_Pausa = Input_Pausa.value
+
+		#Pantalla de Tiempo
+		gameDisplay.blit(Font.render(TextoDeContador, True, black), (5,5))
 
 		pygame.display.update()
 		fpsClock.tick(FPS)
@@ -465,7 +487,7 @@ def MenuDesafio(Nivel):
 
 
 		gameDisplay.blit(CargadoTablero,(198,90))
-		gameDisplay.blit(Cargarteclado,(0,100))
+#		gameDisplay.blit(Cargarteclado,(0,100))
 		gameDisplay.blit(Cartadesafio,(600,100))
 		InputCargado.draw(gameDisplay)
 		
