@@ -390,7 +390,9 @@ def Tablero(Nivel,PosPiezas):
 
 			#Relativo a Funcion Salir: Guardar y Salir
 			if Salir_o_Guardar == "2" and presionada[pygame.K_RETURN]:
-				print("Falta insertar funcion de guardado, se retornara al menu principal")
+				string = MatrizToString(matriz)
+				with open('Texts/partidasguardadas.txt', 'a+') as archivo:
+					archivo.write(string + "\n")
 				return LoopPrincipal()
 
 			#Funcion Deshacer
@@ -665,6 +667,25 @@ def lectura(PosPiezas):
 					gameDisplay.blit(PeonPNG, (x,534))
 
 	return matriz
+
+def MatrizToString(Matriz):
+	string = ""
+	tmp = []
+	for i, j in Matriz.items(): #i = key, j = value del diccionario Matriz
+		for k, v in j.items(): # k = key, v = value de los diccionarios que son cada j
+			if v == 'P': #Si v es un peon
+				tmp.append(str(k) + str(i)) #No se anade la P
+			elif v != 0: #Si no esta vacio, se anade el valor
+				tmp.append(str(v).upper() + str(k) + str(i))
+
+	for i in range(len(tmp)):
+		if i == 0:
+			string += tmp[i]
+		else:
+			string += '-' + tmp[i]
+
+	print(string)
+	return string
 
 def Configuracion_por_teclado(Nivel):
 
