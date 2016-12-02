@@ -391,8 +391,18 @@ def Tablero(Nivel,PosPiezas):
 			#Relativo a Funcion Salir: Guardar y Salir
 			if Salir_o_Guardar == "2" and presionada[pygame.K_RETURN]:
 				string = MatrizToString(matriz)
+				lineas = sum(1 for linea in open('Texts/partidasguardadas.txt'))
+				if Nivel == '1':
+					strNivel = "Facil"
+				elif Nivel == '2':
+					strNivel = "Dificil"
 				with open('Texts/partidasguardadas.txt', 'a+') as archivo:
-					archivo.write(string + "\n")
+					for lines in archivo:
+						lineas += 1
+					guardado = "Partida " + str(lineas + 1) + " " + time.strftime("%d/%m/%y") + " " + str(contador) + " " + strNivel + " "+ string
+					print("A continuacion se guardara en una nueva linea:\n" + '"' + guardado + '"')
+					archivo.write(guardado + "\n")
+
 				return LoopPrincipal()
 
 			#Funcion Deshacer
