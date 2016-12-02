@@ -346,7 +346,6 @@ def Tablero(Nivel,PosPiezas):
 
 			#Funcion jugar
 			if  Opcion_Tablero == "1" and presionada[pygame.K_RETURN]:
-				print("se ha accedido a la opcion 1")
 				Mostrar_Input_Jugar = True
 				Mostrar_Input_Jugar_0 = True
 				Mostrar_Input_Tablero_Opcion = False
@@ -359,15 +358,18 @@ def Tablero(Nivel,PosPiezas):
 				Pos_i = Jugar_0
 
 			if len(Input_Jugar_1.value) == 2 and presionada[pygame.K_RETURN]:
-				print("Saliendo de jugar")
+				Pos_f = Jugar_1
+				Torre(Pos_i, Pos_f, matriz, PosPiezas) #PROBANDO TORRE
+				Jugar_0 = None
+				Jugar_1 = None
+				Input_Jugar_0.value = ""
+				Input_Jugar_1.value = ""
+				Input_Tablero_Opcion.value = ""
 				Mostrar_Input_Jugar_1 = False
 				Mostrar_Input_Jugar = False
 				Mostrar_Input_Tablero_Opcion = True
-				Pos_f = Jugar_1
-				Torre(Pos_i, Pos_f, matriz, PosPiezas) #PROBANDO TORRE
-				Input_Jugar_0.value = ""
-				Input_Jugar_1.value = ""
 				###### FALTAN CAMBIOS A LA MATRIZ REALMENTE Y DESPUES LO SIGUIENTE####
+				lectura(PosPiezas)
 				Deshacer_Temp_List.append(MatrizToString(matriz))
 
 			#Funcion pausar
@@ -463,6 +465,9 @@ def Tablero(Nivel,PosPiezas):
 		gameDisplay.blit(TableroPNG,(0,0))
 
 		lectura(PosPiezas)
+
+
+
 
 		#Pantalla de Pausa
 		if Mostrar_Input_Pausa == True:
@@ -761,80 +766,88 @@ def Torre(Pos_i, Pos_f, Matriz, PosPiezas):
 		Pos_i = [Pos_i[:1], int(Pos_i[1:])] #letra, numero
 		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
 		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
-		print(Pos_i)
-		print(Pos_f)
-		
-		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "t" and Matriz[Pos_f[1]][Pos_f[0]] != "0") #que el inicial sea torre y el final distinto de 0
+		posiblesRef = [] #lista refinada de "posibles"
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "t" and Matriz[Pos_f[1]][Pos_f[0]] != 0) #que el inicial sea torre y el final distinto de 0
 		print("[DEBUG] Torre: Pos_i: " + str(Pos_i) + "\n[DEBUG] Torre: Pos_f: " + str(Pos_f) + "\n[DEBUG] Torre: Exito de Assert")
-		#En este for, se construye la lista de posibles para la torre
+		
+		#En este for, se construye la lista de posibles para la torre, sin refinar.
 		for numero, diccionario in Matriz.items():
-			for letra, pieza in diccionario.items():
-				print("[DEBUG] Torre: Checkpoint 0")
+			for letra, pieza in diccionario.items():			
 				if numero == Pos_i[1]: #Primero trabajamos en el eje de los numeros
-					print("[DEBUG] Torre: Checkpoint 1")
-					if pieza != "0": #Si hay una pieza
-						print("[DEBUG] Torre: Checkpoint 2")
-						posibles.append([letra, numero]) #Prueba, se agrega para que no inicie vacia la lista de posibles					
-						for posible in posibles: #verificamos que esta jugada sea la mas cercana a la torre por ambos sentidos del eje
-							print("[DEBUG] Torre: Checkpoint 3")
-							if numero == posible[1]: #Estamos trabajando sobre las posibilidades con el mismo numero
-								print("[DEBUG] Torre: Checkpoint 4")
-								if letra > Pos_i[0]: #si la letra esta mas alla de donde esta la torre por la derecha
-									print("[DEBUG] Torre: Checkpoint 5")
-									if letra < posible[0]: #Si la letra esta mas cerca de la torre que la existente en la lista por la derecha
-										print("[DEBUG] Torre: Checkpoint 6")
-										posible.remove([posible[0], posible[1]]) #se remueve la anterior
-										print("[DEBUG] Torre: Checkpoint 7")
-										posibles.append([letra, numero]) # y se agrega la nueva
-										print("[DEBUG] Torre: Checkpoint 8")
-
-								elif letra < Pos_i[0]: #si la letra esta mas alla de donde esta la torre por la izquierda
-									print("[DEBUG] Torre: Checkpoint 5\'")
-									if letra > posible[0]: #Si la letra esta mas cerca de la torre que la existente en la lista por la izquierda
-										print("[DEBUG] Torre: Checkpoint 6\'")
-										posible.remove([posible[0], posible[1]]) #Se remueve la anterior
-										print("[DEBUG] Torre: Checkpoint 7\'")
-										posibles.append([letra, numero]) #y se agrega la nueva
-										print("[DEBUG] Torre: Checkpoint 8\'")
-								elif letra == Pos_i[0]:
-									pass
-
-				print("[DEBUG] Torre: Checkpoint 0*")
+					if pieza != 0 and letra != Pos_i[0]: #Si hay una pieza				
+						posibles.append([letra, numero])
 				if letra == Pos_i[0]: #Ahora trabajamos en el eje de las letras
-					print("[DEBUG] Torre: Checkpoint 1*")
-					if pieza != "0": #Si hay una pieza
-						print("[DEBUG] Torre: Checkpoint 2*")
-						posibles.append([letra, numero]) #Prueba, se agrega para que no inicie vacia la lista de posibles	
-						for posible in posibles: #Verificamos que esta jugada sea las mas cercana a la torre por ambos sentidos del eje
-							print("[DEBUG] Torre: Checkpoint 3*")
-							if letra == posible[0]: #Estamos solo trabajando en el eje de las letras, por ende verificamos en el
-								print("[DEBUG] Torre: Checkpoint 4*")
-								if numero > Pos_i[1]: #Si el candidato a posible esta por la derecha de la torre
-									print("[DEBUG] Torre: Checkpoint 5*")
-									if numero < posible[1]: #Si el candidato es lo mas cercano por la derecha a la torre
-										print("[DEBUG] Torre: Checkpoint 6*")
-										posible.remove([posible[0], posible[1]]) #se remueve la anterior
-										print("[DEBUG] Torre: Checkpoint 7*")
-										posibles.append([letra, numero]) # y se agrega la nueva	
-										print("[DEBUG] Torre: Checkpoint 8*")								
+					if pieza != 0 and numero != Pos_i[1]: #Si hay una pieza
+						posibles.append([letra, numero])
+		
+		print(posibles)
 
-								elif numero < Pos_i[1]: #Si el candidato a posible esta por la izquierda de la torre
-									print("[DEBUG] Torre: Checkpoint 5\'*")
-									if numero > posible[1]: #Si el candidato es el mas cercano por la izquierda a la torre
-										print("[DEBUG] Torre: Checkpoint 6\'*")
-										posible.remove([posible[0], posible[1]]) #se remueve la anterior
-										print("[DEBUG] Torre: Checkpoint 7\'*")
-										posibles.append([letra, numero]) # y se agrega la nueva
-										print("[DEBUG] Torre: Checkpoint 8\'*")
+		#Variables usadas para refinar la lista de posibles jugadas
+		tmp_letra_mayor = 'z'
+		tmp_letra_menor = '1'
+		tmp_numero_mayor = 10
+		tmp_numero_menor = 0
+		TMPNumLETRA =    "No"
+		tmpNumletra =    "No"
+		tmpLetraNUMERO = "No"
+		tmpLetranumero = "No"
+
+		#Refinando la lista
+		for valor in posibles:
+
+			if valor[1] == Pos_i[1]: #Mismo numero
+				if valor[0] > Pos_i[0]: #letra mayor a la inicial
+					if valor[0] < tmp_letra_mayor: #El valor actual", valor[0], "es menor que la tmp actual", tmp_letra_mayor
+						tmp_letra_mayor = valor[0]
+						TMPNumLETRA = valor
+				elif valor[0] < Pos_i[0]: #letra menor a la inicial
+					if valor[0] > tmp_letra_menor:
+						tmp_letra_menor = valor[0]
+						tmpNumletra = valor
+
+			elif valor[0] == Pos_i[0]: #Misma letra
+				if valor[1] > Pos_i[1]: #
+					if valor[1] < tmp_numero_mayor: #El valor actual", valor[1], "es menor que la tmp actual", tmp_numero_mayor
+						tmp_numero_mayor = valor[1]
+						tmpLetraNUMERO = valor			
+				elif valor[1] < Pos_i[1]: #numero menor al inicial
+					if valor[1] > tmp_numero_menor:
+						tmp_numero_menor = valor[1]
+						tmpLetranumero = valor				
+
+		#anadiendo a posiblesRef
+		if TMPNumLETRA !=    "No":
+			posiblesRef.append(TMPNumLETRA)
+		if tmpNumletra !=    "No":
+			posiblesRef.append(tmpNumletra)
+		if tmpLetraNUMERO != "No":
+			posiblesRef.append(tmpLetraNUMERO)
+		if tmpLetranumero != "No":
+			posiblesRef.append(tmpLetranumero)
+
+		print(posiblesRef)
+
+
+
 		#En este for se busca la posicion final entre los posibles y se cambia el inicial por "0" y el final por la torre
-		for posible in posibles:
+		for valor in PosPiezas:
+			if len(valor) == 2:
+				if valor.lower() == Pos_f[0] + str(Pos_f[1]):
+					PosPiezas.remove(valor)
+
+			if len(valor) == 3:
+				if valor.lower()[1:] == Pos_f[0] + str(Pos_f[1]):
+					PosPiezas.remove(valor)
+
+			if valor.lower() == "t" + Pos_i[0] + str(Pos_i[1]):
+				PosPiezas.remove(valor)
+
+		for posible in posiblesRef:
 			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
-				Matriz[Pos_i[1]][Pos_i[0]] = "0"
-				Matriz[Pos_f[1]][Pos_f[0]] = "t"
-				for valor in PosPiezas:
-					if valor.lower() == "t" + Pos_i[0] + str(Pos_i[1]):
-						PosPiezas.remove(valor)
-						PosPiezas.append("t" + Pos_f[0] + str(Pos_f[1]))
+				PosPiezas.append("t" + Pos_f[0] + str(Pos_f[1]))
+
+		return PosPiezas	
+
 	except:
 		print("La pieza inicial no es una Torre, o algo peor ha sucedido")
 
