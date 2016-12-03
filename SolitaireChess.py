@@ -845,16 +845,16 @@ def Torre(Pos_i, Pos_f, Matriz, PosPiezas):
 		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
 		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
 		posiblesRef = [] #lista refinada de "posibles"
-		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "t" and Matriz[Pos_f[1]][Pos_f[0]] != 0) #que el inicial sea torre y el final distinto de 0
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "t" and Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r") #que el inicial sea torre y el final distinto de 0
 
 		#En este for, se construye la lista de posibles para la torre, sin refinar.
 		for numero, diccionario in Matriz.items():
 			for letra, pieza in diccionario.items():			
 				if numero == Pos_i[1]: #Primero trabajamos en el eje de los numeros
-					if pieza != 0 and letra != Pos_i[0]: #Si hay una pieza				
+					if pieza != 0 and pieza.lower() != 'r' and letra != Pos_i[0]: #Si hay una pieza				
 						posibles.append([letra, numero])
 				if letra == Pos_i[0]: #Ahora trabajamos en el eje de las letras
-					if pieza != 0 and numero != Pos_i[1]: #Si hay una pieza
+					if pieza != 0 and pieza.lower() != 'r' and numero != Pos_i[1]: #Si hay una pieza
 						posibles.append([letra, numero])
 
 		#Variables usadas para refinar la lista de posibles jugadas
@@ -906,10 +906,6 @@ def Torre(Pos_i, Pos_f, Matriz, PosPiezas):
 		if [Pos_f[0], int(Pos_f[1])] in posiblesRef:
 			try:
 				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:
-				PosPiezas.remove('R' + (Pos_f[0] + str(Pos_f[1])).lower())
 			except:
 				pass
 			try:
@@ -977,6 +973,15 @@ def CambioLetra(letra, sentido):
 			return 'a'
 		elif letra == 'd':
 			return 'b'
+	elif sentido == 0:
+		if letra == 'a':
+			return 'a'
+		elif letra == 'b':
+			return 'b'
+		elif letra == 'c':
+			return 'c'
+		elif letra == 'd':
+			return 'd'		
 
 def Peon(Pos_i, Pos_f, Matriz, PosPiezas):
 
@@ -984,27 +989,24 @@ def Peon(Pos_i, Pos_f, Matriz, PosPiezas):
 		Pos_i = [Pos_i[:1], int(Pos_i[1:])] #letra, numero
 		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
 		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
-		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "p" and Matriz[Pos_f[1]][Pos_f[0]] != 0) #que el inicial sea torre y el final distinto de 0
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "p" and Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r") #que el inicial sea torre y el final distinto de 0
 		#En este for, se construye la lista de posibles para el peon, sin refinar.
 		for numero, diccionario in Matriz.items():
 			for letra, pieza in diccionario.items():
-				if pieza != 0 and letra == CambioLetra(Pos_i[0], 1) and numero == Pos_i[1] + 1:
+				if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0], 1) and numero == Pos_i[1] + 1:
 					posibles.append([letra, numero])		
-				if pieza != 0 and letra == CambioLetra(Pos_i[0], -1) and numero == Pos_i[1] + 1:
+				if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0],-1) and numero == Pos_i[1] + 1:
 					posibles.append([letra, numero])
-				if pieza != 0 and letra == CambioLetra(Pos_i[0], -1) and numero == Pos_i[1] - 1:
-					posibles.append([letra, numero])	
-				if pieza != 0 and letra == CambioLetra(Pos_i[0], 1) and numero == Pos_i[1] - 1:
-					posibles.append([letra, numero])	
+				#Al parecer el peon solo se mueve en diagonal de adelante.
+				#if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0], -1) and numero == Pos_i[1] - 1:
+				#	posibles.append([letra, numero])	
+				#if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0], 1) and numero == Pos_i[1] - 1:
+				#	posibles.append([letra, numero])	
 		
 		print(posibles)
 		if [Pos_f[0], int(Pos_f[1])] in posibles:
 			try:
 				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:
-				PosPiezas.remove('R' + (Pos_f[0] + str(Pos_f[1])).lower())
 			except:
 				pass
 			try:
@@ -1041,35 +1043,31 @@ def Caballo(Pos_i, Pos_f, Matriz, PosPiezas):
 		Pos_i = [Pos_i[:1], int(Pos_i[1:])] #letra, numero
 		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
 		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
-		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "c" and Matriz[Pos_f[1]][Pos_f[0]] != 0) #que el inicial sea torre y el final distinto de 0
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "c" and Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r") #que el inicial sea torre y el final distinto de 0
 		#En este for, se construye la lista de posibles para el peon, sin refinar.
 		for numero, diccionario in Matriz.items():
 			for letra, pieza in diccionario.items():
-				if pieza != 0 and letra == CambioLetra(Pos_i[0], 2) and numero == Pos_i[1] + 1:
+				if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0], 2) and numero == Pos_i[1] + 1:
 					posibles.append([letra, numero])		
-				if pieza != 0 and letra == CambioLetra(Pos_i[0], 1) and numero == Pos_i[1] + 2:
+				if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0], 1) and numero == Pos_i[1] + 2:
 					posibles.append([letra, numero])
-				if pieza != 0 and letra == CambioLetra(Pos_i[0], -1) and numero == Pos_i[1] + 2:
+				if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0],-1) and numero == Pos_i[1] + 2:
 					posibles.append([letra, numero])	
-				if pieza != 0 and letra == CambioLetra(Pos_i[0], -2) and numero == Pos_i[1] + 1:
+				if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0],-2) and numero == Pos_i[1] + 1:
 					posibles.append([letra, numero])	
-				if pieza != 0 and letra == CambioLetra(Pos_i[0], -2) and numero == Pos_i[1] - 1:
+				if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0],-2) and numero == Pos_i[1] - 1:
 					posibles.append([letra, numero])		
-				if pieza != 0 and letra == CambioLetra(Pos_i[0], -1) and numero == Pos_i[1] - 2:
+				if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0],-1) and numero == Pos_i[1] - 2:
 					posibles.append([letra, numero])
-				if pieza != 0 and letra == CambioLetra(Pos_i[0], 1) and numero == Pos_i[1] - 2:
+				if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0], 1) and numero == Pos_i[1] - 2:
 					posibles.append([letra, numero])	
-				if pieza != 0 and letra == CambioLetra(Pos_i[0], 2) and numero == Pos_i[1] - 1:
+				if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0], 2) and numero == Pos_i[1] - 1:
 					posibles.append([letra, numero])
 
 		print(posibles)
 		if [Pos_f[0], int(Pos_f[1])] in posibles:
 			try:
 				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:
-				PosPiezas.remove('R' + (Pos_f[0] + str(Pos_f[1])).lower())
 			except:
 				pass
 			try:
@@ -1103,8 +1101,68 @@ def Caballo(Pos_i, Pos_f, Matriz, PosPiezas):
 	except:
 		print("La pieza inicial no es un Caballo, o algo peor ha sucedido")
 
+def Rey(Pos_i, Pos_f, Matriz, PosPiezas):
+	try:
+		Pos_i = [Pos_i[:1], int(Pos_i[1:])] #letra, numero
+		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
+		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "r" and Matriz[Pos_f[1]][Pos_f[0]] != 0) #que el inicial sea torre y el final distinto de 0
+		#En este for, se construye la lista de posibles para el peon, sin refinar.
+		for numero, diccionario in Matriz.items():
+			for letra, pieza in diccionario.items():
+				if pieza != 0 and letra == CambioLetra(Pos_i[0], 1) and numero == Pos_i[1] + 1:
+					posibles.append([letra, numero])		
+				if pieza != 0 and letra == CambioLetra(Pos_i[0], 0) and numero == Pos_i[1] + 1:
+					posibles.append([letra, numero])
+				if pieza != 0 and letra == CambioLetra(Pos_i[0],-1) and numero == Pos_i[1] + 1:
+					posibles.append([letra, numero])	
+				if pieza != 0 and letra == CambioLetra(Pos_i[0], 1) and numero == Pos_i[1] + 0:
+					posibles.append([letra, numero])	
+				if pieza != 0 and letra == CambioLetra(Pos_i[0],-1) and numero == Pos_i[1] + 0:
+					posibles.append([letra, numero])		
+				if pieza != 0 and letra == CambioLetra(Pos_i[0], 1) and numero == Pos_i[1] - 1:
+					posibles.append([letra, numero])
+				if pieza != 0 and letra == CambioLetra(Pos_i[0], 0) and numero == Pos_i[1] - 1:
+					posibles.append([letra, numero])	
+				if pieza != 0 and letra == CambioLetra(Pos_i[0],-1) and numero == Pos_i[1] - 1:
+					posibles.append([letra, numero])
+
+		print(posibles)
+		if [Pos_f[0], int(Pos_f[1])] in posibles:
+			try:
+				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:			
+				PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:			
+				PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass		
+
+			PosPiezas.remove("R" + (Pos_i[0] + str(Pos_i[1])).lower())
+
+		for posible in posibles:
+			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
+				print("append")
+				PosPiezas.append("R" + Pos_f[0] + str(Pos_f[1]))
+
+		print(PosPiezas)
+		return PosPiezas	
 
 
+	except:
+		print("La pieza inicial no es un Rey, o algo peor ha sucedido")
 
 #Se asigna a la variable Usuario el nombre del usuario
 
