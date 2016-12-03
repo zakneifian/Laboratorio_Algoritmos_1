@@ -313,6 +313,9 @@ def Tablero(Nivel,PosPiezas):
 	elif Nivel == '2':
 		contador = int(1.5*60)
 
+	#Nombre de usuario en pantalla
+	Nombre = "Usuario: " + Usuario
+
 	#Relativo a Deshacer
 	lectura(PosPiezas)
 	Deshacer_Temp_List = [MatrizToString(matriz)]
@@ -359,6 +362,7 @@ def Tablero(Nivel,PosPiezas):
 
 			if len(Input_Jugar_1.value) == 2 and presionada[pygame.K_RETURN]:
 				Pos_f = Jugar_1
+				print(PosPiezas)
 				Torre(Pos_i, Pos_f, matriz, PosPiezas) #PROBANDO TORRE
 				Peon(Pos_i, Pos_f, matriz, PosPiezas)
 				Caballo(Pos_i, Pos_f, matriz, PosPiezas)
@@ -423,8 +427,7 @@ def Tablero(Nivel,PosPiezas):
 				if len(Deshacer_Temp_List) - Contador_de_deshacer > 1:
 					Contador_de_deshacer += 1
 					PosPiezas = Deshacer_Temp_List[len(Deshacer_Temp_List) - Contador_de_deshacer - 1].split('-')
-					print(PosPiezas)
-					#lectura(PosPiezas)
+					lectura(PosPiezas)
 					print("Antes) indice: " + str(len(Deshacer_Temp_List) - 1) + " string: " + Deshacer_Temp_List[len(Deshacer_Temp_List) - 1])
 					print("Ahora) indice: " + str(len(Deshacer_Temp_List) - Contador_de_deshacer - 1) + " string: " + Deshacer_Temp_List[len(Deshacer_Temp_List) - Contador_de_deshacer - 1])
 				else:
@@ -483,6 +486,9 @@ def Tablero(Nivel,PosPiezas):
 
 		#Pantalla de Tiempo
 		gameDisplay.blit(Font.render(TextoDeContador, True, black), (5,5))
+
+		#Pantalla de Nombre
+		gameDisplay.blit(Font.render(Nombre, True, black), (5, 30))
 
 		pygame.display.update()
 		fpsClock.tick(FPS)
@@ -748,8 +754,17 @@ def Configuracion_por_teclado(Nivel):
 			if presionada[pygame.K_RETURN]: #colocar la condicion de que sea un string valido
 				#Convertimos el string de configuracion_Teclado en una lista
 				InputConfiguracionTeclado.value = InputConfiguracionTeclado.value.split('-')
-				print(InputConfiguracionTeclado.value)
-				PosPiezas = InputConfiguracionTeclado.value
+				PosPieza = InputConfiguracionTeclado.value
+				PosPiezas = []
+				for elemento in PosPieza:
+					if len(elemento) == 2:
+						print("len 2")
+						PosPiezas.append(elemento.lower())
+					elif len(elemento) == 3:
+						print("len 3")
+						PosPiezas.append(elemento[0].upper() + elemento[1:].lower())
+						print(elemento)
+				print(PosPiezas)
 				#retornamos el tablero con el nivel seleccionado
 				Tablero(Nivel,PosPiezas)
 
@@ -827,38 +842,38 @@ def Torre(Pos_i, Pos_f, Matriz, PosPiezas):
 			posiblesRef.append(tmpLetranumero)
 
 		print(posiblesRef)
-
+		print(PosPiezas)
 		#En este for se busca la posicion final entre los posibles y se cambia el inicial por "0" y el final por la torre
 		try:
 			PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass
 		try:
-			PosPiezas.remove(('r' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('R' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass
 		try:
-			PosPiezas.remove(('d' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass
 		try:
-			PosPiezas.remove(('a' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass
 		try:			
-			PosPiezas.remove(('c' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass
 		try:			
-			PosPiezas.remove(('t' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass			
 
-		PosPiezas.remove(("t" + Pos_i[0] + str(Pos_i[1])).lower())
+		PosPiezas.remove("T" + (Pos_i[0] + str(Pos_i[1])).lower())
 
 		for posible in posiblesRef:
 			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
-				PosPiezas.append("t" + Pos_f[0] + str(Pos_f[1]))
+				PosPiezas.append("T" + Pos_f[0] + str(Pos_f[1]))
 		print(PosPiezas)
 		return PosPiezas	
 
@@ -929,23 +944,23 @@ def Peon(Pos_i, Pos_f, Matriz, PosPiezas):
 		except:
 			pass
 		try:
-			PosPiezas.remove(('r' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('R' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass
 		try:
-			PosPiezas.remove(('d' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass
 		try:
-			PosPiezas.remove(('a' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass
 		try:			
-			PosPiezas.remove(('c' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass
 		try:			
-			PosPiezas.remove(('t' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass			
 
@@ -994,31 +1009,31 @@ def Caballo(Pos_i, Pos_f, Matriz, PosPiezas):
 		except:
 			pass
 		try:
-			PosPiezas.remove(('r' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('R' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass
 		try:
-			PosPiezas.remove(('d' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass
 		try:
-			PosPiezas.remove(('a' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass
 		try:			
-			PosPiezas.remove(('c' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
 			pass
 		try:			
-			PosPiezas.remove(('t' + Pos_f[0] + str(Pos_f[1])).lower())
+			PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
 		except:
-			pass			
+			pass		
 
-		PosPiezas.remove(("c" + Pos_i[0] + str(Pos_i[1])).lower())
+		PosPiezas.remove(("C" + Pos_i[0] + str(Pos_i[1])).lower())
 
 		for posible in posibles:
 			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
-				PosPiezas.append("c" + Pos_f[0] + str(Pos_f[1]))
+				PosPiezas.append("C" + Pos_f[0] + str(Pos_f[1]))
 
 		print(PosPiezas)
 		return PosPiezas	
@@ -1031,6 +1046,8 @@ def Caballo(Pos_i, Pos_f, Matriz, PosPiezas):
 
 
 #Se asigna a la variable Usuario el nombre del usuario
+
+global Usuario
 Usuario = LoopIntro()
 
 #Se ejecuta el loop principal que contiene al menu y demas cosas
