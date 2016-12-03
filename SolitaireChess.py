@@ -159,7 +159,10 @@ def Niveles():
 #Se define el Loop principal del juego
 def LoopPrincipal():
 
-	gameDisplay = pygame.display.set_mode((760,760))
+	display_width  = 760
+	display_height = 760
+	gameDisplay = pygame.display.set_mode((display_width, display_height))
+
 	#Para la escogencia de la opcion del menu, definimos un InputMenu con longitud 1 para un solo numero
 	InputMenu = eztext.Input(maxlength=1, color=white, prompt='Opcion: ')
 	InputMenu.set_pos(248,480)
@@ -733,7 +736,7 @@ def Configuracion_por_teclado(Nivel):
 	#Cargara la cuadricula para habilitarle al usuario el poder ingresar como desea el tablero
 	InputConfiguracionTeclado = eztext.Input(maxlength=31, color=white, prompt='Introduce tu configuracion: ')
 	InputConfiguracionTeclado.set_pos(0,727)
-	InputConfiguracionTeclado.value="ta1-ca2-ra3-da4-ad1-td2-ad3-cc3" #METODO PARA PROBAR LA POSICION DE LAS FICHAS
+	InputConfiguracionTeclado.value="" #METODO PARA PROBAR LA POSICION DE LAS FICHAS
 
 	while True:
 
@@ -758,13 +761,69 @@ def Configuracion_por_teclado(Nivel):
 				PosPiezas = []
 				for elemento in PosPieza:
 					if len(elemento) == 2:
-						print("len 2")
 						PosPiezas.append(elemento.lower())
 					elif len(elemento) == 3:
-						print("len 3")
 						PosPiezas.append(elemento[0].upper() + elemento[1:].lower())
-						print(elemento)
-				print(PosPiezas)
+
+			#Chequeamos que cumpla con las reglas de longitud
+				if  not 0 < len(PosPiezas) <= 8:
+					print("Has insertado un numero invalido de piezas, maximo 8.")
+					return Configuracion_por_teclado(Nivel)
+			#Chequeamos que todos sigan las reglas de escritura
+				for elemento in PosPiezas:
+					if not 2 <= len(elemento) <= 3:
+						print("Hay elemento/s con menos de 2 o mas de 3 caracteres, se regresara al menu")
+						return Configuracion_por_teclado(Nivel)
+					if len(elemento) == 3:
+						if not ((elemento[0] == 'R' or elemento[0] == 'D' or elemento[0] == 'A' or elemento[0] == 'C' or elemento[0] == 'T') and (elemento[1] == 'a' or elemento[1] == 'b' or elemento[1] == 'c' or elemento[1] == 'd') and (elemento[2] == '1' or elemento[2] == '2' or elemento[2] == '3' or elemento[2] == '4')):
+							print("Hay elementos mal formateados, se regresara al menu")
+							Configuracion_por_teclado(Nivel)
+					if len(elemento) == 2:
+						if not ((elemento[0] == 'a' or elemento[0] == 'b' or elemento[0] == 'c' or elemento[0] == 'd') and (elemento[1] == '1' or elemento[1] == '2' or elemento[1] == '3' or elemento[1] == '4')):
+							print("Hay elementos mal formateados, se regresara al menu")
+							Configuracion_por_teclado(Nivel)
+			#Chequeamos que ninguno este en la posicion de otro
+				for elem_1 in PosPiezas:
+					if len(elem_1) == 3:
+						for elem_2 in PosPiezas:
+							if len(elem_2) == 3:
+								if  (elem_1 != elem_2) and (elem_1[1:] == elem_2[1:]):
+									print("No puedes mas de una pieza en una posicion")
+									return Configuracion_por_teclado(Nivel)
+							elif len(elem_2) == 2:
+								if  (elem_1 != elem_2) and (elem_1[1:] == elem_2[0:]):
+									print("No puedes mas de una pieza en una posicion")
+									return Configuracion_por_teclado(Nivel)		
+					if len(elem_1) == 2:
+						for elem_2 in PosPiezas:
+							if len(elem_2) == 3:
+								if  (elem_1 != elem_2) and (elem_1[0:] == elem_2[1:]):
+									print("No puedes mas de una pieza en una posicion")
+									return Configuracion_por_teclado(Nivel)
+							elif len(elem_2) == 2:
+								if  (elem_1 != elem_2) and (elem_1[0:] == elem_2[0:]):
+									print("No puedes mas de una pieza en una posicion")
+									return Configuracion_por_teclado(Nivel)								
+			#Chequeamos que no hayan dos piezas iguales en el string
+				#FALTA FUNCION
+			#Chequeamos qu haya maximo dos peones, dos caballos, dos alfiles, dos torres, 1 rey, 1 reina
+				for elem_1 in PosPiezas:
+					for elem_2 in PosPiezas:
+						for elem_3 in PosPiezas:
+							if elem_1 != elem_2 and elem_1 != elem_3 and elem_2 != elem_3:
+								if len(elem_1) == len(elem_2) == len(elem_3) == 3:
+									if elem_1[0] == elem_2[0] == elem_3[0]:
+										print("Como maximo puede haber dos peones, dos caballos, dos alfiles, dos torres, un rey y una reina")
+										return Configuracion_por_teclado(Nivel)
+								elif len(elem_1) == len(elem_2) == len(elem_3) == 2:
+									print("Como maximo puede haber dos peones, dos caballos, dos alfiles, dos torres, un rey y una reina")
+									return Configuracion_por_teclado(Nivel)
+
+						if elem_1 != elem_2:
+							if (elem_1[0] == elem_2[0] == "R") or (elem_1[0] == elem_2[0] == "D"):
+								print("Como maximo puede haber dos peones, dos caballos, dos alfiles, dos torres, un rey y una reina")
+								return Configuracion_por_teclado(Nivel)
+
 				#retornamos el tablero con el nivel seleccionado
 				Tablero(Nivel,PosPiezas)
 
