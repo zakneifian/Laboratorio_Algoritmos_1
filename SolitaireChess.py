@@ -370,6 +370,8 @@ def Tablero(Nivel,PosPiezas):
 				Peon(Pos_i, Pos_f, matriz, PosPiezas)
 				Caballo(Pos_i, Pos_f, matriz, PosPiezas)
 				Rey(Pos_i, Pos_f, matriz, PosPiezas)
+				#Alfil(Pos_i, Pos_f, matriz, PosPiezas)
+				#Reina(Pos_i, Pos_f, matriz, PosPiezas)
 				Jugar_0 = None
 				Jugar_1 = None
 				Input_Jugar_0.value = ""
@@ -863,6 +865,105 @@ def Torre(Pos_i, Pos_f, Matriz, PosPiezas):
 		tmp_letra_menor = '1'
 		tmp_numero_mayor = 10
 		tmp_numero_menor = 0
+		TMPNumLETRA =    "No" #Variable que almacena la pieza mas cercana a la Torre, por la   derecha de la Torre
+		tmpNumletra =    "No" #Variable que almacena la pieza mas cercana a la Torre, por la izquierda de la Torre
+		tmpLetraNUMERO = "No" #Variable que almacena la pieza mas cercana a la Torre, por       arriba de la Torre
+		tmpLetranumero = "No" #Variable que almacena la pieza mas cercana a la Torre, por        abajo de la Torre
+
+		#Refinando la lista
+		for valor in posibles:
+
+			if valor[1] == Pos_i[1]: #Mismo numero
+				if valor[0] > Pos_i[0]: #letra mayor a la inicial
+					if valor[0] < tmp_letra_mayor: #El valor actual", valor[0], "es menor que la tmp actual", tmp_letra_mayor
+						tmp_letra_mayor = valor[0]
+						TMPNumLETRA = valor
+				elif valor[0] < Pos_i[0]: #letra menor a la inicial
+					if valor[0] > tmp_letra_menor:
+						tmp_letra_menor = valor[0]
+						tmpNumletra = valor
+
+			elif valor[0] == Pos_i[0]: #Misma letra
+				if valor[1] > Pos_i[1]: #
+					if valor[1] < tmp_numero_mayor: #El valor actual", valor[1], "es menor que la tmp actual", tmp_numero_mayor
+						tmp_numero_mayor = valor[1]
+						tmpLetraNUMERO = valor			
+				elif valor[1] < Pos_i[1]: #numero menor al inicial
+					if valor[1] > tmp_numero_menor:
+						tmp_numero_menor = valor[1]
+						tmpLetranumero = valor				
+
+		#anadiendo a posiblesRef
+		if TMPNumLETRA !=    "No":
+			posiblesRef.append(TMPNumLETRA)
+		if tmpNumletra !=    "No":
+			posiblesRef.append(tmpNumletra)
+		if tmpLetraNUMERO != "No":
+			posiblesRef.append(tmpLetraNUMERO)
+		if tmpLetranumero != "No":
+			posiblesRef.append(tmpLetranumero)
+
+		#En este for se busca la posicion final entre los posibles y se cambia el inicial por "0" y el final por la torre
+		if [Pos_f[0], int(Pos_f[1])] in posiblesRef:
+			try:
+				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:			
+				PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:			
+				PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass			
+
+			PosPiezas.remove("T" + (Pos_i[0] + str(Pos_i[1])).lower())
+
+		for posible in posiblesRef:
+			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
+				PosPiezas.append("T" + Pos_f[0] + str(Pos_f[1]))
+		print("La jugada con la Torre en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
+		return PosPiezas	
+
+	except:
+		print("La pieza inicial no es una Torre o es una jugada invalida o algo raro ha sucedido")
+
+ #Actualmente necesita rehacerse el metodo de busqueda y de refinamiento
+
+def Alfil(Pos_i, Pos_f, Matriz, PosPiezas):
+	try:
+		Pos_i = [Pos_i[:1], int(Pos_i[1:])] #letra, numero
+		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
+		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
+		posiblesRef = [] #lista refinada de "posibles"
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "a" and Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r") #que el inicial sea torre y el final distinto de 0
+
+
+		""" Cambiar este codigo por codigo de alfil, actualmente es de Torre
+		#En este for, se construye la lista de posibles para el alfil, sin refinar.
+		for numero, diccionario in Matriz.items():
+			for letra, pieza in diccionario.items():			
+				if numero == Pos_i[1]: #Primero trabajamos en el eje de los numeros
+					if pieza != 0 and pieza.lower() != 'r' and letra != Pos_i[0]: #Si hay una pieza				
+						posibles.append([letra, numero])
+				if letra == Pos_i[0]: #Ahora trabajamos en el eje de las letras
+					if pieza != 0 and pieza.lower() != 'r' and numero != Pos_i[1]: #Si hay una pieza
+						posibles.append([letra, numero])
+
+		#Variables usadas para refinar la lista de posibles jugadas
+		tmp_letra_mayor = 'z'
+		tmp_letra_menor = '1'
+		tmp_numero_mayor = 10
+		tmp_numero_menor = 0
 		TMPNumLETRA =    "No"
 		tmpNumletra =    "No"
 		tmpLetraNUMERO = "No"
@@ -899,10 +1000,9 @@ def Torre(Pos_i, Pos_f, Matriz, PosPiezas):
 		if tmpLetraNUMERO != "No":
 			posiblesRef.append(tmpLetraNUMERO)
 		if tmpLetranumero != "No":
-			posiblesRef.append(tmpLetranumero)
+			posiblesRef.append(tmpLetranumero) #Esto solo es la Torre, falta transformarlo a Alfil
+		"""
 
-		print(posiblesRef)
-		print(PosPiezas)
 		#En este for se busca la posicion final entre los posibles y se cambia el inicial por "0" y el final por la torre
 		if [Pos_f[0], int(Pos_f[1])] in posiblesRef:
 			try:
@@ -926,16 +1026,119 @@ def Torre(Pos_i, Pos_f, Matriz, PosPiezas):
 			except:
 				pass			
 
-			PosPiezas.remove("T" + (Pos_i[0] + str(Pos_i[1])).lower())
+			PosPiezas.remove("A" + (Pos_i[0] + str(Pos_i[1])).lower())
 
 		for posible in posiblesRef:
 			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
-				PosPiezas.append("T" + Pos_f[0] + str(Pos_f[1]))
-		print(PosPiezas)
+				PosPiezas.append("A" + Pos_f[0] + str(Pos_f[1]))
+		print("La jugada con el Alfil en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
 		return PosPiezas	
 
 	except:
-		print("La pieza inicial no es una Torre, o algo peor ha sucedido")
+		print("La pieza inicial no es un Alfil o es una jugada invalida o algo raro ha sucedido")
+
+
+ #Falta anadir la parte del Alfil que esta siendo trabajada
+
+ #Actualmente necesita anadirse el metodo de busqueda y de refinamiento del alfil
+
+def Reina(Pos_i, Pos_f, Matriz, PosPiezas):
+	try:
+		Pos_i = [Pos_i[:1], int(Pos_i[1:])] #letra, numero
+		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
+		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
+		posiblesRef = [] #lista refinada de "posibles"
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "d" and Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r") #que el inicial sea torre y el final distinto de 0
+
+	#Funcion de Torre + Funcion de Alfil de posibles
+	#Funcion de Torre:
+		for numero, diccionario in Matriz.items():
+			for letra, pieza in diccionario.items():			
+				if numero == Pos_i[1]: #Primero trabajamos en el eje de los numeros
+					if pieza != 0 and pieza.lower() != 'r' and letra != Pos_i[0]: #Si hay una pieza				
+						posibles.append([letra, numero])
+				if letra == Pos_i[0]: #Ahora trabajamos en el eje de las letras
+					if pieza != 0 and pieza.lower() != 'r' and numero != Pos_i[1]: #Si hay una pieza
+						posibles.append([letra, numero])
+	#Funcion de Alfil:
+	####TRABAJANDO####
+
+	#Funcion de Torre + Funcion de Alfil de refinamiento
+	#Funcion de Torre:
+		#Variables usadas para refinar la lista de posibles jugadas
+		tmp_letra_mayor = 'z'
+		tmp_letra_menor = '1'
+		tmp_numero_mayor = 10
+		tmp_numero_menor = 0
+		TMPNumLETRA =    "No" #Variable que almacena la pieza mas cercana a la Reina, por la   derecha de la Torre
+		tmpNumletra =    "No" #Variable que almacena la pieza mas cercana a la Reina, por la izquierda de la Torre
+		tmpLetraNUMERO = "No" #Variable que almacena la pieza mas cercana a la Reina, por       arriba de la Torre
+		tmpLetranumero = "No" #Variable que almacena la pieza mas cercana a la Reina, por        abajo de la Torre
+
+		#Refinando la lista
+		for valor in posibles:
+
+			if valor[1] == Pos_i[1]: #Mismo numero
+				if valor[0] > Pos_i[0]: #letra mayor a la inicial
+					if valor[0] < tmp_letra_mayor: #El valor actual", valor[0], "es menor que la tmp actual", tmp_letra_mayor
+						tmp_letra_mayor = valor[0]
+						TMPNumLETRA = valor
+				elif valor[0] < Pos_i[0]: #letra menor a la inicial
+					if valor[0] > tmp_letra_menor:
+						tmp_letra_menor = valor[0]
+						tmpNumletra = valor
+
+			elif valor[0] == Pos_i[0]: #Misma letra
+				if valor[1] > Pos_i[1]: #
+					if valor[1] < tmp_numero_mayor: #El valor actual", valor[1], "es menor que la tmp actual", tmp_numero_mayor
+						tmp_numero_mayor = valor[1]
+						tmpLetraNUMERO = valor			
+				elif valor[1] < Pos_i[1]: #numero menor al inicial
+					if valor[1] > tmp_numero_menor:
+						tmp_numero_menor = valor[1]
+						tmpLetranumero = valor				
+
+		#anadiendo a posiblesRef
+		if TMPNumLETRA !=    "No":
+			posiblesRef.append(TMPNumLETRA)
+		if tmpNumletra !=    "No":
+			posiblesRef.append(tmpNumletra)
+		if tmpLetraNUMERO != "No":
+			posiblesRef.append(tmpLetraNUMERO)
+		if tmpLetranumero != "No":
+			posiblesRef.append(tmpLetranumero)
+
+	#Funcion Alfil:
+	####TRABAJANDO####
+	#Funcion de Remover lo inicial + final y anadir Reina al final
+		if [Pos_f[0], int(Pos_f[1])] in posiblesRef:
+			try:
+				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:			
+				PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:			
+				PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass			
+
+			PosPiezas.remove("D" + (Pos_i[0] + str(Pos_i[1])).lower())
+
+		for posible in posiblesRef:
+			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
+				PosPiezas.append("D" + Pos_f[0] + str(Pos_f[1]))
+		print("La jugada con la Reina en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
+		return PosPiezas	
+
+	except:
+		print("La pieza inicial no es una Reina o es una jugada invalida o algo raro ha sucedido")
 
 def CambioLetra(letra, sentido):
 	if sentido == 1:
@@ -1003,8 +1206,7 @@ def Peon(Pos_i, Pos_f, Matriz, PosPiezas):
 				#	posibles.append([letra, numero])	
 				#if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0], 1) and numero == Pos_i[1] - 1:
 				#	posibles.append([letra, numero])	
-		
-		print(posibles)
+
 		if [Pos_f[0], int(Pos_f[1])] in posibles:
 			try:
 				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
@@ -1032,12 +1234,12 @@ def Peon(Pos_i, Pos_f, Matriz, PosPiezas):
 		for posible in posibles:
 			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
 				PosPiezas.append(Pos_f[0] + str(Pos_f[1]))
-		print(PosPiezas)
+		print("La jugada con el Peon en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
 		return PosPiezas	
 
 
 	except:
-		print("La pieza inicial no es un Peon, o algo peor ha sucedido")
+		print("La pieza inicial no es un Peon o es una jugada invalida o algo raro ha sucedido")
 
 def Caballo(Pos_i, Pos_f, Matriz, PosPiezas):
 	try:
@@ -1065,7 +1267,6 @@ def Caballo(Pos_i, Pos_f, Matriz, PosPiezas):
 				if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0], 2) and numero == Pos_i[1] - 1:
 					posibles.append([letra, numero])
 
-		print(posibles)
 		if [Pos_f[0], int(Pos_f[1])] in posibles:
 			try:
 				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
@@ -1092,15 +1293,14 @@ def Caballo(Pos_i, Pos_f, Matriz, PosPiezas):
 
 		for posible in posibles:
 			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
-				print("append")
 				PosPiezas.append("C" + Pos_f[0] + str(Pos_f[1]))
 
-		print(PosPiezas)
+		print("La jugada con el Caballo en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
 		return PosPiezas	
 
 
 	except:
-		print("La pieza inicial no es un Caballo, o algo peor ha sucedido")
+		print("La pieza inicial no es un Caballo o es una jugada invalida o algo raro ha sucedido")
 
 def Rey(Pos_i, Pos_f, Matriz, PosPiezas):
 	try:
@@ -1128,7 +1328,6 @@ def Rey(Pos_i, Pos_f, Matriz, PosPiezas):
 				if pieza != 0 and letra == CambioLetra(Pos_i[0],-1) and numero == Pos_i[1] - 1:
 					posibles.append([letra, numero])
 
-		print(posibles)
 		if [Pos_f[0], int(Pos_f[1])] in posibles:
 			try:
 				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
@@ -1155,15 +1354,14 @@ def Rey(Pos_i, Pos_f, Matriz, PosPiezas):
 
 		for posible in posibles:
 			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
-				print("append")
 				PosPiezas.append("R" + Pos_f[0] + str(Pos_f[1]))
 
-		print(PosPiezas)
+		print("La jugada con el Rey en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
 		return PosPiezas	
 
 
 	except:
-		print("La pieza inicial no es un Rey, o algo peor ha sucedido")
+		print("La pieza inicial no es un Rey o es una jugada invalida o algo raro ha sucedido")
 
 #Se asigna a la variable Usuario el nombre del usuario
 
