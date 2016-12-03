@@ -366,9 +366,10 @@ def Tablero(Nivel,PosPiezas):
 			if len(Input_Jugar_1.value) == 2 and presionada[pygame.K_RETURN]:
 				Pos_f = Jugar_1
 				print(PosPiezas)
-				Torre(Pos_i, Pos_f, matriz, PosPiezas) #PROBANDO TORRE
+				Torre(Pos_i, Pos_f, matriz, PosPiezas)
 				Peon(Pos_i, Pos_f, matriz, PosPiezas)
 				Caballo(Pos_i, Pos_f, matriz, PosPiezas)
+				Rey(Pos_i, Pos_f, matriz, PosPiezas)
 				Jugar_0 = None
 				Jugar_1 = None
 				Input_Jugar_0.value = ""
