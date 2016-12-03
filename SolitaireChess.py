@@ -903,32 +903,33 @@ def Torre(Pos_i, Pos_f, Matriz, PosPiezas):
 		print(posiblesRef)
 		print(PosPiezas)
 		#En este for se busca la posicion final entre los posibles y se cambia el inicial por "0" y el final por la torre
-		try:
-			PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:
-			PosPiezas.remove('R' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:
-			PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:
-			PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:			
-			PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:			
-			PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass			
+		if [Pos_f[0], int(Pos_f[1])] in posiblesRef:
+			try:
+				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('R' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:			
+				PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:			
+				PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass			
 
-		PosPiezas.remove("T" + (Pos_i[0] + str(Pos_i[1])).lower())
+			PosPiezas.remove("T" + (Pos_i[0] + str(Pos_i[1])).lower())
 
 		for posible in posiblesRef:
 			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
@@ -997,33 +998,33 @@ def Peon(Pos_i, Pos_f, Matriz, PosPiezas):
 					posibles.append([letra, numero])	
 		
 		print(posibles)
+		if [Pos_f[0], int(Pos_f[1])] in posibles:
+			try:
+				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('R' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:			
+				PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:			
+				PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass			
 
-		try:
-			PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:
-			PosPiezas.remove('R' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:
-			PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:
-			PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:			
-			PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:			
-			PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass			
-
-		PosPiezas.remove((Pos_i[0] + str(Pos_i[1])).lower())
+			PosPiezas.remove((Pos_i[0] + str(Pos_i[1])).lower())
 
 		for posible in posibles:
 			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
@@ -1062,36 +1063,37 @@ def Caballo(Pos_i, Pos_f, Matriz, PosPiezas):
 					posibles.append([letra, numero])
 
 		print(posibles)
+		if [Pos_f[0], int(Pos_f[1])] in posibles:
+			try:
+				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('R' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:
+				PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:			
+				PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass
+			try:			
+				PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
+			except:
+				pass		
 
-		try:
-			PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:
-			PosPiezas.remove('R' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:
-			PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:
-			PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:			
-			PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass
-		try:			
-			PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
-		except:
-			pass		
-
-		PosPiezas.remove(("C" + Pos_i[0] + str(Pos_i[1])).lower())
+			PosPiezas.remove("C" + (Pos_i[0] + str(Pos_i[1])).lower())
 
 		for posible in posibles:
 			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
+				print("append")
 				PosPiezas.append("C" + Pos_f[0] + str(Pos_f[1]))
 
 		print(PosPiezas)
