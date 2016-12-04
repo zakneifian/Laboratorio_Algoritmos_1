@@ -1,5 +1,12 @@
+#Falta funcion perdida/ganar, 0%, no es tan dificil de implementar
+#Mejorar funcion Solucion, buggeada, en progreso.
+#Falta Cargar Partida, en progreso.
+#Falta Scoreboard, 0%
+#Falta testear completamente Muy dificil (lo cual esta muy dificil porque hay que ganar al menos 1 partida para ver que funcione)
+#agregar exclusiones en caso de muy dificil, para cuando ganar, simplemente retornar
+
 #Librerias a importar
-import pygame, time, sys, eztext
+import pygame, time, sys, eztext, random
 from pygame.locals import *
 
 #Inicializamos pygame
@@ -32,21 +39,23 @@ blue  = (0  ,0  ,255)
 Font = pygame.font.SysFont(None, 30)
 
 #Carga de sprites
-Dificultad       = pygame.image.load('Sprites/Dificultad.png'	  )
-CargadoTablero 	 = pygame.image.load('Sprites/CargadoTablero.png' )
-DesafioTeclado	 = pygame.image.load('Sprites/DesafioTeclado.png' )
-Opcionesfacil 	 = pygame.image.load('Sprites/OpcionesFacil.png'  )
-OpcionesDificil	 = pygame.image.load('Sprites/OpcionesDificil.png')
-Leyenda			 = pygame.image.load('Sprites/Leyenda.png'		  )
-TableroPNG       = pygame.image.load('Sprites/Tablero.png'        )
-ReyPNG           = pygame.image.load('Sprites/Rey.png'            )
-DamaPNG         = pygame.image.load('Sprites/Reina.png'           )
-AlfilPNG         = pygame.image.load('Sprites/Alfil.png'          )
-CaballoPNG       = pygame.image.load('Sprites/Caballo.png'        )
-TorrePNG         = pygame.image.load('Sprites/Torre.png'          )
-PeonPNG          = pygame.image.load('Sprites/Peon.png'           )
-CajaPNG          = pygame.image.load('Sprites/Caja.png'           )
-MenuPrincipalPNG = pygame.image.load('Sprites/MenuPrincipal.png'  )
+Dificultad         = pygame.image.load('Sprites/Dificultad.png'	       )
+CargadoTablero 	   = pygame.image.load('Sprites/CargadoTablero.png'    )
+DesafioTeclado	   = pygame.image.load('Sprites/DesafioTeclado.png'    )
+Opcionesfacil 	   = pygame.image.load('Sprites/OpcionesFacil.png'     )
+OpcionesDificil	   = pygame.image.load('Sprites/OpcionesDificil.png'   )
+OpcionesMuyDificil = pygame.image.load('Sprites/OpcionesMuyDificil.png')
+OpcionesTutorial   = pygame.image.load('Sprites/OpcionesTutorial.png'  )
+Leyenda			   = pygame.image.load('Sprites/Leyenda.png'		   )
+TableroPNG         = pygame.image.load('Sprites/Tablero.png'           )
+ReyPNG             = pygame.image.load('Sprites/Rey.png'               )
+DamaPNG            = pygame.image.load('Sprites/Reina.png'             )
+AlfilPNG           = pygame.image.load('Sprites/Alfil.png'             )
+CaballoPNG         = pygame.image.load('Sprites/Caballo.png'           )
+TorrePNG           = pygame.image.load('Sprites/Torre.png'             )
+PeonPNG            = pygame.image.load('Sprites/Peon.png'              )
+CajaPNG            = pygame.image.load('Sprites/Caja.png'              )
+MenuPrincipalPNG   = pygame.image.load('Sprites/MenuPrincipal.png'     )
 blurPNG = [pygame.image.load('Sprites/Blur/' + str(i) +'.png') for i in range(1,11)]
 #////////////////////////////////////////////////////////////////////////////////////
 
@@ -147,14 +156,75 @@ def Niveles():
 				MenuDesafio(Nivel)
 				
 			if presionada[pygame.K_RETURN] and Nivel == "3":
-				pass
+				MenuDesafio(Nivel)
 				
 			if presionada[pygame.K_RETURN] and Nivel == "4":
-				pass
+				MenuDesafio(Nivel)
 				
 
 		pygame.display.update()
 		fpsClock.tick(FPS)
+
+""" en proceso
+def CargarPartida():
+
+	InputCarga = eztext.Input(maxlength=1, color=white, prompt='String de guardado:')
+	InputCarga.set_pos(407, 422)
+	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
+	MenuCarga = True
+	while MenuCarga:
+		#Refresca los eventos a esta variable
+		eventos = pygame.event.get()
+		#Variable que verifica si una tecla esta presionada
+		presionada = pygame.key.get_pressed()
+
+		AnimacionBackground()
+
+		gameDisplay.blit(CajaPNG, (400,422))
+		InputCarga.draw(gameDisplay)
+		InputCarga.update(eventos)
+		string = InputCarga.value #Guardamos el valor del inputDificultad en la variable Nivel..
+		try:
+			numero = string.split()[0]
+			fecha = string.split()[1]
+			nivel = string.split()[2].lower()
+		except:
+			pass
+
+		 #Evento para salir hacia el menu Principal o para cargar el juego en su respectivo nivel
+		for event in eventos:
+
+			if event.type == pygame.locals.QUIT: 
+				pygame.quit() 
+				sys.exit()
+			if presionada[pygame.K_RETURN] and string == "0":
+				return 
+			try:
+			# string: [0] == numero, [1] == fecha, [2] == Nivel. linea: [1] == numero, [2] == fecha, [4] == Nivel
+			if presionada[pygame.K_RETURN] and (numero == linea.split()[1] and fecha == linea.split()[2] and nivel == linea.split()[4].lower()):
+				if nivel == 'tutorial':
+					#Insertar carga de tutorial
+				elif nivel == 'facil':
+					#Insertar carga de facil
+				elif nivel == 'dificil':
+					#Insertar carga de dificil
+				elif nivel == 'muydificil':
+					#Insertar carga de muy dificil
+			except:
+				pass
+
+
+
+	#guardado = "Partida " + str(lineas + 1) + " " + time.strftime("%d/%m/%y") + " " + 'Infinito' + " " + strNivel + " "+ string
+
+		pygame.display.update()
+		fpsClock.tick(FPS)
+"""
+
+#Mientras tanto
+def CargarPartida():
+	pass
+#arriba mientras tanto
 
 #Se define el Loop principal del juego
 def LoopPrincipal():
@@ -215,6 +285,7 @@ def LoopPrincipal():
 				###EN CONSTRUCCION### LAS TRES LINEAS DE ABAJO SON TEMPORALES
 				print("Has accedido correctamente a la opcion de Cargar Partida, como esta en construccion, te retornaremos al menu principal")
 				OpcionCargarPartida = False
+				CargarPartida()
 				PantallaDeOpcionesPrincipal = True
 
 		#Opcion Scoreboard
@@ -310,11 +381,16 @@ def Tablero(Nivel,PosPiezas):
 	gameDisplay = pygame.display.set_mode((display_width, display_height))
 
 	#Variables de tiempo
+	global ContadorMuyDificil
 	TextoDeContador = 'Tiempo restante: '
 	if Nivel == '1':
 		contador = 3*60
 	elif Nivel == '2':
 		contador = int(1.5*60)
+	elif Nivel == '3':
+		ContadorMuyDificil = ContadorMuyDificil
+	elif Nivel == '4':
+		TextoDeContador = 'Tiempo restante: Infinito'
 
 	#Nombre de usuario en pantalla
 	Nombre = "Usuario: " + Usuario
@@ -323,6 +399,9 @@ def Tablero(Nivel,PosPiezas):
 	lectura(PosPiezas)
 	Deshacer_Temp_List = [MatrizToString(matriz)]
 	Contador_de_deshacer = 0
+
+	#Relativo a Solucion
+	Solucion = False
 	
 	while True:
 
@@ -340,14 +419,24 @@ def Tablero(Nivel,PosPiezas):
 				pygame.quit() 
 				sys.exit()
 
-			#Funcion contadora de tiempo
-			if event.type == pygame.USEREVENT and Mostrar_Input_Pausa == False:
+			#Funcion contadora de tiempo para niveles facil y dificil
+			if event.type == pygame.USEREVENT and Mostrar_Input_Pausa == False and (Nivel == '1' or Nivel == '2'):
 				contador -= 1
 				if contador > 0:
 					TextoDeContador = 'Tiempo restante: ' + str(contador)
 				else:
 					print("Has perdido. Anadir pantalla de perder")
 					return LoopPrincipal()
+
+			#Funcion contadora de tiempo para nivel muy dificil
+			if event.type == pygame.USEREVENT and Nivel == '3':
+				ContadorMuyDificil -= 1
+				if ContadorMuyDificil > 0:
+					TextoDeContador = 'Tiempo restante: ' + str(ContadorMuyDificil)
+				else:
+					print("Has perdido. Anadir pantalla de perder")
+					return LoopPrincipal()
+			
 
 
 			#Funcion jugar
@@ -360,8 +449,42 @@ def Tablero(Nivel,PosPiezas):
 			#Relativo a Funcion Jugar: Jugar_0
 			if len(Input_Jugar_0.value) == 2 and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Jugar_0 = False
-				Mostrar_Input_Jugar_1 = True
+				if not Solucion:
+					Mostrar_Input_Jugar_1 = True
 				Pos_i = Jugar_0
+
+				if Solucion == True:
+					PosPiezasTmp = PosPiezas
+					for posF in PosPiezas:
+						Torre(Pos_i, posF[0:], matriz, PosPiezas)
+						lectura(PosPiezas)
+						Peon(Pos_i, posF[0:], matriz, PosPiezas)
+						lectura(PosPiezas)
+						Caballo(Pos_i, posF[0:], matriz, PosPiezas)
+						lectura(PosPiezas)
+						Rey(Pos_i, posF[0:], matriz, PosPiezas)
+						lectura(PosPiezas)
+						Alfil(Pos_i, posF[0:], matriz, PosPiezas)
+						lectura(PosPiezas)
+						Reina(Pos_i, posF[0:], matriz, PosPiezas)
+						lectura(PosPiezas)
+						if PosPiezasTmp !=PosPiezas:
+							break
+
+					if PosPiezasTmp == PosPiezas:
+						print("\n\n\n\nNo hay ninguna solucion. Se saldra del juego")
+						return LoopPrincipal()
+
+					Solucion = False
+					Jugar_0 = None
+					Jugar_1 = None
+					Input_Jugar_0.value = ""
+					Input_Jugar_1.value = ""
+					Input_Tablero_Opcion.value = ""
+					Mostrar_Input_Jugar_1 = False
+					Mostrar_Input_Jugar = False
+					Mostrar_Input_Tablero_Opcion = True
+					lectura(PosPiezas)
 
 			if len(Input_Jugar_1.value) == 2 and presionada[pygame.K_RETURN]:
 				Pos_f = Jugar_1
@@ -380,12 +503,11 @@ def Tablero(Nivel,PosPiezas):
 				Mostrar_Input_Jugar_1 = False
 				Mostrar_Input_Jugar = False
 				Mostrar_Input_Tablero_Opcion = True
-				###### FALTAN CAMBIOS A LA MATRIZ REALMENTE Y DESPUES LO SIGUIENTE####
 				lectura(PosPiezas)
 				Deshacer_Temp_List.append(MatrizToString(matriz))
 
 			#Funcion pausar
-			if  Opcion_Tablero == "2" and presionada[pygame.K_RETURN]:
+			if  Opcion_Tablero == "2" and Nivel != '3' and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Pausa = True
 				Mostrar_Input_Tablero_Opcion = False
 				Opcion_Tablero = ""
@@ -417,17 +539,30 @@ def Tablero(Nivel,PosPiezas):
 					strNivel = "Facil"
 				elif Nivel == '2':
 					strNivel = "Dificil"
+				elif Nivel == '3':
+					strNivel = "MuyDificil"
+				elif Nivel == '4':
+					strNivel = 'Tutorial'
+
 				with open('Texts/partidasguardadas.txt', 'a+') as archivo:
 					for lines in archivo:
 						lineas += 1
-					guardado = "Partida " + str(lineas + 1) + " " + time.strftime("%d/%m/%y") + " " + str(contador) + " " + strNivel + " "+ string
+					if Nivel != '3' and Nivel != '4':	
+						guardado = "Partida " + str(lineas + 1) + " " + time.strftime("%d/%m/%y") + " " + str(contador) + " " + strNivel + " "+ string
+					elif Nivel == '3':
+						string1 = MatrizToString(lectura(PosPiezas1))
+						string2 = MatrizToString(lectura(PosPiezas2))
+						string3 = MatrizToString(lectura(PosPiezas3))
+						guardado = "Partida " + str(lineas + 1) + " " + time.strftime("%d/%m/%y") + " " + str(ContadorMuyDificil) + " " + strNivel + " " + PosActual + " " + string1 + " " + string2 + " " + string3
+					elif Nivel == '4':
+						guardado = "Partida " + str(lineas + 1) + " " + time.strftime("%d/%m/%y") + " " + 'Infinito' + " " + strNivel + " "+ string
 					print("A continuacion se guardara en una nueva linea:\n" + '"' + guardado + '"')
 					archivo.write(guardado + "\n")
 
 				return LoopPrincipal()
 
 			#Funcion Deshacer
-			if  Opcion_Tablero == "4" and presionada[pygame.K_RETURN] and Nivel == "1":
+			if  Opcion_Tablero == "4" and presionada[pygame.K_RETURN] and (Nivel == "1" or Nivel == '4'):
 				Opcion_Tablero = ""
 				Input_Tablero_Opcion.value = ""
 				if len(Deshacer_Temp_List) - Contador_de_deshacer > 1:
@@ -439,6 +574,17 @@ def Tablero(Nivel,PosPiezas):
 				else:
 					print("ERROR, has deshecho todo lo posible, esta es la lista temporal actual:" + str(Deshacer_Temp_List))
 
+			#Funcion Solucion
+			if  Opcion_Tablero == "5" and presionada[pygame.K_RETURN] and (Nivel == '4'):
+				Solucion = True
+				Mostrar_Input_Jugar = True
+				Mostrar_Input_Jugar_0 = True
+				Mostrar_Input_Tablero_Opcion = False
+				Input_Tablero_Opcion.value = ""
+
+			#ULTIMA FUNCION DEL EVENTO, LIMPIA DESPUES DE ENTER EL TABLERO OPCION
+			if Mostrar_Input_Tablero_Opcion == True and presionada[pygame.K_RETURN]:
+				Input_Tablero_Opcion.value = ""
 
 		#En caso de ser nivel 1(Facil) cargara el menu con botones faciles
 		if Nivel == "1":
@@ -446,6 +592,11 @@ def Tablero(Nivel,PosPiezas):
 		#En caso de ser nivel 2(dificil) cargara el menu con los botones dificiles
 		elif Nivel == "2":
 			gameDisplay.blit(OpcionesDificil,(758,0))
+		elif Nivel == '3':
+			gameDisplay.blit(OpcionesMuyDificil,(758,0))
+		elif Nivel == '4':
+			gameDisplay.blit(OpcionesTutorial,(758,0))
+
 
 		gameDisplay.blit(TableroPNG,(0,0))
 
@@ -456,7 +607,8 @@ def Tablero(Nivel,PosPiezas):
 
 		if Mostrar_Input_Jugar == True:
 			Input_Jugar_0.draw(gameDisplay)
-			Input_Jugar_1.draw(gameDisplay)
+			if not Solucion:
+				Input_Jugar_1.draw(gameDisplay)
 
 			if Mostrar_Input_Jugar_0 == True:
 				Input_Jugar_0.draw(gameDisplay)				
@@ -529,6 +681,83 @@ def MenuDesafio(Nivel):
 			if presionada[pygame.K_RETURN] and Opcion_Teclado_Desafio == "1":
 				#Llamamos la funcion que contiene la ventana del input para el usuario cree su tablero
 				Configuracion_por_teclado(Nivel)
+			if presionada[pygame.K_RETURN] and Opcion_Teclado_Desafio == "2":
+				global ContadorMuyDificil
+				ContadorMuyDificil = 2*60
+				lineas = 1
+				if Nivel == '1':
+					rndm = random.randint(1, 20)
+					with open('Texts/partidasnuevas.txt', 'r+') as archivo:
+						for linea in archivo:
+							if lineas == rndm:
+								PosPiezas = linea.split()[0].split("-")
+								Tablero(Nivel, PosPiezas)
+							else:
+								lineas += 1
+
+				elif Nivel == '2':
+					rndm = random.randint(20, 40)
+					with open('Texts/partidasnuevas.txt', 'r+') as archivo:
+						for linea in archivo:
+							if lineas == rndm:
+								PosPiezas = linea.split()[0].split("-")
+								Tablero(Nivel, PosPiezas)
+							else:
+								lineas += 1
+
+				elif Nivel == '4':
+					rndm = random.randint(1, 60)
+					with open('Texts/partidasnuevas.txt', 'r+') as archivo:
+						for linea in archivo:
+							if lineas == rndm:
+								PosPiezas = linea.split()[0].split("-")
+								Tablero(Nivel, PosPiezas)
+							else:
+								lineas += 1
+			if Nivel == '3':
+				ContadorMuyDificil = 2*60
+				global ContadorMuyDificil
+				global PosActual
+				lineas = 1
+				rndm = random.sample(range(40, 61), 3)
+				with open('Texts/partidasnuevas.txt', 'r+') as archivo:
+					for linea in archivo: #Primera Partida
+						if lineas == rndm[0]:
+							print(str(lineas), str(rndm[0]))
+							global PosPiezas1
+							PosPiezas1 = linea.split()[0].split("-")
+							break
+						else:
+							lineas += 1
+					archivo.seek(lineas, 0)
+					lineas = 1				
+					for linea in archivo: #Segunda Partida
+						if lineas == rndm[1]:
+							global PosPiezas2
+							PosPiezas2 = linea.split()[0].split("-")
+							break
+						else:
+							lineas += 1
+					archivo.seek(lineas, 0)
+					lineas = 1
+					for linea in archivo: #Tercera Partida
+						if lineas == rndm[2]:
+							global PosPiezas3
+							PosPiezas3 = linea.split()[0].split("-")
+							break
+						else:
+							lineas += 1
+					global PosActual
+					PosActual = '1'
+					Tablero(Nivel, PosPiezas1)
+					PosActual = '2'
+					Tablero(Nivel, PosPiezas2)
+					PosActual = '3'
+					Tablero(Nivel, PosPiezas3)
+					print("Has ganado la modalidad muy dificil, hooray.")
+					return LoopPrincipal()
+
+
 
 
 		gameDisplay.blit(CargadoTablero,(198,90))
@@ -1444,6 +1673,8 @@ def Rey(Pos_i, Pos_f, Matriz, PosPiezas):
 
 	except:
 		print("La pieza inicial no es un Rey o es una jugada invalida o algo raro ha sucedido")
+
+
 
 #Se asigna a la variable Usuario el nombre del usuario
 
