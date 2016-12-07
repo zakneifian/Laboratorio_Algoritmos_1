@@ -24,10 +24,6 @@ display_height = 760
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('USB\'s Solitaire Chess')
 
-#Cargamos el icono y lo asignamos a la ventana
-iconoPNG = pygame.image.load('Sprites/icono.png') 
-pygame.display.set_icon(iconoPNG)
-
 #Colores
 white = (255,255,255)
 black = (0  ,0  ,0  )
@@ -37,26 +33,32 @@ blue  = (0  ,0  ,255)
 
 #Fuente de letra
 Font = pygame.font.SysFont(None, 30)
+try:
+	#Carga de sprites
+	iconoPNG           = pygame.image.load('Sprites/icono.png'             ) 
+	Dificultad         = pygame.image.load('Sprites/Dificultad.png'	       )
+	CargadoTablero 	   = pygame.image.load('Sprites/CargadoTablero.png'    )
+	DesafioTeclado	   = pygame.image.load('Sprites/DesafioTeclado.png'    )
+	Opcionesfacil 	   = pygame.image.load('Sprites/OpcionesFacil.png'     )
+	OpcionesDificil	   = pygame.image.load('Sprites/OpcionesDificil.png'   )
+	OpcionesMuyDificil = pygame.image.load('Sprites/OpcionesMuyDificil.png')
+	OpcionesTutorial   = pygame.image.load('Sprites/OpcionesTutorial.png'  )
+	Leyenda			   = pygame.image.load('Sprites/Leyenda.png'		   )
+	TableroPNG         = pygame.image.load('Sprites/Tablero.png'           )
+	ReyPNG             = pygame.image.load('Sprites/Rey.png'               )
+	DamaPNG            = pygame.image.load('Sprites/Reina.png'             )
+	AlfilPNG           = pygame.image.load('Sprites/Alfil.png'             )
+	CaballoPNG         = pygame.image.load('Sprites/Caballo.png'           )
+	TorrePNG           = pygame.image.load('Sprites/Torre.png'             )
+	PeonPNG            = pygame.image.load('Sprites/Peon.png'              )
+	CajaPNG            = pygame.image.load('Sprites/Caja.png'              )
+	MenuPrincipalPNG   = pygame.image.load('Sprites/MenuPrincipal.png'     )
+	blurPNG = [pygame.image.load('Sprites/Blur/' + str(i) +'.png') for i in range(1,11)]
+except:
+	print("ERROR, FALTAN ALGUN(AS) IMAGENES DEL PROGRAMA")
+	pygame.quit() 
+	sys.exit()
 
-#Carga de sprites
-Dificultad         = pygame.image.load('Sprites/Dificultad.png'	       )
-CargadoTablero 	   = pygame.image.load('Sprites/CargadoTablero.png'    )
-DesafioTeclado	   = pygame.image.load('Sprites/DesafioTeclado.png'    )
-Opcionesfacil 	   = pygame.image.load('Sprites/OpcionesFacil.png'     )
-OpcionesDificil	   = pygame.image.load('Sprites/OpcionesDificil.png'   )
-OpcionesMuyDificil = pygame.image.load('Sprites/OpcionesMuyDificil.png')
-OpcionesTutorial   = pygame.image.load('Sprites/OpcionesTutorial.png'  )
-Leyenda			   = pygame.image.load('Sprites/Leyenda.png'		   )
-TableroPNG         = pygame.image.load('Sprites/Tablero.png'           )
-ReyPNG             = pygame.image.load('Sprites/Rey.png'               )
-DamaPNG            = pygame.image.load('Sprites/Reina.png'             )
-AlfilPNG           = pygame.image.load('Sprites/Alfil.png'             )
-CaballoPNG         = pygame.image.load('Sprites/Caballo.png'           )
-TorrePNG           = pygame.image.load('Sprites/Torre.png'             )
-PeonPNG            = pygame.image.load('Sprites/Peon.png'              )
-CajaPNG            = pygame.image.load('Sprites/Caja.png'              )
-MenuPrincipalPNG   = pygame.image.load('Sprites/MenuPrincipal.png'     )
-blurPNG = [pygame.image.load('Sprites/Blur/' + str(i) +'.png') for i in range(1,11)]
 #////////////////////////////////////////////////////////////////////////////////////
 
 #Definiciones para el background
@@ -66,6 +68,9 @@ blur = 0
 #Definiciones para el reloj
 reloj = pygame.time.Clock()
 pygame.time.set_timer(pygame.USEREVENT, 1000)
+
+#Cargamos el icono y lo asignamos a la ventana
+pygame.display.set_icon(iconoPNG)
 
 #Funcion que se usa en un loop para proveer animacion de background
 def AnimacionBackground():
@@ -715,8 +720,8 @@ def MenuDesafio(Nivel):
 							else:
 								lineas += 1
 			if Nivel == '3':
-				ContadorMuyDificil = 2*60
 				global ContadorMuyDificil
+				ContadorMuyDificil = 2*60
 				global PosActual
 				lineas = 1
 				rndm = random.sample(range(40, 61), 3)
@@ -997,6 +1002,7 @@ def Configuracion_por_teclado(Nivel):
 					elif len(elemento) == 3:
 						PosPiezas.append(elemento[0].upper() + elemento[1:].lower())
 
+				print("Usted ha introducido: " + str(PosPiezas))
 			#Chequeamos que cumpla con las reglas de longitud
 				if  not 0 < len(PosPiezas) <= 8:
 					print("Has insertado un numero invalido de piezas, maximo 8.")
@@ -1037,8 +1043,14 @@ def Configuracion_por_teclado(Nivel):
 									print("No puedes mas de una pieza en una posicion")
 									return Configuracion_por_teclado(Nivel)								
 			#Chequeamos que no hayan dos piezas iguales en el string
-				#FALTA FUNCION
-			#Chequeamos qu haya maximo dos peones, dos caballos, dos alfiles, dos torres, 1 rey, 1 reina
+				ListaTMP = []
+				for elemento in PosPiezas:
+					if not (elemento in ListaTMP):
+						ListaTMP.append(elemento)
+					else:
+						print("Hay elementos duplicados, por favor intente de nuevo")
+						Configuracion_por_teclado(Nivel)
+			#Chequeamos que haya maximo dos peones, dos caballos, dos alfiles, dos torres, 1 rey, 1 reina
 				for elem_1 in PosPiezas:
 					for elem_2 in PosPiezas:
 						for elem_3 in PosPiezas:
