@@ -170,7 +170,7 @@ def Niveles():
 		pygame.display.update()
 		fpsClock.tick(FPS)
 
-""" en proceso
+ #en proceso, falta foto bonita de cargado en vez de solo CajaPNG
 def CargarPartida():
 
 	InputCarga = eztext.Input(maxlength=1, color=white, prompt='String de guardado:')
@@ -208,7 +208,7 @@ def CargarPartida():
 			# string: [0] == numero, [1] == fecha, [2] == Nivel. linea: [1] == numero, [2] == fecha, [4] == Nivel
 			if presionada[pygame.K_RETURN] and (numero == linea.split()[1] and fecha == linea.split()[2] and nivel == linea.split()[4].lower()):
 				if nivel == 'tutorial':
-					#Insertar carga de tutorial
+					Tablero("4", linea.split()[5], CargaPartida) #esta en modo string el [5] convertir a PosPiezas
 				elif nivel == 'facil':
 					#Insertar carga de facil
 				elif nivel == 'dificil':
@@ -224,7 +224,7 @@ def CargarPartida():
 
 		pygame.display.update()
 		fpsClock.tick(FPS)
-"""
+
 
 #Mientras tanto
 def CargarPartida():
@@ -342,7 +342,7 @@ def LoopPrincipal():
 
 			#Nivel es el parametro q determinara que opciones cargada segun el nivel
 
-def Tablero(Nivel,PosPiezas):
+def Tablero(Nivel, PosPiezas, CargaPartida):
 
 	#Muesta el nombre del usuario que esta jugando en la ventana
 	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
