@@ -171,9 +171,10 @@ def Niveles():
 		fpsClock.tick(FPS)
 
  #en proceso, falta foto bonita de cargado en vez de solo CajaPNG
+
 def CargarPartida():
 
-	InputCarga = eztext.Input(maxlength=1, color=white, prompt='String de guardado:')
+	InputCarga = eztext.Input(maxlength=40, color=white, prompt='String de guardado:')
 	InputCarga.set_pos(407, 422)
 	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
 	MenuCarga = True
@@ -189,12 +190,6 @@ def CargarPartida():
 		InputCarga.draw(gameDisplay)
 		InputCarga.update(eventos)
 		string = InputCarga.value #Guardamos el valor del inputDificultad en la variable Nivel..
-		try:
-			numero = string.split()[0]
-			fecha = string.split()[1]
-			nivel = string.split()[2].lower()
-		except:
-			pass
 
 		 #Evento para salir hacia el menu Principal o para cargar el juego en su respectivo nivel
 		for event in eventos:
@@ -204,19 +199,75 @@ def CargarPartida():
 				sys.exit()
 			if presionada[pygame.K_RETURN] and string == "0":
 				return 
-			try:
-			# string: [0] == numero, [1] == fecha, [2] == Nivel. linea: [1] == numero, [2] == fecha, [4] == Nivel
-			if presionada[pygame.K_RETURN] and (numero == linea.split()[1] and fecha == linea.split()[2] and nivel == linea.split()[4].lower()):
-				if nivel == 'tutorial':
-					Tablero("4", linea.split()[5], CargaPartida) #esta en modo string el [5] convertir a PosPiezas
-				elif nivel == 'facil':
-					#Insertar carga de facil
-				elif nivel == 'dificil':
-					#Insertar carga de dificil
-				elif nivel == 'muydificil':
-					#Insertar carga de muy dificil
-			except:
-				pass
+			if presionada[pygame.K_RETURN] and string != "":
+				try:
+					string = string.split()
+					numero = string[0]
+					fecha = string[1]
+					dificultad = string[2].lower()
+					with open("Texts/partidasguardadas.txt", "r+") as archivo:
+						for linea in archivo:
+							linea = linea.split()
+							if len(linea) == 6: #NO MUY DIFICIL
+								numeroF = linea[1]
+								fechaF = linea[2]
+								global contador
+								contador = int(linea[3])
+								DificultadF = linea[4].lower()
+								PosPiezasF = linea[5]
+								if numero == numeroF and fecha == fechaF and dificultad == DificultadF.lower():
+									PosPiezasF = PosPiezasF.split('-')
+									if DificultadF == 'tutorial':
+										Tablero("Custom 4", PosPiezasF)
+										return LoopPrincipal()
+									elif DificultadF == 'facil':
+										Tablero("Custom 1", PosPiezasF)
+										return LoopPrincipal()
+									elif DificultadF == 'dificil':
+										Tablero("Custom 2", PosPiezasF)
+										return LoopPrincipal()
+							elif len(linea) == 9: #MUY DIFICIL
+								numeroF = linea[1]
+								fechaF = linea[2]
+
+								global ContadorMuyDificil
+								ContadorMuyDificil = int(linea[3])
+
+								DificultadF = linea[4].lower()
+
+								global PosActual
+								PosActual = linea[5]
+
+								PosPiezas1F = linea[6]
+								PosPiezas2F = linea[7]
+								PosPiezas3F = linea[8]
+								print(linea)
+								if (numero == numeroF and fecha == fechaF and dificultad == DificultadF):
+									if DificultadF == 'muydificil':
+										PosPiezas1F = PosPiezas1F.split('-')
+										PosPiezas2F = PosPiezas2F.split('-')
+										PosPiezas3F = PosPiezas3F.split('-')
+
+										if PosActual == "1":
+											Tablero("3", PosPiezas1F)
+											PosActual = "2"
+											Tablero("3", PosPiezas2F)
+											PosActual = "3"
+											Tablero("3", PosPiezas3F)
+											return LoopPrincipal()
+
+										elif PosActual == "2":
+											Tablero("3", PosPiezas2F)
+											PosActual = "3"
+											Tablero("3", PosPiezas3F)
+											return LoopPrincipal()
+
+										elif PosActual == "3":
+											Tablero("3", PosPiezas3F)
+											return LoopPrincipal()
+				except:
+					print("Formato incorrecto")
+					return CargarPartida()
 
 
 
@@ -226,9 +277,6 @@ def CargarPartida():
 		fpsClock.tick(FPS)
 
 
-#Mientras tanto
-def CargarPartida():
-	pass
 #arriba mientras tanto
 
 #Se define el Loop principal del juego
@@ -342,7 +390,7 @@ def LoopPrincipal():
 
 			#Nivel es el parametro q determinara que opciones cargada segun el nivel
 
-def Tablero(Nivel, PosPiezas, CargaPartida):
+def Tablero(Nivel, PosPiezas):
 
 	#Muesta el nombre del usuario que esta jugando en la ventana
 	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
@@ -386,16 +434,22 @@ def Tablero(Nivel, PosPiezas, CargaPartida):
 	gameDisplay = pygame.display.set_mode((display_width, display_height))
 
 	#Variables de tiempo
+	global contador
 	global ContadorMuyDificil
 	TextoDeContador = 'Tiempo restante: '
 	if Nivel == '1':
 		contador = 3*60
 	elif Nivel == '2':
 		contador = int(1.5*60)
-	elif Nivel == '3':
-		ContadorMuyDificil = ContadorMuyDificil
 	elif Nivel == '4':
 		TextoDeContador = 'Tiempo restante: Infinito'
+	elif Nivel == 'Custom 1':
+		contador = contador
+	elif Nivel == 'Custom 2':
+		contador = contador
+		print(contador)
+	elif Nivel == 'Custom 4':
+		contador = contador
 
 	#Nombre de usuario en pantalla
 	Nombre = "Usuario: " + Usuario
@@ -425,7 +479,7 @@ def Tablero(Nivel, PosPiezas, CargaPartida):
 				sys.exit()
 
 			#Funcion contadora de tiempo para niveles facil y dificil
-			if event.type == pygame.USEREVENT and Mostrar_Input_Pausa == False and (Nivel == '1' or Nivel == '2'):
+			if event.type == pygame.USEREVENT and Mostrar_Input_Pausa == False and Nivel != '3' and Nivel != '4' and Nivel != "Custom 4":
 				contador -= 1
 				if contador > 0:
 					TextoDeContador = 'Tiempo restante: ' + str(contador)
@@ -540,29 +594,30 @@ def Tablero(Nivel, PosPiezas, CargaPartida):
 			if Salir_o_Guardar == "2" and presionada[pygame.K_RETURN]:
 				string = MatrizToString(matriz)
 				lineas = sum(1 for linea in open('Texts/partidasguardadas.txt'))
-				if Nivel == '1':
+				if Nivel == '1' or Nivel == "Custom 1":
 					strNivel = "Facil"
-				elif Nivel == '2':
+				elif Nivel == '2' or Nivel == "Custom 2":
 					strNivel = "Dificil"
 				elif Nivel == '3':
 					strNivel = "MuyDificil"
-				elif Nivel == '4':
+				elif Nivel == '4' or Nivel == "Custom 4":
 					strNivel = 'Tutorial'
 
 				with open('Texts/partidasguardadas.txt', 'a+') as archivo:
-					for lines in archivo:
-						lineas += 1
-					if Nivel != '3' and Nivel != '4':	
+					if Nivel != '3' and Nivel != '4' and Nivel != "Custom 4":	
 						guardado = "Partida " + str(lineas + 1) + " " + time.strftime("%d/%m/%y") + " " + str(contador) + " " + strNivel + " "+ string
 					elif Nivel == '3':
 						string1 = MatrizToString(lectura(PosPiezas1))
 						string2 = MatrizToString(lectura(PosPiezas2))
 						string3 = MatrizToString(lectura(PosPiezas3))
 						guardado = "Partida " + str(lineas + 1) + " " + time.strftime("%d/%m/%y") + " " + str(ContadorMuyDificil) + " " + strNivel + " " + PosActual + " " + string1 + " " + string2 + " " + string3
-					elif Nivel == '4':
+					elif Nivel == '4' or Nivel == "Custom 4":
 						guardado = "Partida " + str(lineas + 1) + " " + time.strftime("%d/%m/%y") + " " + 'Infinito' + " " + strNivel + " "+ string
 					print("A continuacion se guardara en una nueva linea:\n" + '"' + guardado + '"')
-					archivo.write(guardado + "\n")
+					if lineas + 1 == 1:
+						archivo.write(guardado)
+					else:
+						archivo.write('\n' + guardado)
 
 				return LoopPrincipal()
 
@@ -580,7 +635,7 @@ def Tablero(Nivel, PosPiezas, CargaPartida):
 					print("ERROR, has deshecho todo lo posible, esta es la lista temporal actual:" + str(Deshacer_Temp_List))
 
 			#Funcion Solucion
-			if  Opcion_Tablero == "5" and presionada[pygame.K_RETURN] and (Nivel == '4'):
+			if  Opcion_Tablero == "5" and presionada[pygame.K_RETURN] and (Nivel == '4' or Nivel == "Custom 4"):
 				Solucion = True
 				Mostrar_Input_Jugar = True
 				Mostrar_Input_Jugar_0 = True
@@ -592,14 +647,14 @@ def Tablero(Nivel, PosPiezas, CargaPartida):
 				Input_Tablero_Opcion.value = ""
 
 		#En caso de ser nivel 1(Facil) cargara el menu con botones faciles
-		if Nivel == "1":
+		if Nivel == "1" or Nivel == "Custom 1":
 			gameDisplay.blit(Opcionesfacil,(758,0))
 		#En caso de ser nivel 2(dificil) cargara el menu con los botones dificiles
-		elif Nivel == "2":
+		elif Nivel == "2" or Nivel == "Custom 2":
 			gameDisplay.blit(OpcionesDificil,(758,0))
 		elif Nivel == '3':
 			gameDisplay.blit(OpcionesMuyDificil,(758,0))
-		elif Nivel == '4':
+		elif Nivel == '4' or Nivel == "Custom 4":
 			gameDisplay.blit(OpcionesTutorial,(758,0))
 
 
