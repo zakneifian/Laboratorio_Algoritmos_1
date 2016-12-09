@@ -1,9 +1,5 @@
-#Falta funcion perdida/ganar, 0%, no es tan dificil de implementar
-#Mejorar funcion Solucion, buggeada, en progreso.
-#Falta Cargar Partida, en progreso.
+#Falta foto de Nivel Tutorial, Nivel Muy Dificil, Cargar Partida, Ganar, Perder, Scoreboard.
 #Falta Scoreboard, 0%
-#Falta testear completamente Muy dificil (lo cual esta muy dificil porque hay que ganar al menos 1 partida para ver que funcione)
-#agregar exclusiones en caso de muy dificil, para cuando ganar, simplemente retornar
 
 #Librerias a importar
 import pygame, time, sys, eztext, random
@@ -174,8 +170,8 @@ def Niveles():
 
 def CargarPartida():
 
-	InputCarga = eztext.Input(maxlength=40, color=white, prompt='String de guardado:')
-	InputCarga.set_pos(407, 422)
+	InputCarga = eztext.Input(maxlength=40, color=white, prompt='String de guardado: ')
+	InputCarga.set_pos(207, 350)
 	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
 	MenuCarga = True
 	while MenuCarga:
@@ -186,7 +182,7 @@ def CargarPartida():
 
 		AnimacionBackground()
 
-		gameDisplay.blit(CajaPNG, (400,422))
+		gameDisplay.blit(CajaPNG, (200,343))
 		InputCarga.draw(gameDisplay)
 		InputCarga.update(eventos)
 		string = InputCarga.value #Guardamos el valor del inputDificultad en la variable Nivel..
@@ -241,29 +237,34 @@ def CargarPartida():
 								PosPiezas1F = linea[6]
 								PosPiezas2F = linea[7]
 								PosPiezas3F = linea[8]
-								print(linea)
 								if (numero == numeroF and fecha == fechaF and dificultad == DificultadF):
 									if DificultadF == 'muydificil':
-										PosPiezas1F = PosPiezas1F.split('-')
-										PosPiezas2F = PosPiezas2F.split('-')
-										PosPiezas3F = PosPiezas3F.split('-')
+										global PosPiezas1
+										global PosPiezas2
+										global PosPiezas3
+										PosPiezas1 = PosPiezas1F.split('-')
+										PosPiezas2 = PosPiezas2F.split('-')
+										PosPiezas3 = PosPiezas3F.split('-')
 
 										if PosActual == "1":
-											Tablero("3", PosPiezas1F)
+											Tablero("3", PosPiezas1)
 											PosActual = "2"
-											Tablero("3", PosPiezas2F)
+											Tablero("3", PosPiezas2)
 											PosActual = "3"
-											Tablero("3", PosPiezas3F)
+											Tablero("3", PosPiezas3)
+											print("Has ganado la modalidad muy dificil, hooray. *Inserte foto no creada de ganar*")
 											return LoopPrincipal()
 
 										elif PosActual == "2":
-											Tablero("3", PosPiezas2F)
+											Tablero("3", PosPiezas2)
 											PosActual = "3"
-											Tablero("3", PosPiezas3F)
+											Tablero("3", PosPiezas3)
+											print("Has ganado la modalidad muy dificil, hooray. *Inserte foto no creada de ganar*")
 											return LoopPrincipal()
 
 										elif PosActual == "3":
-											Tablero("3", PosPiezas3F)
+											Tablero("3", PosPiezas3)
+											print("Has ganado la modalidad muy dificil, hooray. *Inserte foto no creada de ganar*")
 											return LoopPrincipal()
 				except:
 					print("Formato incorrecto")
@@ -336,7 +337,6 @@ def LoopPrincipal():
 		#Opcion Cargar Partida
 			if OpcionCargarPartida:
 				###EN CONSTRUCCION### LAS TRES LINEAS DE ABAJO SON TEMPORALES
-				print("Has accedido correctamente a la opcion de Cargar Partida, como esta en construccion, te retornaremos al menu principal")
 				OpcionCargarPartida = False
 				CargarPartida()
 				PantallaDeOpcionesPrincipal = True
@@ -447,7 +447,6 @@ def Tablero(Nivel, PosPiezas):
 		contador = contador
 	elif Nivel == 'Custom 2':
 		contador = contador
-		print(contador)
 	elif Nivel == 'Custom 4':
 		contador = contador
 
@@ -461,6 +460,9 @@ def Tablero(Nivel, PosPiezas):
 
 	#Relativo a Solucion
 	Solucion = False
+
+	#Relativo a Perder o Ganar
+	VerificarEstadoPartida = False
 	
 	while True:
 
@@ -484,7 +486,7 @@ def Tablero(Nivel, PosPiezas):
 				if contador > 0:
 					TextoDeContador = 'Tiempo restante: ' + str(contador)
 				else:
-					print("Has perdido. Anadir pantalla de perder")
+					print("Has perdido. Anadir foto de perder")
 					return LoopPrincipal()
 
 			#Funcion contadora de tiempo para nivel muy dificil
@@ -493,11 +495,9 @@ def Tablero(Nivel, PosPiezas):
 				if ContadorMuyDificil > 0:
 					TextoDeContador = 'Tiempo restante: ' + str(ContadorMuyDificil)
 				else:
-					print("Has perdido. Anadir pantalla de perder")
+					print("Has perdido. Anadir foto de perder")
 					return LoopPrincipal()
 			
-
-
 			#Funcion jugar
 			if  Opcion_Tablero == "1" and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Jugar = True
@@ -508,32 +508,18 @@ def Tablero(Nivel, PosPiezas):
 			#Relativo a Funcion Jugar: Jugar_0
 			if len(Input_Jugar_0.value) == 2 and presionada[pygame.K_RETURN]:
 				Mostrar_Input_Jugar_0 = False
-				if not Solucion:
-					Mostrar_Input_Jugar_1 = True
 				Pos_i = Jugar_0
 
-				if Solucion == True:
-					PosPiezasTmp = PosPiezas
-					for posF in PosPiezas:
-						Torre(Pos_i, posF[0:], matriz, PosPiezas)
-						lectura(PosPiezas)
-						Peon(Pos_i, posF[0:], matriz, PosPiezas)
-						lectura(PosPiezas)
-						Caballo(Pos_i, posF[0:], matriz, PosPiezas)
-						lectura(PosPiezas)
-						Rey(Pos_i, posF[0:], matriz, PosPiezas)
-						lectura(PosPiezas)
-						Alfil(Pos_i, posF[0:], matriz, PosPiezas)
-						lectura(PosPiezas)
-						Reina(Pos_i, posF[0:], matriz, PosPiezas)
-						lectura(PosPiezas)
-						if PosPiezasTmp !=PosPiezas:
-							break
+				if not Solucion:
+					Mostrar_Input_Jugar_1 = True
 
-					if PosPiezasTmp == PosPiezas:
-						print("\n\n\n\nNo hay ninguna solucion. Se saldra del juego")
-						return LoopPrincipal()
-
+				else: #if Solucion
+					Torre(Pos_i, "Posicion Final nula", matriz, PosPiezas, False, True)
+					Peon(Pos_i, "Posicion Final nula", matriz, PosPiezas, False, True)
+					Caballo(Pos_i, "Posicion Final nula", matriz, PosPiezas, False, True)
+					Rey(Pos_i, "Posicion Final nula", matriz, PosPiezas, False, True)
+					Alfil(Pos_i, "Posicion Final nula", matriz, PosPiezas, False, True)
+					Reina(Pos_i, "Posicion Final nula", matriz, PosPiezas, False, True)
 					Solucion = False
 					Jugar_0 = None
 					Jugar_1 = None
@@ -544,16 +530,16 @@ def Tablero(Nivel, PosPiezas):
 					Mostrar_Input_Jugar = False
 					Mostrar_Input_Tablero_Opcion = True
 					lectura(PosPiezas)
+					VerificarEstadoPartida = True
 
 			if len(Input_Jugar_1.value) == 2 and presionada[pygame.K_RETURN]:
 				Pos_f = Jugar_1
-				print(PosPiezas)
-				Torre(Pos_i, Pos_f, matriz, PosPiezas)
-				Peon(Pos_i, Pos_f, matriz, PosPiezas)
-				Caballo(Pos_i, Pos_f, matriz, PosPiezas)
-				Rey(Pos_i, Pos_f, matriz, PosPiezas)
-				Alfil(Pos_i, Pos_f, matriz, PosPiezas)
-				Reina(Pos_i, Pos_f, matriz, PosPiezas)
+				Torre(Pos_i, Pos_f, matriz, PosPiezas, False, False)
+				Peon(Pos_i, Pos_f, matriz, PosPiezas, False, False)
+				Caballo(Pos_i, Pos_f, matriz, PosPiezas, False, False)
+				Rey(Pos_i, Pos_f, matriz, PosPiezas, False, False)
+				Alfil(Pos_i, Pos_f, matriz, PosPiezas, False, False)
+				Reina(Pos_i, Pos_f, matriz, PosPiezas, False, False)
 				Jugar_0 = None
 				Jugar_1 = None
 				Input_Jugar_0.value = ""
@@ -564,6 +550,7 @@ def Tablero(Nivel, PosPiezas):
 				Mostrar_Input_Tablero_Opcion = True
 				lectura(PosPiezas)
 				Deshacer_Temp_List.append(MatrizToString(matriz))
+				VerificarEstadoPartida = True
 
 			#Funcion pausar
 			if  Opcion_Tablero == "2" and Nivel != '3' and presionada[pygame.K_RETURN]:
@@ -629,8 +616,6 @@ def Tablero(Nivel, PosPiezas):
 					Contador_de_deshacer += 1
 					PosPiezas = Deshacer_Temp_List[len(Deshacer_Temp_List) - Contador_de_deshacer - 1].split('-')
 					lectura(PosPiezas)
-					print("Antes) indice: " + str(len(Deshacer_Temp_List) - 1) + " string: " + Deshacer_Temp_List[len(Deshacer_Temp_List) - 1])
-					print("Ahora) indice: " + str(len(Deshacer_Temp_List) - Contador_de_deshacer - 1) + " string: " + Deshacer_Temp_List[len(Deshacer_Temp_List) - Contador_de_deshacer - 1])
 				else:
 					print("ERROR, has deshecho todo lo posible, esta es la lista temporal actual:" + str(Deshacer_Temp_List))
 
@@ -641,6 +626,52 @@ def Tablero(Nivel, PosPiezas):
 				Mostrar_Input_Jugar_0 = True
 				Mostrar_Input_Tablero_Opcion = False
 				Input_Tablero_Opcion.value = ""
+
+			#Funcion Ganar o Perder
+			if VerificarEstadoPartida:
+				ListaTotalDePosibles = []
+				tmp = []
+				for i, j in matriz.items(): #i = key, j = value del diccionario Matriz
+					for k, v in j.items(): # k = key, v = value de los diccionarios que son cada j
+						if v != 0: #Si no esta vacio, se anade el valor
+							tmp.append(str(k) + str(i))
+				for Pos_i in tmp:
+					try:
+						ListaTotalDePosibles += Torre(Pos_i, "Posicion Final nula", matriz, PosPiezas, True, False)
+					except:
+						pass
+					try:
+						ListaTotalDePosibles +=  Peon(Pos_i, "Posicion Final nula", matriz, PosPiezas, True, False)
+					except:
+						pass
+					try:
+						ListaTotalDePosibles += Caballo(Pos_i, "Posicion Final nula", matriz, PosPiezas, True, False)
+					except:
+						pass
+					try:
+						ListaTotalDePosibles += Rey(Pos_i, "Posicion Final nula", matriz, PosPiezas, True, False)
+					except:
+						pass
+					try:
+						ListaTotalDePosibles += Alfil(Pos_i, "Posicion Final nula", matriz, PosPiezas, True, False)
+					except:
+						pass
+					try:
+						ListaTotalDePosibles += Reina(Pos_i, "Posicion Final nula", matriz, PosPiezas, True, False)
+					except:
+						pass
+			
+				if len(ListaTotalDePosibles) == 0:
+					if len(PosPiezas) == 1 and Nivel != "3":
+						print("\n\n\n\n\nGANASTE (hacer foto de ganar)\n\n\n\n\n")
+						return LoopPrincipal()
+					elif len(PosPiezas) == 1 and Nivel == "3":
+						return
+					elif Nivel != "3":
+						print("\n\n\n\n\nPERDISTE NOOB (hacer foto de perder)\n\n\n\n\n")	
+						return LoopPrincipal()
+				else:
+					VerificarEstadoPartida = False				
 
 			#ULTIMA FUNCION DEL EVENTO, LIMPIA DESPUES DE ENTER EL TABLERO OPCION
 			if Mostrar_Input_Tablero_Opcion == True and presionada[pygame.K_RETURN]:
@@ -707,6 +738,9 @@ def Tablero(Nivel, PosPiezas):
 
 		#Pantalla de Nombre
 		gameDisplay.blit(Font.render(Nombre, True, black), (5, 30))
+
+		#Pantalla de Tabler Actual en dificultad Muy Dificil
+		gameDisplay.blit(Font.render("Tablero actual: " + PosActual, True, black), (550, 5))
 
 		pygame.display.update()
 		fpsClock.tick(FPS)
@@ -783,7 +817,6 @@ def MenuDesafio(Nivel):
 				with open('Texts/partidasnuevas.txt', 'r+') as archivo:
 					for linea in archivo: #Primera Partida
 						if lineas == rndm[0]:
-							print(str(lineas), str(rndm[0]))
 							global PosPiezas1
 							PosPiezas1 = linea.split()[0].split("-")
 							break
@@ -814,7 +847,7 @@ def MenuDesafio(Nivel):
 					Tablero(Nivel, PosPiezas2)
 					PosActual = '3'
 					Tablero(Nivel, PosPiezas3)
-					print("Has ganado la modalidad muy dificil, hooray.")
+					print("Has ganado la modalidad muy dificil, hooray. *Inserte foto no creada de ganar*")
 					return LoopPrincipal()
 
 
@@ -1004,8 +1037,8 @@ def lectura(PosPiezas):
 def MatrizToString(Matriz):
 	string = ""
 	tmp = []
-	for i, j in Matriz.items(): #i = key, j = value del diccionario Matriz
-		for k, v in j.items(): # k = key, v = value de los diccionarios que son cada j
+	for i, j in Matriz.items(): #i = numero
+		for k, v in j.items(): # k = letra #v = pieza
 			if v == 'P': #Si v es un peon
 				tmp.append(str(k) + str(i)) #No se anade la P
 			elif v != 0: #Si no esta vacio, se anade el valor
@@ -1203,13 +1236,17 @@ def CambioLetra(letra, sentido):
 		elif letra == 'd':
 			return 'd'		
 
-def Peon(Pos_i, Pos_f, Matriz, PosPiezas):
+def Peon(Pos_i, Pos_f, Matriz, PosPiezas, EstadoPartida, Solucion):
 
 	try:
 		Pos_i = [Pos_i[:1], int(Pos_i[1:])] #letra, numero
-		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
+		if not (EstadoPartida or Solucion):
+			Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
 		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
-		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "p" and Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r") #que el inicial sea torre y el final distinto de 0
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "p") #que el inicial sea torre y el final distinto de 0	
+		if not (EstadoPartida or Solucion):
+			assert(Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r")
+		
 		#En este for, se construye la lista de posibles para el peon, sin refinar.
 		for numero, diccionario in Matriz.items():
 			for letra, pieza in diccionario.items():
@@ -1222,51 +1259,64 @@ def Peon(Pos_i, Pos_f, Matriz, PosPiezas):
 				#	posibles.append([letra, numero])	
 				#if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0], 1) and numero == Pos_i[1] - 1:
 				#	posibles.append([letra, numero])	
-
-		if [Pos_f[0], int(Pos_f[1])] in posibles:
+		if Solucion:
 			try:
-				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+				Pos_f = posibles[0]
 			except:
-				pass
-			try:
-				PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:
-				PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:			
-				PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:			
-				PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass			
+				print("No hay jugadas posibles")
+				return
 
-			PosPiezas.remove((Pos_i[0] + str(Pos_i[1])).lower())
-		else:
-			print("Si la pieza inicial era un peon, la jugada fue invalida")
+		if EstadoPartida:
+			return posibles
 
-		for posible in posibles:
-			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
-				PosPiezas.append(Pos_f[0] + str(Pos_f[1]))
-				print("La jugada con el Peon en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
-		return PosPiezas	
+		if not EstadoPartida:
+			if [Pos_f[0], int(Pos_f[1])] in posibles:
+				try:
+					PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:
+					PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:
+					PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:			
+					PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:			
+					PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass			
+
+				PosPiezas.remove((Pos_i[0] + str(Pos_i[1])).lower())
+			else:
+				print("Si la pieza inicial era un peon, la jugada fue invalida")
+
+			for posible in posibles:
+				if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
+					PosPiezas.append(Pos_f[0] + str(Pos_f[1]))
+					print("La jugada con el Peon en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
+			return PosPiezas
+
 
 
 	except:
-		print("La pieza inicial no es un Peon o es una jugada invalida o algo raro ha sucedido")
+		pass
 
-def Torre(Pos_i, Pos_f, Matriz, PosPiezas):
+def Torre(Pos_i, Pos_f, Matriz, PosPiezas, EstadoPartida, Solucion):
 	try:
 		Pos_i = [Pos_i[:1], int(Pos_i[1:])] #letra, numero
-		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
+		if not (EstadoPartida or Solucion):
+			Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
 		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
 		posiblesRef = [] #lista refinada de "posibles"
-		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "t" and Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r") #que el inicial sea torre y el final distinto de 0
-
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "t") #que el inicial sea torre y el final distinto de 0
+		if not (EstadoPartida or Solucion):
+			assert(Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r")
 		#En este for, se construye la lista de posibles para la torre, sin refinar.
 		for numero, diccionario in Matriz.items():
 			for letra, pieza in diccionario.items():			
@@ -1319,51 +1369,66 @@ def Torre(Pos_i, Pos_f, Matriz, PosPiezas):
 			posiblesRef.append(tmpLetraNUMERO)
 		if tmpLetranumero != "No":
 			posiblesRef.append(tmpLetranumero)
-
-		#En este for se busca la posicion final entre los posibles y se cambia el inicial por "0" y el final por la torre
-		if [Pos_f[0], int(Pos_f[1])] in posiblesRef:
+		
+		if Solucion:
 			try:
-				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+				Pos_f = posiblesRef[0]
 			except:
-				pass
-			try:
-				PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:
-				PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:			
-				PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:			
-				PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass			
+				print("No hay jugadas posibles")
+				return
 
-			PosPiezas.remove("T" + (Pos_i[0] + str(Pos_i[1])).lower())
-		else:
-			print("Si la pieza inicial era una torre, la jugada fue invalida")
+		if EstadoPartida:
+			return posibles
 
-		for posible in posiblesRef:
-			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
-				PosPiezas.append("T" + Pos_f[0] + str(Pos_f[1]))
-				print("La jugada con la Torre en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
-		return PosPiezas	
+		if not EstadoPartida:	
+			#En este for se busca la posicion final entre los posibles y se cambia el inicial por "0" y el final por la torre
+			if [Pos_f[0], int(Pos_f[1])] in posiblesRef:
+				try:
+					PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:
+					PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:
+					PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:			
+					PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:			
+					PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass			
+
+				PosPiezas.remove("T" + (Pos_i[0] + str(Pos_i[1])).lower())
+			else:
+				print("Si la pieza inicial era una torre, la jugada fue invalida")
+
+			for posible in posiblesRef:
+				if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
+					PosPiezas.append("T" + Pos_f[0] + str(Pos_f[1]))
+					print("La jugada con la Torre en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
+			return PosPiezas	
 
 	except:
-		print("La pieza inicial no es una Torre o es una jugada invalida o algo raro ha sucedido")
+		pass
 
  #Actualmente necesita rehacerse el metodo de busqueda y de refinamiento
 
-def Caballo(Pos_i, Pos_f, Matriz, PosPiezas):
+def Caballo(Pos_i, Pos_f, Matriz, PosPiezas, EstadoPartida, Solucion):
 	try:
 		Pos_i = [Pos_i[:1], int(Pos_i[1:])] #letra, numero
-		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
+		if not (EstadoPartida or Solucion):
+			Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
 		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
-		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "c" and Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r") #que el inicial sea torre y el final distinto de 0
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "c") #que el inicial sea caballo y el final distinto de 0
+		if not (EstadoPartida or Solucion):
+			assert(Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r")
+
 		#En este for, se construye la lista de posibles para el peon, sin refinar.
 		for numero, diccionario in Matriz.items():
 			for letra, pieza in diccionario.items():
@@ -1384,49 +1449,63 @@ def Caballo(Pos_i, Pos_f, Matriz, PosPiezas):
 				if pieza != 0 and pieza.lower() != 'r' and letra == CambioLetra(Pos_i[0], 2) and numero == Pos_i[1] - 1:
 					posibles.append([letra, numero])
 
-		if [Pos_f[0], int(Pos_f[1])] in posibles:
+		if Solucion:
 			try:
-				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+				Pos_f = posibles[0]
 			except:
-				pass
-			try:
-				PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:
-				PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:			
-				PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:			
-				PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass		
+				print("No hay jugadas posibles")
+				return
 
-			PosPiezas.remove("C" + (Pos_i[0] + str(Pos_i[1])).lower())
-		else:
-			print("Si la pieza inicial era un caballo, la jugada fue invalida")
+		if EstadoPartida:
+			return posibles
 
-		for posible in posibles:
-			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
-				PosPiezas.append("C" + Pos_f[0] + str(Pos_f[1]))
-				print("La jugada con el Caballo en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
-		return PosPiezas	
+		if not EstadoPartida:
+			if [Pos_f[0], int(Pos_f[1])] in posibles:
+				try:
+					PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:
+					PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:
+					PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:			
+					PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:			
+					PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass		
+
+				PosPiezas.remove("C" + (Pos_i[0] + str(Pos_i[1])).lower())
+			else:
+				print("Si la pieza inicial era un caballo, la jugada fue invalida")
+
+			for posible in posibles:
+				if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
+					PosPiezas.append("C" + Pos_f[0] + str(Pos_f[1]))
+					print("La jugada con el Caballo en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
+			return PosPiezas	
 
 
 	except:
-		print("La pieza inicial no es un Caballo o es una jugada invalida o algo raro ha sucedido")
+		pass
 
-def Alfil(Pos_i, Pos_f, Matriz, PosPiezas):
+def Alfil(Pos_i, Pos_f, Matriz, PosPiezas, EstadoPartida, Solucion):
 	try:
 		Pos_i = [Pos_i[:1], int(Pos_i[1:])] #letra, numero
-		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
+		if not (EstadoPartida or Solucion):
+			Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
 		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
 		posiblesRef = [] #lista refinada de "posibles"
-		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "a" and Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r") #que el inicial sea torre y el final distinto de 0
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "a") #que el inicial sea torre y el final distinto de 0
+		if not (EstadoPartida or Solucion):
+			assert(Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r")
 
 		#En este for, se construye la lista de posibles para el alfil, sin refinar.
 		for i in range (-3,4): #Pasando por -3,-2,-1,0,1,2,3
@@ -1484,55 +1563,69 @@ def Alfil(Pos_i, Pos_f, Matriz, PosPiezas):
 		if tmp_Yneg_Xneg != "No":
 			posiblesRef.append(tmp_Yneg_Xneg)
 
-		#En este for se busca la posicion final entre los posibles y se cambia el inicial por "0" y el final por la torre
-		if [Pos_f[0], int(Pos_f[1])] in posiblesRef:
+		if Solucion:
 			try:
-				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+				Pos_f = posiblesRef[0]
 			except:
-				pass
-			try:
-				PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:
-				PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:			
-				PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:			
-				PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass			
+				print("No hay jugadas posibles")
+				return
 
-			PosPiezas.remove("A" + (Pos_i[0] + str(Pos_i[1])).lower())
-		else:
-			print("Si la pieza inicial era un alfil, la jugada fue invalida")
+		if EstadoPartida:
+			return posibles
 
-		for posible in posiblesRef:
-			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
-				PosPiezas.append("A" + Pos_f[0] + str(Pos_f[1]))
-				print("La jugada con el Alfil en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
+		if not EstadoPartida:
+			#En este for se busca la posicion final entre los posibles y se cambia el inicial por "0" y el final por la torre
+			if [Pos_f[0], int(Pos_f[1])] in posiblesRef:
+				try:
+					PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:
+					PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:
+					PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:			
+					PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:			
+					PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass			
 
-		return PosPiezas	
+				PosPiezas.remove("A" + (Pos_i[0] + str(Pos_i[1])).lower())
+			else:
+				print("Si la pieza inicial era un alfil, la jugada fue invalida")
+
+			for posible in posiblesRef:
+				if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
+					PosPiezas.append("A" + Pos_f[0] + str(Pos_f[1]))
+					print("La jugada con el Alfil en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
+
+			return PosPiezas	
 
 	except:
-		print("La pieza inicial no es un Alfil o es una jugada invalida o algo raro ha sucedido")
+		pass
 
 
  #Falta anadir la parte del Alfil que esta siendo trabajada
 
  #Actualmente necesita anadirse el metodo de busqueda y de refinamiento del alfil
 
-def Reina(Pos_i, Pos_f, Matriz, PosPiezas):
+def Reina(Pos_i, Pos_f, Matriz, PosPiezas, EstadoPartida, Solucion):
 	try:
 		Pos_i = [Pos_i[:1], int(Pos_i[1:])] #letra, numero
-		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
+		if not (EstadoPartida or Solucion):
+			Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
 		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
 		posiblesRef = [] #lista refinada de "posibles"
-		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "d" and Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r") #que el inicial sea torre y el final distinto de 0
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "d") #que el inicial sea torre y el final distinto de 0
+		if not (EstadoPartida or Solucion):
+			assert(Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r")
 
 	#Funcion de Torre + Funcion de Alfil de posibles
 	#Funcion de Torre:
@@ -1647,44 +1740,59 @@ def Reina(Pos_i, Pos_f, Matriz, PosPiezas):
 		if tmp_Yneg_Xneg != "No":
 			posiblesRef.append(tmp_Yneg_Xneg)
 
-	#Funcion de Remover lo inicial + final y anadir Reina al final
-		if [Pos_f[0], int(Pos_f[1])] in posiblesRef:
+		if Solucion:
 			try:
-				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+				Pos_f = posiblesRef[0]
 			except:
-				pass
-			try:
-				PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:			
-				PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:			
-				PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass			
+				print("No hay jugadas posibles")
+				return
 
-			PosPiezas.remove("D" + (Pos_i[0] + str(Pos_i[1])).lower())
-		else:
-			print("Si la pieza inicial era una reina, la jugada fue invalida")
+		if EstadoPartida:
+			return posibles
 
-		for posible in posiblesRef:
-			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
-				PosPiezas.append("D" + Pos_f[0] + str(Pos_f[1]))
-				print("La jugada con la Reina en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
-		return PosPiezas	
+		if not EstadoPartida:
+			#Funcion de Remover lo inicial + final y anadir Reina al final
+			if [Pos_f[0], int(Pos_f[1])] in posiblesRef:
+				try:
+					PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:
+					PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:			
+					PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:			
+					PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass			
+
+				PosPiezas.remove("D" + (Pos_i[0] + str(Pos_i[1])).lower())
+			else:
+				print("Si la pieza inicial era una reina, la jugada fue invalida")
+
+			for posible in posiblesRef:
+				if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
+					PosPiezas.append("D" + Pos_f[0] + str(Pos_f[1]))
+					print("La jugada con la Reina en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
+			return PosPiezas	
 
 	except:
-		print("La pieza inicial no es una Reina o es una jugada invalida o algo raro ha sucedido")
+		pass
 
-def Rey(Pos_i, Pos_f, Matriz, PosPiezas):
+def Rey(Pos_i, Pos_f, Matriz, PosPiezas, EstadoPartida, Solucion):
 	try:
 		Pos_i = [Pos_i[:1], int(Pos_i[1:])] #letra, numero
-		Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
+		if not (EstadoPartida or Solucion):
+			Pos_f = [Pos_f[:1], int(Pos_f[1:])] #letra, numero
 		posibles = [] #lista de posibles jugadas, cada elemento sera [letra, numero], numero en int
-		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "r" and Matriz[Pos_f[1]][Pos_f[0]] != 0) #que el inicial sea torre y el final distinto de 0
+		assert(Matriz[Pos_i[1]][Pos_i[0]].lower() == "r") #que el inicial sea torre y el final distinto de 0
+		if not (EstadoPartida or Solucion):
+			assert(Matriz[Pos_f[1]][Pos_f[0]] != 0)
+
 		#En este for, se construye la lista de posibles para el peon, sin refinar.
 		for numero, diccionario in Matriz.items():
 			for letra, pieza in diccionario.items():
@@ -1705,41 +1813,52 @@ def Rey(Pos_i, Pos_f, Matriz, PosPiezas):
 				if pieza != 0 and letra == CambioLetra(Pos_i[0],-1) and numero == Pos_i[1] - 1:
 					posibles.append([letra, numero])
 
-		if [Pos_f[0], int(Pos_f[1])] in posibles:
+		if Solucion:
 			try:
-				PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+				Pos_f = posibles[0]
 			except:
-				pass
-			try:
-				PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:
-				PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:			
-				PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass
-			try:			
-				PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
-			except:
-				pass		
+				print("No hay jugadas posibles")
+				return
 
-			PosPiezas.remove("R" + (Pos_i[0] + str(Pos_i[1])).lower())
-		else:
-			print("Si la pieza inicial era un rey, la jugada fue invalida")
+		if EstadoPartida:
+			return posibles
 
-		for posible in posibles:
-			if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
-				PosPiezas.append("R" + Pos_f[0] + str(Pos_f[1]))
-				print("La jugada con el Rey en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
-		return PosPiezas	
+		if not EstadoPartida:
+			if [Pos_f[0], int(Pos_f[1])] in posibles:
+				try:
+					PosPiezas.remove((Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:
+					PosPiezas.remove('D' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:
+					PosPiezas.remove('A' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:			
+					PosPiezas.remove('C' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass
+				try:			
+					PosPiezas.remove('T' + (Pos_f[0] + str(Pos_f[1])).lower())
+				except:
+					pass		
+
+				PosPiezas.remove("R" + (Pos_i[0] + str(Pos_i[1])).lower())
+			else:
+				print("Si la pieza inicial era un rey, la jugada fue invalida")
+
+			for posible in posibles:
+				if posible[0] == Pos_f[0] and posible[1] == Pos_f[1]:
+					PosPiezas.append("R" + Pos_f[0] + str(Pos_f[1]))
+					print("La jugada con el Rey en (" + Pos_i[0] + ", " + str(Pos_i[1]) + ") a la posicion (" + Pos_f[0] + ", " + str(Pos_f[1]) + ") ha sido exitosa.")
+			return PosPiezas	
 
 
 	except:
-		print("La pieza inicial no es un Rey o es una jugada invalida o algo raro ha sucedido")
+		pass
 
 
 
