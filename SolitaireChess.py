@@ -1631,16 +1631,6 @@ def Reina(Pos_i, Pos_f, Matriz, PosPiezas, EstadoPartida, Solucion):
 			assert(Matriz[Pos_f[1]][Pos_f[0]] != 0 and Matriz[Pos_f[1]][Pos_f[0]].lower() != "r")
 
 	#Funcion de Torre + Funcion de Alfil de posibles
-	#Funcion de Torre:
-		for numero, diccionario in Matriz.items():
-			for letra, pieza in diccionario.items():			
-				if numero == Pos_i[1]: #Primero trabajamos en el eje de los numeros
-					if pieza != 0 and pieza.lower() != 'r' and letra != Pos_i[0]: #Si hay una pieza				
-						posibles.append([letra, numero])
-				if letra == Pos_i[0]: #Ahora trabajamos en el eje de las letras
-					if pieza != 0 and pieza.lower() != 'r' and numero != Pos_i[1]: #Si hay una pieza
-						posibles.append([letra, numero])
-	#Funcion de Alfil:
 		for i in range (-3,4): #Pasando por -3,-2,-1,0,1,2,3
 			if i == 0:
 				pass
@@ -1653,10 +1643,15 @@ def Reina(Pos_i, Pos_f, Matriz, PosPiezas, EstadoPartida, Solucion):
 						if (numero == Pos_i[1] + i) and (letra == CambioLetra(Pos_i[0], -i)): #Diagonal 2
 							if pieza != 0 and pieza.lower() != 'r' and numero != Pos_i[1]: #Si hay una pieza
 								posibles.append([letra, numero])
-
+					
+						if numero == Pos_i[1]: #Primero trabajamos en el eje de los numeros
+							if pieza != 0 and pieza.lower() != 'r' and letra != Pos_i[0]: #Si hay una pieza				
+								posibles.append([letra, numero])
+						if letra == Pos_i[0]: #Ahora trabajamos en el eje de las letras
+							if pieza != 0 and pieza.lower() != 'r' and numero != Pos_i[1]: #Si hay una pieza
+								posibles.append([letra, numero])
 
 	#Funcion de Torre + Funcion de Alfil de refinamiento
-	#Funcion de Torre:
 		#Variables usadas para refinar la lista de posibles jugadas
 		tmp_letra_mayor = 'z'
 		tmp_letra_menor = '1'
@@ -1666,40 +1661,6 @@ def Reina(Pos_i, Pos_f, Matriz, PosPiezas, EstadoPartida, Solucion):
 		tmpNumletra =    "No" #Variable que almacena la pieza mas cercana a la Reina, por la izquierda de la Torre
 		tmpLetraNUMERO = "No" #Variable que almacena la pieza mas cercana a la Reina, por       arriba de la Torre
 		tmpLetranumero = "No" #Variable que almacena la pieza mas cercana a la Reina, por        abajo de la Torre
-
-		#Refinando la lista
-		for valor in posibles:
-
-			if valor[1] == Pos_i[1]: #Mismo numero
-				if valor[0] > Pos_i[0]: #letra mayor a la inicial
-					if valor[0] < tmp_letra_mayor: #El valor actual", valor[0], "es menor que la tmp actual", tmp_letra_mayor
-						tmp_letra_mayor = valor[0]
-						TMPNumLETRA = valor
-				elif valor[0] < Pos_i[0]: #letra menor a la inicial
-					if valor[0] > tmp_letra_menor:
-						tmp_letra_menor = valor[0]
-						tmpNumletra = valor
-
-			elif valor[0] == Pos_i[0]: #Misma letra
-				if valor[1] > Pos_i[1]: #
-					if valor[1] < tmp_numero_mayor: #El valor actual", valor[1], "es menor que la tmp actual", tmp_numero_mayor
-						tmp_numero_mayor = valor[1]
-						tmpLetraNUMERO = valor			
-				elif valor[1] < Pos_i[1]: #numero menor al inicial
-					if valor[1] > tmp_numero_menor:
-						tmp_numero_menor = valor[1]
-						tmpLetranumero = valor				
-
-		#anadiendo a posiblesRef
-		if TMPNumLETRA !=    "No":
-			posiblesRef.append(TMPNumLETRA)
-		if tmpNumletra !=    "No":
-			posiblesRef.append(tmpNumletra)
-		if tmpLetraNUMERO != "No":
-			posiblesRef.append(tmpLetraNUMERO)
-		if tmpLetranumero != "No":
-			posiblesRef.append(tmpLetranumero)
-	#Funcion Alfil:
 
 		#Variables usadas para refinar la lista de posibles jugadas
 		tmp_letra_mayor_1 = 'z'
@@ -1732,7 +1693,27 @@ def Reina(Pos_i, Pos_f, Matriz, PosPiezas, EstadoPartida, Solucion):
 					if valor[0] > tmp_letra_menor_2:	#Tengo que buscar la menor letra posible, inicialmente comparandola con la mayor
 						tmp_letra_menor_2 = valor[0]
 						tmp_Yneg_Xneg = valor
-		
+
+			elif valor[1] == Pos_i[1]: #Mismo numero
+				if valor[0] > Pos_i[0]: #letra mayor a la inicial
+					if valor[0] < tmp_letra_mayor: #El valor actual", valor[0], "es menor que la tmp actual", tmp_letra_mayor
+						tmp_letra_mayor = valor[0]
+						TMPNumLETRA = valor
+				elif valor[0] < Pos_i[0]: #letra menor a la inicial
+					if valor[0] > tmp_letra_menor:
+						tmp_letra_menor = valor[0]
+						tmpNumletra = valor
+
+			if valor[0] == Pos_i[0]: #Misma letra
+				if valor[1] > Pos_i[1]: #
+					if valor[1] < tmp_numero_mayor: #El valor actual", valor[1], "es menor que la tmp actual", tmp_numero_mayor
+						tmp_numero_mayor = valor[1]
+						tmpLetraNUMERO = valor			
+				elif valor[1] < Pos_i[1]: #numero menor al inicial
+					if valor[1] > tmp_numero_menor:
+						tmp_numero_menor = valor[1]
+						tmpLetranumero = valor	
+
 		#anadiendo a posiblesRef
 		if tmp_Ypos_Xpos !=    "No":
 			posiblesRef.append(tmp_Ypos_Xpos)
@@ -1742,6 +1723,15 @@ def Reina(Pos_i, Pos_f, Matriz, PosPiezas, EstadoPartida, Solucion):
 			posiblesRef.append(tmp_Yneg_Xpos)
 		if tmp_Yneg_Xneg != "No":
 			posiblesRef.append(tmp_Yneg_Xneg)
+
+		if TMPNumLETRA !=    "No":
+			posiblesRef.append(TMPNumLETRA)
+		if tmpNumletra !=    "No":
+			posiblesRef.append(tmpNumletra)
+		if tmpLetraNUMERO != "No":
+			posiblesRef.append(tmpLetraNUMERO)
+		if tmpLetranumero != "No":
+			posiblesRef.append(tmpLetranumero)
 
 		if Solucion:
 			try:
