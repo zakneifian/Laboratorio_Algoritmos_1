@@ -670,7 +670,7 @@ def Tablero(Nivel, PosPiezas):
 						return LoopPrincipal()
 					elif len(PosPiezas) == 1 and Nivel == "3":
 						return
-					elif Nivel != "3":
+					elif len(PosPiezas) > 1:
 						print("\n\n\n\n\nPERDISTE NOOB (hacer foto de perder)\n\n\n\n\n")	
 						return LoopPrincipal()
 				else:
