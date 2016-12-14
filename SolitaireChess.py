@@ -201,6 +201,11 @@ def CargarPartida():
 					numero = string[0]
 					fecha = string[1]
 					dificultad = string[2].lower()
+					try: #Si existe un tercer elemento buscamos a ver si es "muy dificil" l asuma del segundo con el tercero
+						if string[2].lower() + string[3].lower() == "muydificil":
+							dificultadMD = "muydificil"
+					except:
+						dificultadMD = "None"
 					with open("Texts/partidasguardadas.txt", "r+") as archivo:
 						for linea in archivo:
 							linea = linea.split()
@@ -237,7 +242,7 @@ def CargarPartida():
 								PosPiezas1F = linea[6]
 								PosPiezas2F = linea[7]
 								PosPiezas3F = linea[8]
-								if (numero == numeroF and fecha == fechaF and dificultad == DificultadF):
+								if (numero == numeroF and fecha == fechaF and (dificultad == DificultadF or dificultadMD == DificultadF.lower())):
 									if DificultadF == 'muydificil':
 										global PosPiezas1
 										global PosPiezas2
@@ -813,7 +818,6 @@ def MenuDesafio(Nivel):
 							else:
 								lineas += 1
 			if Nivel == '3':
-				global ContadorMuyDificil
 				ContadorMuyDificil = 2*60
 				global PosActual
 				lineas = 1
