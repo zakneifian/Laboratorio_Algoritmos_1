@@ -627,6 +627,7 @@ def Tablero(Nivel, PosPiezas):
 				Mostrar_Input_Jugar = True
 				Mostrar_Input_Jugar_0 = True
 				Mostrar_Input_Tablero_Opcion = False
+				Opcion_Tablero = ""
 				Input_Tablero_Opcion.value = ""
 
 			#Funcion Ganar o Perder
