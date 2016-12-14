@@ -463,6 +463,8 @@ def Tablero(Nivel, PosPiezas):
 
 	#Relativo a Perder o Ganar
 	VerificarEstadoPartida = False
+
+
 	
 	while True:
 
@@ -740,7 +742,8 @@ def Tablero(Nivel, PosPiezas):
 		gameDisplay.blit(Font.render(Nombre, True, black), (5, 30))
 
 		#Pantalla de Tabler Actual en dificultad Muy Dificil
-		gameDisplay.blit(Font.render("Tablero actual: " + PosActual, True, black), (550, 5))
+		if Nivel == "3":
+			gameDisplay.blit(Font.render("Tablero actual: " + PosActual, True, black), (550, 5))
 
 		pygame.display.update()
 		fpsClock.tick(FPS)
