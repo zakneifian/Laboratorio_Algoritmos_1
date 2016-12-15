@@ -7,6 +7,10 @@ def LeerRecords():
 		contenido = archivo.readlines()
 		print(contenido)
 		contador=0
+		condicion0=False
+		condicion1=False
+		condicion2=False
+		condicion3=False
 		condicion4=False
 		condicion5=False
 		condicion6=False
