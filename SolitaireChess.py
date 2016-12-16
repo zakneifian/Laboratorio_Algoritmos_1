@@ -31,6 +31,7 @@ blue  = (0  ,0  ,255)
 Font = pygame.font.SysFont(None, 30)
 try:
 	#Carga de sprites
+	Cargarpartida 	   = pygame.image.load('Sprites/Cargarpartida.png'     ) 
 	iconoPNG           = pygame.image.load('Sprites/icono.png'             ) 
 	Dificultad         = pygame.image.load('Sprites/Dificultad.png'	       )
 	CargadoTablero 	   = pygame.image.load('Sprites/CargadoTablero.png'    )
@@ -171,7 +172,7 @@ def Niveles():
 def CargarPartida():
 
 	InputCarga = eztext.Input(maxlength=40, color=white, prompt='String de guardado: ')
-	InputCarga.set_pos(207, 350)
+	InputCarga.set_pos(177, 490)
 	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
 	MenuCarga = True
 	while MenuCarga:
@@ -182,9 +183,10 @@ def CargarPartida():
 
 		AnimacionBackground()
 
-		gameDisplay.blit(CajaPNG, (200,343))
+		gameDisplay.blit(CajaPNG, (170,483))
 		InputCarga.draw(gameDisplay)
 		InputCarga.update(eventos)
+		gameDisplay.blit(Cargarpartida, (130,0))
 		string = InputCarga.value #Guardamos el valor del inputDificultad en la variable Nivel..
 
 		 #Evento para salir hacia el menu Principal o para cargar el juego en su respectivo nivel
@@ -352,6 +354,7 @@ def LoopPrincipal():
 				print("Has accedido correctamente a la opcion de scoreboard, como esta en construccion, te retornaremos al menu principal")
 				OpcionScoreboard = False
 				PantallaDeOpcionesPrincipal = True
+				LeerRecords()
 
 	###
 		###
@@ -672,6 +675,7 @@ def Tablero(Nivel, PosPiezas):
 				if len(ListaTotalDePosibles) == 0:
 					if len(PosPiezas) == 1 and Nivel != "3":
 						print("\n\n\n\n\nGANASTE (hacer foto de ganar)\n\n\n\n\n")
+						Records(Usuario, Nivel)
 						return LoopPrincipal()
 					elif len(PosPiezas) == 1 and Nivel == "3":
 						return
@@ -1858,6 +1862,167 @@ def Rey(Pos_i, Pos_f, Matriz, PosPiezas, EstadoPartida, Solucion):
 	except:
 		pass
 
+def Records(Usuario, Nivel):
+
+	with open("Texts/records.txt", "a+") as tablaRecord:
+		Condicion1=False
+		Condicion2=True	
+		#Asignaremos nombre en string a la variable nivel
+		nivelstring=""
+		if Nivel == "1":
+			nivelstring = "Facil"
+		elif Nivel == "2":
+			nivelstring = "Dificil"
+		elif Nivel == "3":
+			nivelstring = "Muy-Dificil"
+		elif Nivel == "4":
+			nivelstring = "Tutorial"
+
+		#Creamos un string que concatene: la cantidad de partidas(partiendo de 1)+nombreUsuario+dificultad
+		puntuacion = "1 " + Usuario + " Dificultad: " + str(nivelstring) 
+		lista_string_punt = puntuacion.split() #convertimos el string anterior en una lista para manejar la cantidad de partidas en lista
+		#Leemos el archivo Records.txt para verificar si tiene o no contenido
+		archivo = open("Texts/records.txt", "r")
+		contenido = archivo.readlines()
+		archivo.close()
+		if contenido != []: #si el contenido es distinto de vacio entra al ciclo for
+		#iteramos sobre cada linea para ver si existe otra linea que tenga el mismo nombre de usuario y la misma dificultad
+			for linea in tablaRecord:
+				listalinea=linea.split()
+				print(linea) #verificacion
+				print(listalinea) #vericacion
+				if listalinea[1] == lista_string_punt[1] and listalinea[3] == lista_string_punt[3]: #en caso de existir otra, se le anadira +1 a la cantidad de partidas 
+					lista_string_punt[0] = str(int(lista_string_punt[0])+1)
+					print("entro al ciclo") #verificacion
+					lista_string_punt=' '.join(lista_string_punt) #unimos la lista para que quede en modo string para luego anadirlo al archivo records.txt	
+					linea = lista_string_punt
+					print(linea) #verificaion (correcto)
+					Condicion2=False
+				elif Condicion2 == True:
+					Condicion1=True
+		else:
+			tablaRecord.write(puntuacion + "\n")	#le agrega un primer record al archivo
+
+		if Condicion1==True:
+			tablaRecord.write(puntuacion + "\n") 	#si no existe una partida con el mismo nombre y dificultad le agrega en una nueva linea el nuevo record
+
+def LeerRecords():
+
+	#Muesta el nombre del usuario que esta jugando en la ventana
+	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
+
+	with open("Texts/records.txt", "r") as archivo:
+		contenido = archivo.readlines()
+		print(contenido)
+		contador=0
+		condicion0=False
+		condicion1=False
+		condicion2=False
+		condicion3=False
+		condicion4=False
+		condicion5=False
+		condicion6=False
+		condicion7=False
+		y = 0
+		input1 = eztext.Input(maxlength = 0, prompt='')
+		input2 = eztext.Input(maxlength = 0, prompt='')
+		input3 = eztext.Input(maxlength = 0, prompt='')
+		input4 = eztext.Input(maxlength = 0, prompt='')
+		input5 = eztext.Input(maxlength = 0, prompt='')
+		input6 = eztext.Input(maxlength = 0, prompt='')
+		input7 = eztext.Input(maxlength = 0, prompt='')
+		input8 = eztext.Input(maxlength = 0, prompt='')
+		numrecords = len(contenido)
+		lista=[0,1,2,3,4,5,6,7]
+		for i in range(numrecords):
+			if i == 0:
+				condicion0=True
+				lista[i]=input1
+			elif i == 1:
+				condicion1=True
+				lista[i]=input2
+			elif i == 2:
+				condicion2=True
+				lista[i]=input3
+			elif i == 3:
+				condicion3=True
+				lista[i]=input4
+			elif i == 4:
+				condicion4=True
+				lista[i]=input5
+			elif i == 5:
+				condicion5=True
+				lista[i]=input6
+			elif i == 6:
+				condicion6=True
+				lista[i]=input7
+			elif i == 7:
+				condicion7=True
+				lista[i]=input8
+			#lista=[input1,input2,input3]#input3.input4,input5,input6,input7,input8
+		for i in contenido:
+			y+=60
+			lista[contador]= eztext.Input(maxlength = 0, color=white, prompt=i)
+			lista[contador].set_pos(0,y)
+			contador=contador + 1
+
+		contenido = ' '.join(contenido)
+		print(contenido)
+		salirinput = eztext.Input(maxlength = 1, color=white, prompt=' ')
+		eztextrecords = eztext.Input(maxlength = 0, color=white, prompt='')
+
+	while True:
+		#Refresca los eventos a esta variable	
+		eventos = pygame.event.get()
+
+		#Variable que verifica si una tecla esta presionada
+		presionada = pygame.key.get_pressed()
+
+		#Animacion del background
+		AnimacionBackground()
+
+		for event in eventos:
+
+			if event.type == pygame.locals.QUIT: 
+				pygame.quit() 
+				sys.exit()
+
+
+			if presionada[pygame.K_RETURN] and salirinput.value == "0":
+				#Devolvemos al menu principal
+				return
+		eztextrecords.draw(gameDisplay)
+		if condicion0==True:
+			lista[0].draw(gameDisplay)
+			lista[0].update(eventos)
+		if condicion1==True:
+			lista[1].draw(gameDisplay)
+			lista[1].update(eventos)
+		if condicion2==True:
+			lista[2].draw(gameDisplay)
+			lista[2].update(eventos)
+		if condicion3==True:	
+			lista[3].draw(gameDisplay)
+			lista[3].update(eventos)
+		if condicion4==True:	
+			lista[4].draw(gameDisplay)
+			lista[4].update(eventos)
+		if condicion5==True:	
+			lista[5].draw(gameDisplay)
+			lista[5].update(eventos)
+		if condicion6==True:	
+			lista[6].draw(gameDisplay)
+			lista[6].update(eventos)
+		if condicion7==True:	
+			lista[7].draw(gameDisplay)
+			lista[7].update(eventos)
+		input4.draw(gameDisplay)
+		input5.draw(gameDisplay)
+		input6.draw(gameDisplay)
+		salirinput.update(eventos)	
+		eztextrecords.update(eventos)
+		pygame.display.update()
+		fpsClock.tick(FPS)
 
 
 #Se asigna a la variable Usuario el nombre del usuario
