@@ -15,8 +15,8 @@ fpsClock = pygame.time.Clock()
 #Ancho y largo de la ventana que se generara
 display_width  = 760
 display_height = 760
-
 #Creamos la ventana y le damos nombre
+global gameDisplay
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('USB\'s Solitaire Chess')
 
@@ -50,6 +50,9 @@ try:
 	PeonPNG            = pygame.image.load('Sprites/Peon.png'              )
 	CajaPNG            = pygame.image.load('Sprites/Caja.png'              )
 	MenuPrincipalPNG   = pygame.image.load('Sprites/MenuPrincipal.png'     )
+	GanastePNG         = pygame.image.load('Sprites/ganaste.png'           )
+	PerdistePNG        = pygame.image.load('Sprites/perdiste.png'          )
+	CargarPNG          = pygame.image.load('Sprites/Cargarpartida.png'     )
 	blurPNG = [pygame.image.load('Sprites/Blur/' + str(i) +'.png') for i in range(1,11)]
 except:
 	print("ERROR, FALTAN ALGUN(AS) IMAGENES DEL PROGRAMA")
@@ -259,19 +262,28 @@ def CargarPartida():
 											Tablero("3", PosPiezas2)
 											PosActual = "3"
 											Tablero("3", PosPiezas3)
-											print("Has ganado la modalidad muy dificil, hooray. *Inserte foto no creada de ganar*")
+											pygame.display.set_mode((700, 350))
+											gameDisplay.blit(GanastePNG,(0,0))
+											pygame.display.update()
+											pygame.time.delay(3000)	
 											return LoopPrincipal()
 
 										elif PosActual == "2":
 											Tablero("3", PosPiezas2)
 											PosActual = "3"
 											Tablero("3", PosPiezas3)
-											print("Has ganado la modalidad muy dificil, hooray. *Inserte foto no creada de ganar*")
+											pygame.display.set_mode((700, 350))
+											gameDisplay.blit(GanastePNG,(0,0))
+											pygame.display.update()
+											pygame.time.delay(3000)	
 											return LoopPrincipal()
 
 										elif PosActual == "3":
 											Tablero("3", PosPiezas3)
-											print("Has ganado la modalidad muy dificil, hooray. *Inserte foto no creada de ganar*")
+											pygame.display.set_mode((700, 350))
+											gameDisplay.blit(GanastePNG,(0,0))
+											pygame.display.update()
+											pygame.time.delay(3000)	
 											return LoopPrincipal()
 				except:
 					print("Formato incorrecto")
@@ -351,7 +363,6 @@ def LoopPrincipal():
 		#Opcion Scoreboard
 			if OpcionScoreboard:
 				###EN CONSTRUCCION### LAS TRES LINEAS DE ABAJO SON TEMPORALES
-				print("Has accedido correctamente a la opcion de scoreboard, como esta en construccion, te retornaremos al menu principal")
 				OpcionScoreboard = False
 				PantallaDeOpcionesPrincipal = True
 				LeerRecords()
@@ -496,7 +507,10 @@ def Tablero(Nivel, PosPiezas):
 				if contador > 0:
 					TextoDeContador = 'Tiempo restante: ' + str(contador)
 				else:
-					print("Has perdido. Anadir foto de perder")
+					pygame.display.set_mode((700, 350))
+					gameDisplay.blit(PerdistePNG,(0,0))
+					pygame.display.update()
+					pygame.time.delay(3000)	
 					return LoopPrincipal()
 
 			#Funcion contadora de tiempo para nivel muy dificil
@@ -505,7 +519,10 @@ def Tablero(Nivel, PosPiezas):
 				if ContadorMuyDificil > 0:
 					TextoDeContador = 'Tiempo restante: ' + str(ContadorMuyDificil)
 				else:
-					print("Has perdido. Anadir foto de perder")
+					pygame.display.set_mode((700, 350))
+					gameDisplay.blit(PerdistePNG,(0,0))
+					pygame.display.update()
+					pygame.time.delay(3000)	
 					return LoopPrincipal()
 			
 			#Funcion jugar
@@ -674,13 +691,19 @@ def Tablero(Nivel, PosPiezas):
 			
 				if len(ListaTotalDePosibles) == 0:
 					if len(PosPiezas) == 1 and Nivel != "3":
-						print("\n\n\n\n\nGANASTE (hacer foto de ganar)\n\n\n\n\n")
 						Records(Usuario, Nivel)
+						pygame.display.set_mode((700, 350))
+						gameDisplay.blit(GanastePNG,(0,0))
+						pygame.display.update()
+						pygame.time.delay(3000)
 						return LoopPrincipal()
 					elif len(PosPiezas) == 1 and Nivel == "3":
 						return
 					elif len(PosPiezas) > 1:
-						print("\n\n\n\n\nPERDISTE NOOB (hacer foto de perder)\n\n\n\n\n")	
+						pygame.display.set_mode((700, 350))
+						gameDisplay.blit(PerdistePNG,(0,0))
+						pygame.display.update()
+						pygame.time.delay(3000)	
 						return LoopPrincipal()
 				else:
 					VerificarEstadoPartida = False				
@@ -859,7 +882,10 @@ def MenuDesafio(Nivel):
 					Tablero(Nivel, PosPiezas2)
 					PosActual = '3'
 					Tablero(Nivel, PosPiezas3)
-					print("Has ganado la modalidad muy dificil, hooray. *Inserte foto no creada de ganar*")
+					pygame.display.set_mode((700, 350))
+					gameDisplay.blit(GanastePNG,(0,0))
+					pygame.display.update()
+					pygame.time.delay(3000)	
 					return LoopPrincipal()
 
 
@@ -1869,13 +1895,13 @@ def Records(Usuario, Nivel):
 		Condicion2=True	
 		#Asignaremos nombre en string a la variable nivel
 		nivelstring=""
-		if Nivel == "1":
+		if Nivel == "1" or Nivel == "Custom 1":
 			nivelstring = "Facil"
-		elif Nivel == "2":
+		elif Nivel == "2" or Nivel == "Custom 2":
 			nivelstring = "Dificil"
 		elif Nivel == "3":
 			nivelstring = "Muy-Dificil"
-		elif Nivel == "4":
+		elif Nivel == "4" or Nivel == "Custom 4":
 			nivelstring = "Tutorial"
 
 		#Creamos un string que concatene: la cantidad de partidas(partiendo de 1)+nombreUsuario+dificultad
