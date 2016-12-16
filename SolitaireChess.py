@@ -1,9 +1,7 @@
-#Falta foto de Nivel Tutorial, Nivel Muy Dificil, Cargar Partida, Ganar, Perder, Scoreboard.
-#Falta Scoreboard, 0%
-
 #Librerias a importar
 import pygame, time, sys, eztext, random
 from pygame.locals import *
+from operator import attrgetter
 
 #Inicializamos pygame
 pygame.init() 
@@ -53,6 +51,7 @@ try:
 	GanastePNG         = pygame.image.load('Sprites/ganaste.png'           )
 	PerdistePNG        = pygame.image.load('Sprites/perdiste.png'          )
 	CargarPNG          = pygame.image.load('Sprites/Cargarpartida.png'     )
+	ScoreboardPNG      = pygame.image.load('Sprites/bg-pizarra.png'        )
 	blurPNG = [pygame.image.load('Sprites/Blur/' + str(i) +'.png') for i in range(1,11)]
 except:
 	print("ERROR, FALTAN ALGUN(AS) IMAGENES DEL PROGRAMA")
@@ -112,6 +111,17 @@ def LoopIntro():
 				sys.exit()
 			if presionada[pygame.K_RETURN] and Usuario != "":
 				Inicio = False
+				with open("Texts/records.txt", "r+") as archivo:
+					try:
+						if all(linea.split()[0] != Usuario for linea in archivo): # NOMBRE NIVEL PUNTUACION
+							archivo.seek(0)
+							LineasDeArchivo = archivo.readlines()
+							if LineasDeArchivo != []:
+								archivo.write("\n" + Usuario + " " + "Tutorial" + " " + "0" + "\n" + Usuario + " " + "Facil" + " " + "0" + "\n" + Usuario + " " + "Dificil" + " " + "0" + "\n" + Usuario + " " + "Muy_Dificil" + " " + "0")
+							elif LineasDeArchivo == []:
+								archivo.write(Usuario + " " + "Tutorial" + " " + "0" + "\n" + Usuario + " " + "Facil" + " " + "0" + "\n" + Usuario + " " + "Dificil" + " " + "0" + "\n" + Usuario + " " + "Muy_Dificil" + " " + "0")
+					except:
+						archivo.write(Usuario + " " + "Tutorial" + " " + "0" + "\n" + Usuario + " " + "Facil" + " " + "0" + "\n" + Usuario + " " + "Dificil" + " " + "0" + "\n" + Usuario + " " + "Muy_Dificil" + " " + "0")
 				return Usuario
 	#Dibuja el input, lo actualiza y asigna a la variable 'Usuario'
 		gameDisplay.blit(CajaPNG, (125,330))
@@ -262,6 +272,26 @@ def CargarPartida():
 											Tablero("3", PosPiezas2)
 											PosActual = "3"
 											Tablero("3", PosPiezas3)
+											
+											with open("Texts/records.txt", "r+") as archivo:
+												for linea in archivo:
+
+													linea = linea.split()
+													if linea[0] == Usuario and linea[1] == "Muy_Dificil":
+														LineaVieja = ' '.join(linea)
+														linea[2] = str(int(linea[2]) + 1)
+														LineaNueva = ' '.join(linea)
+														break
+												archivo.seek(0)
+												LineasOriginales = archivo.readlines()
+
+											with open("Texts/records.txt", "w") as archivo:
+												for linea in LineasOriginales:
+													if linea == LineaVieja + '\n':
+														archivo.write(LineaNueva + '\n')
+													else:
+														archivo.write(linea)
+
 											pygame.display.set_mode((700, 350))
 											gameDisplay.blit(GanastePNG,(0,0))
 											pygame.display.update()
@@ -272,6 +302,26 @@ def CargarPartida():
 											Tablero("3", PosPiezas2)
 											PosActual = "3"
 											Tablero("3", PosPiezas3)
+											
+											with open("Texts/records.txt", "r+") as archivo:
+												for linea in archivo:
+
+													linea = linea.split()
+													if linea[0] == Usuario and linea[1] == "Muy_Dificil":
+														LineaVieja = ' '.join(linea)
+														linea[2] = str(int(linea[2]) + 1)
+														LineaNueva = ' '.join(linea)
+														break
+												archivo.seek(0)
+												LineasOriginales = archivo.readlines()
+
+											with open("Texts/records.txt", "w") as archivo:
+												for linea in LineasOriginales:
+													if linea == LineaVieja + '\n':
+														archivo.write(LineaNueva + '\n')
+													else:
+														archivo.write(linea)
+
 											pygame.display.set_mode((700, 350))
 											gameDisplay.blit(GanastePNG,(0,0))
 											pygame.display.update()
@@ -280,6 +330,26 @@ def CargarPartida():
 
 										elif PosActual == "3":
 											Tablero("3", PosPiezas3)
+
+											with open("Texts/records.txt", "r+") as archivo:
+												for linea in archivo:
+
+													linea = linea.split()
+													if linea[0] == Usuario and linea[1] == "Muy_Dificil":
+														LineaVieja = ' '.join(linea)
+														linea[2] = str(int(linea[2]) + 1)
+														LineaNueva = ' '.join(linea)
+														break
+												archivo.seek(0)
+												LineasOriginales = archivo.readlines()
+
+											with open("Texts/records.txt", "w") as archivo:
+												for linea in LineasOriginales:
+													if linea == LineaVieja + '\n':
+														archivo.write(LineaNueva + '\n')
+													else:
+														archivo.write(linea)
+
 											pygame.display.set_mode((700, 350))
 											gameDisplay.blit(GanastePNG,(0,0))
 											pygame.display.update()
@@ -366,6 +436,7 @@ def LoopPrincipal():
 				OpcionScoreboard = False
 				PantallaDeOpcionesPrincipal = True
 				LeerRecords()
+				pygame.display.set_mode((760, 760))
 
 	###
 		###
@@ -691,7 +762,34 @@ def Tablero(Nivel, PosPiezas):
 			
 				if len(ListaTotalDePosibles) == 0:
 					if len(PosPiezas) == 1 and Nivel != "3":
-						Records(Usuario, Nivel)
+
+						with open("Texts/records.txt", "r+") as archivo:
+							if Nivel == "1" or "Custom 1":
+								NivelActual = "Facil"
+							elif Nivel == "2" or "Custom 2":
+								NivelActual = "Dificil"
+							elif Nivel == "4" or "Custom 4":
+								NivelActual = "Tutorial"
+
+							for linea in archivo:
+
+								linea = linea.split()
+								if linea[0] == Usuario and linea[1] == NivelActual:
+									LineaVieja = ' '.join(linea)
+									linea[2] = str(int(linea[2]) + 1)
+									LineaNueva = ' '.join(linea)
+									break
+							archivo.seek(0)
+							LineasOriginales = archivo.readlines()
+
+						with open("Texts/records.txt", "w") as archivo:
+							for linea in LineasOriginales:
+								if linea == LineaVieja + '\n':
+									archivo.write(LineaNueva + '\n')
+								else:
+									archivo.write(linea)
+
+
 						pygame.display.set_mode((700, 350))
 						gameDisplay.blit(GanastePNG,(0,0))
 						pygame.display.update()
@@ -882,6 +980,26 @@ def MenuDesafio(Nivel):
 					Tablero(Nivel, PosPiezas2)
 					PosActual = '3'
 					Tablero(Nivel, PosPiezas3)
+
+					with open("Texts/records.txt", "r+") as archivo:
+						for linea in archivo:
+
+							linea = linea.split()
+							if linea[0] == Usuario and linea[1] == "Muy_Dificil":
+								LineaVieja = ' '.join(linea)
+								linea[2] = str(int(linea[2]) + 1)
+								LineaNueva = ' '.join(linea)
+								break
+						archivo.seek(0)
+						LineasOriginales = archivo.readlines()
+
+					with open("Texts/records.txt", "w") as archivo:
+						for linea in LineasOriginales:
+							if linea == LineaVieja + '\n':
+								archivo.write(LineaNueva + '\n')
+							else:
+								archivo.write(linea)
+
 					pygame.display.set_mode((700, 350))
 					gameDisplay.blit(GanastePNG,(0,0))
 					pygame.display.update()
@@ -1888,167 +2006,105 @@ def Rey(Pos_i, Pos_f, Matriz, PosPiezas, EstadoPartida, Solucion):
 	except:
 		pass
 
-def Records(Usuario, Nivel):
-
-	with open("Texts/records.txt", "a+") as tablaRecord:
-		Condicion1=False
-		Condicion2=True	
-		#Asignaremos nombre en string a la variable nivel
-		nivelstring=""
-		if Nivel == "1" or Nivel == "Custom 1":
-			nivelstring = "Facil"
-		elif Nivel == "2" or Nivel == "Custom 2":
-			nivelstring = "Dificil"
-		elif Nivel == "3":
-			nivelstring = "Muy-Dificil"
-		elif Nivel == "4" or Nivel == "Custom 4":
-			nivelstring = "Tutorial"
-
-		#Creamos un string que concatene: la cantidad de partidas(partiendo de 1)+nombreUsuario+dificultad
-		puntuacion = "1 " + Usuario + " Dificultad: " + str(nivelstring) 
-		lista_string_punt = puntuacion.split() #convertimos el string anterior en una lista para manejar la cantidad de partidas en lista
-		#Leemos el archivo Records.txt para verificar si tiene o no contenido
-		archivo = open("Texts/records.txt", "r")
-		contenido = archivo.readlines()
-		archivo.close()
-		if contenido != []: #si el contenido es distinto de vacio entra al ciclo for
-		#iteramos sobre cada linea para ver si existe otra linea que tenga el mismo nombre de usuario y la misma dificultad
-			for linea in tablaRecord:
-				listalinea=linea.split()
-				print(linea) #verificacion
-				print(listalinea) #vericacion
-				if listalinea[1] == lista_string_punt[1] and listalinea[3] == lista_string_punt[3]: #en caso de existir otra, se le anadira +1 a la cantidad de partidas 
-					lista_string_punt[0] = str(int(lista_string_punt[0])+1)
-					print("entro al ciclo") #verificacion
-					lista_string_punt=' '.join(lista_string_punt) #unimos la lista para que quede en modo string para luego anadirlo al archivo records.txt	
-					linea = lista_string_punt
-					print(linea) #verificaion (correcto)
-					Condicion2=False
-				elif Condicion2 == True:
-					Condicion1=True
-		else:
-			tablaRecord.write(puntuacion + "\n")	#le agrega un primer record al archivo
-
-		if Condicion1==True:
-			tablaRecord.write(puntuacion + "\n") 	#si no existe una partida con el mismo nombre y dificultad le agrega en una nueva linea el nuevo record
 
 def LeerRecords():
+	
+	pygame.display.set_mode((1280, 1024))
+	
+	class LineaDeRecord:
+		def __init__(self, nombre, dificultad, puntuaje):
+			self.nombre = nombre
+			self.dificultad = dificultad
+			self.puntuaje = puntuaje
+		
+		def __repr__(self): #Con esta funcion ganamos control de que devuelva valores en vez de object id
+			return repr((self.puntuaje, self.nombre)) #Devolviendo en orden puntuaje, nombre (sin dificultad)
 
-	#Muesta el nombre del usuario que esta jugando en la ventana
-	pygame.display.set_caption('USB\'s Solitaire Chess - ' + Usuario)
+	ListaTutorial = []
+	ListaFacil = []
+	ListaDificil = []
+	ListaMuyDificil = []
+	with open("Texts/records.txt", "r+") as archivo:
+		for linea in archivo:
+			linea = tuple(linea.split())
 
-	with open("Texts/records.txt", "r") as archivo:
-		contenido = archivo.readlines()
-		print(contenido)
-		contador=0
-		condicion0=False
-		condicion1=False
-		condicion2=False
-		condicion3=False
-		condicion4=False
-		condicion5=False
-		condicion6=False
-		condicion7=False
-		y = 0
-		input1 = eztext.Input(maxlength = 0, prompt='')
-		input2 = eztext.Input(maxlength = 0, prompt='')
-		input3 = eztext.Input(maxlength = 0, prompt='')
-		input4 = eztext.Input(maxlength = 0, prompt='')
-		input5 = eztext.Input(maxlength = 0, prompt='')
-		input6 = eztext.Input(maxlength = 0, prompt='')
-		input7 = eztext.Input(maxlength = 0, prompt='')
-		input8 = eztext.Input(maxlength = 0, prompt='')
-		numrecords = len(contenido)
-		lista=[0,1,2,3,4,5,6,7]
-		for i in range(numrecords):
-			if i == 0:
-				condicion0=True
-				lista[i]=input1
-			elif i == 1:
-				condicion1=True
-				lista[i]=input2
-			elif i == 2:
-				condicion2=True
-				lista[i]=input3
-			elif i == 3:
-				condicion3=True
-				lista[i]=input4
-			elif i == 4:
-				condicion4=True
-				lista[i]=input5
-			elif i == 5:
-				condicion5=True
-				lista[i]=input6
-			elif i == 6:
-				condicion6=True
-				lista[i]=input7
-			elif i == 7:
-				condicion7=True
-				lista[i]=input8
-			#lista=[input1,input2,input3]#input3.input4,input5,input6,input7,input8
-		for i in contenido:
-			y+=60
-			lista[contador]= eztext.Input(maxlength = 0, color=white, prompt=i)
-			lista[contador].set_pos(0,y)
-			contador=contador + 1
+			if linea[1] == "Tutorial":
+				ListaTutorial.append(LineaDeRecord(*linea)) #Con el asterisco se toma la topla como raw y se usa como argumento de la clase
+			elif linea[1] == "Facil":
+				ListaFacil.append(LineaDeRecord(*linea))
+			elif linea[1] == "Dificil":
+				ListaDificil.append(LineaDeRecord(*linea))
+			elif linea[1] == "Muy_Dificil":
+				ListaMuyDificil.append(LineaDeRecord(*linea))
 
-		contenido = ' '.join(contenido)
-		print(contenido)
-		salirinput = eztext.Input(maxlength = 1, color=white, prompt=' ')
-		eztextrecords = eztext.Input(maxlength = 0, color=white, prompt='')
-
-	while True:
-		#Refresca los eventos a esta variable	
-		eventos = pygame.event.get()
-
-		#Variable que verifica si una tecla esta presionada
-		presionada = pygame.key.get_pressed()
-
-		#Animacion del background
-		AnimacionBackground()
-
-		for event in eventos:
-
-			if event.type == pygame.locals.QUIT: 
-				pygame.quit() 
-				sys.exit()
+		ListaTutorial = sorted(ListaTutorial, key = attrgetter('nombre')) #se ordena el nombre no en reversa
+		ListaTutorial = sorted(ListaTutorial, key = attrgetter('puntuaje'), reverse = True) #se ordena el restante en puntuaje en reversa
+		
+		ListaFacil = sorted(ListaFacil, key = attrgetter('nombre')) #se ordena el nombre no en reversa
+		ListaFacil = sorted(ListaFacil, key = attrgetter('puntuaje'), reverse = True) #se ordena el restante en puntuaje en reversa
+		
+		ListaDificil = sorted(ListaDificil, key = attrgetter('nombre')) #se ordena el nombre no en reversa
+		ListaDificil = sorted(ListaDificil, key = attrgetter('puntuaje'), reverse = True) #se ordena el restante en puntuaje en reversa
+		
+		ListaMuyDificil = sorted(ListaMuyDificil, key = attrgetter('nombre')) #se ordena el nombre no en reversa
+		ListaMuyDificil = sorted(ListaMuyDificil, key = attrgetter('puntuaje'), reverse = True) #se ordena el restante en puntuaje en reversa
 
 
-			if presionada[pygame.K_RETURN] and salirinput.value == "0":
-				#Devolvemos al menu principal
-				return
-		eztextrecords.draw(gameDisplay)
-		if condicion0==True:
-			lista[0].draw(gameDisplay)
-			lista[0].update(eventos)
-		if condicion1==True:
-			lista[1].draw(gameDisplay)
-			lista[1].update(eventos)
-		if condicion2==True:
-			lista[2].draw(gameDisplay)
-			lista[2].update(eventos)
-		if condicion3==True:	
-			lista[3].draw(gameDisplay)
-			lista[3].update(eventos)
-		if condicion4==True:	
-			lista[4].draw(gameDisplay)
-			lista[4].update(eventos)
-		if condicion5==True:	
-			lista[5].draw(gameDisplay)
-			lista[5].update(eventos)
-		if condicion6==True:	
-			lista[6].draw(gameDisplay)
-			lista[6].update(eventos)
-		if condicion7==True:	
-			lista[7].draw(gameDisplay)
-			lista[7].update(eventos)
-		input4.draw(gameDisplay)
-		input5.draw(gameDisplay)
-		input6.draw(gameDisplay)
-		salirinput.update(eventos)	
-		eztextrecords.update(eventos)
-		pygame.display.update()
-		fpsClock.tick(FPS)
+		#limitamos a 5 elementos por cada dificultad
+		while True:
+			#Refresca los eventos a esta variable
+			eventos = pygame.event.get()
+			#Variable que verifica si una tecla esta presionada
+			presionada = pygame.key.get_pressed()
+		    #Evento para salir hacia el menu Principal o para cargar el juego en su respectivo nivel
+			for event in eventos:
+
+				if event.type == pygame.locals.QUIT: 
+					pygame.quit() 
+					sys.exit()
+				if presionada[pygame.K_RETURN]:
+					return 				
+			gameDisplay.blit(ScoreboardPNG,(0,0))
+
+			try:
+				gameDisplay.blit(Font.render(ListaTutorial[0].puntuaje + " " + ListaTutorial[0].nombre, True, white), (71, 247))
+				gameDisplay.blit(Font.render(ListaTutorial[1].puntuaje + " " + ListaTutorial[1].nombre, True, white), (88, 312))
+				gameDisplay.blit(Font.render(ListaTutorial[2].puntuaje + " " + ListaTutorial[2].nombre, True, white), (81, 369))
+				gameDisplay.blit(Font.render(ListaTutorial[3].puntuaje + " " + ListaTutorial[3].nombre, True, white), (83, 431))
+				gameDisplay.blit(Font.render(ListaTutorial[4].puntuaje + " " + ListaTutorial[4].nombre, True, white), (75, 495))
+			except:
+				pass
+
+			try:
+				gameDisplay.blit(Font.render(ListaFacil[0].puntuaje + " " + ListaFacil[0].nombre, True, white), (775, 276))
+				gameDisplay.blit(Font.render(ListaFacil[1].puntuaje + " " + ListaFacil[1].nombre, True, white), (794, 344))
+				gameDisplay.blit(Font.render(ListaFacil[2].puntuaje + " " + ListaFacil[2].nombre, True, white), (780, 405))
+				gameDisplay.blit(Font.render(ListaFacil[3].puntuaje + " " + ListaFacil[3].nombre, True, white), (787, 464))
+				gameDisplay.blit(Font.render(ListaFacil[4].puntuaje + " " + ListaFacil[4].nombre, True, white), (791, 524))
+			except:
+				pass
+
+			try:
+				gameDisplay.blit(Font.render(ListaDificil[0].puntuaje + " " + ListaDificil[0].nombre, True, white), (63, 729))
+				gameDisplay.blit(Font.render(ListaDificil[1].puntuaje + " " + ListaDificil[1].nombre, True, white), (78, 794))
+				gameDisplay.blit(Font.render(ListaDificil[2].puntuaje + " " + ListaDificil[2].nombre, True, white), (74, 860))
+				gameDisplay.blit(Font.render(ListaDificil[3].puntuaje + " " + ListaDificil[3].nombre, True, white), (85, 918))
+				gameDisplay.blit(Font.render(ListaDificil[4].puntuaje + " " + ListaDificil[4].nombre, True, white), (80, 974))
+			except:
+				pass
+
+			try:
+				gameDisplay.blit(Font.render(ListaMuyDificil[0].puntuaje + " " + ListaMuyDificil[0].nombre, True, white), (744, 706))
+				gameDisplay.blit(Font.render(ListaMuyDificil[1].puntuaje + " " + ListaMuyDificil[1].nombre, True, white), (747, 775))
+				gameDisplay.blit(Font.render(ListaMuyDificil[2].puntuaje + " " + ListaMuyDificil[2].nombre, True, white), (738, 833))
+				gameDisplay.blit(Font.render(ListaMuyDificil[3].puntuaje + " " + ListaMuyDificil[3].nombre, True, white), (743, 891))
+				gameDisplay.blit(Font.render(ListaMuyDificil[4].puntuaje + " " + ListaMuyDificil[4].nombre, True, white), (745, 948))
+			except:
+				pass
+
+			#Actualiza los dibujos de la pantalla a un determinado FPS
+			pygame.display.update()
+			fpsClock.tick(FPS)		
 
 
 #Se asigna a la variable Usuario el nombre del usuario
