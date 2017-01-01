@@ -6,37 +6,49 @@ Este repositorio contiene de manera ordenada los Laboratorios, Prelaboratorios, 
 
 Se resuelven los Prelaboratorios en el transcurso de la semana y se entregan máximo por internet hasta el comienzo del laboratorio el cual dura 3 horas.
 
+### Semana 1
+Libre
+
 ### Semana 2
 Lab_1
 
 ### Semana 3
 Prelab_2
+
 Lab_2
 
 ### Semana 4
 Prelab_3
+
 Lab_3
 
 ### Semana 5
 Prelab_4
+
 Lab_4
 
 ### Semana 6
 Prelab_5
+
 Lab_5
 
 ### Semana 7
 Prelab_6
+
 Lab_6 (La primera hora)
+
 Examen (Las segundas dos horas) (valor 20%)
 
 ### Semana 8
 Prelab_7
+
 Lab_7
+
 Asignación de Proyecto
 
 ### Semana 9
 Prelab_8
+
 Lab_8 (valor 15%)
 
 ### Semana 10
