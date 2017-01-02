@@ -44,7 +44,7 @@ Libre
 
 [Lab_7](https://github.com/zakneifian/Laboratorio_Algoritmos_1/tree/master/Laboratorios/Lab_7)
 
-Asignación de Proyecto
+[Asignación de Proyecto](https://github.com/zakneifian/Laboratorio_Algoritmos_1/blob/master/Proyecto/Proyecto%20(On-going)/Instrucciones/ProyectoLabAlgISepDic2016.pdf)
 
 ### Semana 9
 [Prelab_8](https://github.com/zakneifian/Laboratorio_Algoritmos_1/tree/master/Prelaboratorios/Prelab_8)
@@ -52,13 +52,13 @@ Asignación de Proyecto
 [Lab_8](https://github.com/zakneifian/Laboratorio_Algoritmos_1/tree/master/Laboratorios/Lab_8) (valor 15%)
 
 ### Semana 10
-Entrega de Prototipo de Proyecto (valor 8%)
+[Entrega de Prototipo de Proyecto](https://github.com/zakneifian/Laboratorio_Algoritmos_1/tree/master/Proyecto/Proyecto%20(prototipo)) (valor 8%)
 
 ### Semana 11
 Libre
 
 ### Semana 12
-Entrega final de Proyecto (valor 22%)
+[Entrega final de Proyecto](https://github.com/zakneifian/Laboratorio_Algoritmos_1/tree/master/Proyecto/Proyecto%20(Entrega%20final)) (valor 22%)
 
 
 # Nota Importante
